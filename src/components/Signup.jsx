@@ -189,7 +189,7 @@ const Signup = ({ onClose, onSwitchToLogin }) => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-rose-400 hover:bg-rose-500 text-white py-3 rounded-lg transition-all duration-200 transform hover:scale-105 font-semibold"
+              className="w-full bg-rose-600 hover:bg-rose-500 text-white py-3 rounded-lg transition-all duration-200 transform hover:scale-105 font-semibold"
             >
               Create Account
             </button>

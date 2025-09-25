@@ -91,7 +91,7 @@ const Login = ({ onClose, onSwitchToSignup }) => {
                 />
                 <span className="ml-2 text-sm text-sage-600">Remember me</span>
               </label>
-              <a href="#" className="text-sm text-rose-400 hover:text-rose-500 transition-colors">
+              <a href="#" className="text-sm text-rose-600 hover:text-rose-500 transition-colors">
                 Forgot password?
               </a>
             </div>
@@ -99,7 +99,7 @@ const Login = ({ onClose, onSwitchToSignup }) => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-rose-400 hover:bg-rose-500 text-white py-3 rounded-lg transition-all duration-200 transform hover:scale-105 font-semibold"
+              className="w-full bg-rose-600 hover:bg-rose-500 text-white py-3 rounded-lg transition-all duration-200 transform hover:scale-105 font-semibold"
             >
               Log In
             </button>
@@ -118,7 +118,7 @@ const Login = ({ onClose, onSwitchToSignup }) => {
               Don't have an account?{' '}
               <button
                 onClick={onSwitchToSignup}
-                className="text-rose-400 hover:text-rose-500 font-semibold transition-colors"
+                className="text-rose-600 hover:text-rose-500 font-semibold transition-colors"
               >
                 Create one
               </button>
