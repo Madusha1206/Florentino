@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import { ArrowRight, Truck, Shield, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
 
+
+
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -46,8 +48,8 @@ const Home = () => {
   const features = [
     {
       icon: <Truck className="h-8 w-8 text-rose-600" />,
-      title: 'Free Delivery',
-      description: 'Free delivery on orders above $75'
+      title: 'Islandwide Delivery',
+      description: 'Free delivery on orders near Biyagama area'
     },
     {
       icon: <Shield className="h-8 w-8 text-rose-600" />,
@@ -60,6 +62,7 @@ const Home = () => {
       description: 'Round the clock customer support'
     }
   ];
+  
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -143,7 +146,20 @@ const Home = () => {
       {/* Main Content with Sidebar */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Delivery Available WhatsApp Button */}
+          <div className="flex justify-center mb-8">
+            <a
+              href="https://api.whatsapp.com/send/?phone=%2B94702370470&text=Hello%21+I%27m+interested+in+your+floral+services.+Can+you+show+me+your+best+designs%3F&type=phone_number&app_absent=0"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-6 py-3 bg-green-500 text-white font-semibold rounded-lg shadow hover:bg-green-600 transition"
+            >
+              <Phone className="mr-2" />
+              Delivery Available - Click Here
+            </a>
+          </div>
           <div className="flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-8">
+
             {/* Main Content */}
             <div className="flex-1">
               {/* Features Section */}
