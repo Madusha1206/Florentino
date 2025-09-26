@@ -14,24 +14,24 @@ const Occasions = () => {
 
   const products = {
     birthday: [
-      { id: 1, name: 'Happy Birthday Bouquet', price: '$45', image: 'https://images.pexels.com/photos/1406956/pexels-photo-1406956.jpeg?auto=compress&cs=tinysrgb&w=400' },
-      { id: 2, name: 'Colorful Birthday Mix', price: '$38', image: 'https://images.pexels.com/photos/1153655/pexels-photo-1153655.jpeg?auto=compress&cs=tinysrgb&w=400' },
-      { id: 3, name: 'Birthday Surprise Box', price: '$55', image: 'https://images.pexels.com/photos/1070850/pexels-photo-1070850.jpeg?auto=compress&cs=tinysrgb&w=400' }
+      { id: 1, name: 'Happy Birthday Bouquet', price: 'Rs.5800', image: '/firebunch1.jpg' },
+      { id: 2, name: 'Colorful Birthday Mix', price: 'Rs.10,500', image: '/facialbunch.jpg' },
+      { id: 3, name: 'Book Bunch', price: 'Rs.8800', image: '/bookbunch.jpg' }
     ],
     anniversary: [
-      { id: 4, name: 'Anniversary Rose Bouquet', price: '$75', image: 'https://images.pexels.com/photos/1406956/pexels-photo-1406956.jpeg?auto=compress&cs=tinysrgb&w=400' },
-      { id: 5, name: 'Romantic Red Roses', price: '$85', image: 'https://images.pexels.com/photos/1070850/pexels-photo-1070850.jpeg?auto=compress&cs=tinysrgb&w=400' },
-      { id: 6, name: 'Anniversary Special', price: '$95', image: 'https://images.pexels.com/photos/1153655/pexels-photo-1153655.jpeg?auto=compress&cs=tinysrgb&w=400' }
+      { id: 4, name: 'Anniversary mix Bouquet', price: 'Rs.5600', image: '/mixroses.jpg' },
+      { id: 5, name: 'Romantic Red Roses', price: 'Rs.3500', image: '/redroseonly.jpg' },
+      { id: 6, name: 'Anniversary Special', price: 'Rs.4800', image: '/mixbunch5.jpg' }
     ],
     graduation: [
-      { id: 7, name: 'Graduation Congratulations', price: '$42', image: 'https://images.pexels.com/photos/1153655/pexels-photo-1153655.jpeg?auto=compress&cs=tinysrgb&w=400' },
-      { id: 8, name: 'Success Celebration', price: '$48', image: 'https://images.pexels.com/photos/1406956/pexels-photo-1406956.jpeg?auto=compress&cs=tinysrgb&w=400' },
-      { id: 9, name: 'Achievement Bouquet', price: '$52', image: 'https://images.pexels.com/photos/1070850/pexels-photo-1070850.jpeg?auto=compress&cs=tinysrgb&w=400' }
+      { id: 7, name: 'Graduation Congratulations', price: 'Rs.4500', image: '/mixbunch5.jpg' },
+      { id: 8, name: 'Success Celebration', price: 'Rs.7800', image: '/firebunch1.jpg' },
+      { id: 9, name: 'Achievement Bouquet', price: 'Rs.5800', image: '/mixbunch3.jpg' }
     ],
     'love-romance': [
-      { id: 10, name: 'Love You Bouquet', price: '$65', image: 'https://images.pexels.com/photos/1406956/pexels-photo-1406956.jpeg?auto=compress&cs=tinysrgb&w=400' },
-      { id: 11, name: 'Romantic Gesture', price: '$58', image: 'https://images.pexels.com/photos/1070850/pexels-photo-1070850.jpeg?auto=compress&cs=tinysrgb&w=400' },
-      { id: 12, name: 'Passionate Roses', price: '$72', image: 'https://images.pexels.com/photos/1153655/pexels-photo-1153655.jpeg?auto=compress&cs=tinysrgb&w=400' }
+      { id: 10, name: 'Love You Bouquet', price: 'Rs.5200', image: '/mixbunch5.jpg' },
+      { id: 11, name: 'Romantic Gesture', price: 'Rs.52,000', image: '/largerosebunch.jpg' },
+      { id: 12, name: 'Passionate Roses', price: 'Rs3500', image: '/blackrosebunch.jpg' }
     ]
   };
 
@@ -102,7 +102,15 @@ const Occasions = () => {
               Our flower experts are here to help you find the perfect arrangement for your special occasion.
             </p>
             <button className="bg-rose-600 text-white px-8 py-3 rounded-lg hover:bg-rose-700 transition-colors">
-              Contact Our Experts
+              <a
+  href="https://wa.me/94702370470?text=Hi%20Florentino%2C%20I%20want%20to%20contact%20an%20expert%20about%20occasions"
+  target="_blank"
+  rel="noopener noreferrer"
+  
+>
+  Contact Our Experts
+</a>
+
             </button>
           </div>
         </div>

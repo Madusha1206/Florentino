@@ -28,3 +28,23 @@ export async function getGiftItems() {
     isPopular: item.isPopular || false
   }));
 }
+
+// Example: Add a gift
+export async function addGift(data) {
+  const res = await fetch(`${API}/api/gifts`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return res.json();
+}
+
+  
+export async function signup(userData) {
+  const res = await fetch(`${API}/api/auth/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(userData),
+  });
+  return res.json();
+}
