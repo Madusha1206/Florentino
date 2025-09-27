@@ -21,7 +21,7 @@ const Header = () => {
     { name: 'Home', href: '/' },
     { name: 'Wedding Bouquets', href: '/wedding-bouquets' },
     { name: 'Occasions', href: '/occasions' },
-    { name: 'Gift Items', href: '/Giftitems' },
+    { name: 'Gift Items', href: '/gift-items' },
     { name: 'About Us', href: '/about' },
    
   ];

@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import WhatsAppChat from './components/WhatsAppChat';
+import Login from './components/Login';
+import Signup from './components/Signup';
 
 import Occasions from './pages/Occasions';
 import GiftItems from './pages/GiftItems';
@@ -18,6 +20,8 @@ function App() {
       <Header />
 
       <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/wedding-bouquets" element={<WeddingBouquets />} />

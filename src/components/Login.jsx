@@ -1,24 +1,40 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Flower2, Mail, Lock } from 'lucide-react';
+import { login } from '../API';
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({ onClose, onSwitchToSignup }) => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login attempt:', formData);
+    setError('');
+    setSuccess('');
+
+    try {
+      const result = await login(formData);
+
+      if (result.success) {
+        setSuccess(result.message);
+        localStorage.setItem('token', result.token); // save JWT
+        localStorage.setItem('user', JSON.stringify(result.user)); // optional user info
+        navigate('/'); // redirect
+        onClose(); // close modal if needed
+      } else {
+        setError(result.message || 'Login failed');
+      }
+    } catch (err) {
+      setError('Login failed. Please try again.');
+      console.error(err);
+    }
   };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (

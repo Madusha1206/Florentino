@@ -48,6 +48,18 @@ export async function signup(userData) {
   });
   return res.json();
 }
+export async function login(userData) {
+  const res = await fetch(`${API}/api/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(userData),
+  });
+
+  // Parse JSON safely
+  const data = await res.json();
+  return data;
+}
+
 
 // // Wedding Bouquets
 // export async function getWeddingBouquets() { /* ... */ }

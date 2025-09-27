@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock, User, Phone } from 'lucide-react';
 import { signup } from '../API';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = ({ onClose, onSwitchToLogin }) => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -43,7 +45,7 @@ const Signup = ({ onClose, onSwitchToLogin }) => {
     const result = await signup(formData);
     if (result.success || result.token) {
       setSuccess('Account created! You can now log in.');
-      onSwitchToLogin(); // Immediately switch to login tab
+      navigate('/login'); // Immediately switch to login tab
     } else {
       setError(result.message || 'Signup failed');
     }
