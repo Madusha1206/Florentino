@@ -7,21 +7,21 @@ const Home = () => {
 
   const heroSlides = [
     {
-      image: '/front.jpg',
+      image: '/images/front.jpg',
       title: 'Luxury Flowers',
       subtitle: 'by Florentimo',
       description: 'Luxury blooms, handcrafted with exceptional care. Because you deserve nothing less than extraordinary.',
       buttonText: 'SHOP NOW'
     },
     {
-      image: '/hero.jpg',
+      image: '/images/hero.jpg',
       title: 'Wedding Collections',
       subtitle: 'Perfect for Your Special Day',
       description: 'Create unforgettable moments with our exquisite wedding flower arrangements and bridal bouquets.',
       buttonText: 'VIEW COLLECTION'
     },
     {
-      image: '/hero2.jpg',
+      image: '/images/hero2.jpg',
       title: 'Fresh Daily Flowers',
       subtitle: 'Direct from Our Gardens',
       description: 'Experience the beauty of nature with our fresh, premium quality flowers delivered daily.',

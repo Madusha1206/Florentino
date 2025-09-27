@@ -28,7 +28,7 @@ const Login = ({ onClose, onSwitchToSignup }) => {
         <div className="bg-gradient-to-r from-sage-100 bg white 100 p-8 text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
            <img 
-          src="logo.jpeg"   // <-- put your file path here
+          src="/images/logo.jpeg"   // <-- put your file path here
           
           className="h-20 w-20 object-contain bg-center"
         />

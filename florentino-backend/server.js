@@ -13,6 +13,11 @@ const authRoutes = require('./routes/authRoutes');
 app.use('/api/gifts', giftRoutes);
 app.use('/api/auth', authRoutes);
 
+// const weddingBouquetRoutes = require('./routes/weddingBouquetRoutes');
+// const occasionRoutes = require('./routes/occasionRoutes');
+// app.use('/api/wedding-bouquets', weddingBouquetRoutes);
+// app.use('/api/occasions', occasionRoutes);
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -25,3 +30,10 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+app.get('/', (req, res) => {
+  res.send('Florentino Backend is running');
+});
+
+
+

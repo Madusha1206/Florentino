@@ -59,7 +59,7 @@ const Header = () => {
             {/* Logo */}
             <div className="flex items-center space-x-2 flex-shrink-0">
               <img
-                src="/logo.jpeg"
+                src="/images/logo.jpeg"
                 alt="Florentino Logo"
                 className={`object-contain transition-all duration-300 ${isScrolled ? 'h-12 w-12' : 'h-20 w-20'}`}
               />

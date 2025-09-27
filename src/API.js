@@ -48,3 +48,15 @@ export async function signup(userData) {
   });
   return res.json();
 }
+
+// // Wedding Bouquets
+// export async function getWeddingBouquets() { /* ... */ }
+// export async function addWeddingBouquet(data) { /* ... */ }
+// export async function updateWeddingBouquet(id, data) { /* ... */ }
+// export async function deleteWeddingBouquet(id) { /* ... */ }
+
+// // Occasions
+// export async function getOccasions() { /* ... */ }
+// export async function addOccasion(data) { /* ... */ }
+// export async function updateOccasion(id, data) { /* ... */ }
+// export async function deleteOccasion(id) { /* ... */ }
