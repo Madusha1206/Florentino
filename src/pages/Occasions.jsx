@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Heart, Gift, GraduationCap, Calendar } from 'lucide-react';
+import { createGiftItem } from "../API"; // adjust path as needed
+
+
 
 
 const Occasions = () => {
@@ -11,6 +14,23 @@ const Occasions = () => {
     { id: 'graduation', name: 'Graduation', icon: <GraduationCap className="h-6 w-6" /> },
     { id: 'love-romance', name: 'Love & Romance', icon: <Heart className="h-6 w-6" /> }
   ];
+
+
+  const handleAddToCart = async (gift) => {
+    try {
+      const newGift = await createGiftItem(gift);
+      console.log("Gift created:", newGift);
+
+      // Optional: show alert or update state
+      alert(`${gift.name} has been added to the cart!`);
+    } catch (error) {
+      console.error("Error creating gift:", error);
+      alert("Failed to add item. Please try again.");
+    }
+  };
+
+
+
 
   const products = {
     birthday: [
@@ -42,7 +62,7 @@ const Occasions = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">Special Occasions</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Celebrate life's special moments with our carefully curated flower arrangements 
+            Celebrate life's special moments with our carefully curated flower arrangements
             designed for every occasion that matters to you.
           </p>
         </div>
@@ -53,11 +73,10 @@ const Occasions = () => {
             <button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-full transition-all duration-300 ${
-                activeCategory === category.id
+              className={`flex items-center space-x-2 px-6 py-3 rounded-full transition-all duration-300 ${activeCategory === category.id
                   ? 'bg-rose-600 text-white shadow-lg'
                   : 'bg-white text-gray-700 hover:bg-rose-50 hover:text-rose-600'
-              }`}
+                }`}
             >
               {category.icon}
               <span className="font-medium">{category.name}</span>
@@ -70,8 +89,8 @@ const Occasions = () => {
           {products[activeCategory].map((product) => (
             <div key={product.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <div className="relative">
-                <img 
-                  src={product.image} 
+                <img
+                  src={product.image}
                   alt={product.name}
                   className="w-full h-64 object-cover"
                 />
@@ -85,9 +104,13 @@ const Occasions = () => {
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">{product.name}</h3>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold text-rose-600">{product.price}</span>
-                  <button className="bg-rose-600 text-white px-6 py-2 rounded-lg hover:bg-rose-700 transition-colors">
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    className="bg-rose-600 text-white px-6 py-2 rounded-lg hover:bg-rose-700 transition-colors"
+                  >
                     Add to Cart
                   </button>
+
                 </div>
               </div>
             </div>
@@ -103,13 +126,13 @@ const Occasions = () => {
             </p>
             <button className="bg-rose-600 text-white px-8 py-3 rounded-lg hover:bg-rose-700 transition-colors">
               <a
-  href="https://wa.me/94702370470?text=Hi%20Florentino%2C%20I%20want%20to%20contact%20an%20expert%20about%20occasions"
-  target="_blank"
-  rel="noopener noreferrer"
-  
->
-  Contact Our Experts
-</a>
+                href="https://wa.me/94702370470?text=Hi%20Florentino%2C%20I%20want%20to%20contact%20an%20expert%20about%20occasions"
+                target="_blank"
+                rel="noopener noreferrer"
+
+              >
+                Contact Our Experts
+              </a>
 
             </button>
           </div>

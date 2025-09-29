@@ -10,34 +10,37 @@ export function api(path, options = {}) {
   return fetch(`${API}${path}`, options);
 }
 
-// Fetch all gift items from backend
-export async function getGiftItems() {
-  const res = await fetch(`${API}/api/gifts`);
-  if (!res.ok) throw new Error('Failed to fetch gift items');
-  const data = await res.json();
-  // Normalize data for GiftItems.jsx
-  return data.map(item => ({
-    id: item._id,
-    name: item.name,
-    description: item.description,
-    image: item.image || '/src/whatsapp.webp',
-    price: item.price ? `$${item.price}` : '',
-    priceValue: item.price || 0,
-    rating: item.rating || 5,
-    reviews: item.reviews || 0,
-    isPopular: item.isPopular || false
-  }));
-}
+// Get all gifts
+export const getGiftItems = async () => {
+  const res = await fetch(API_URL);
+  return res.json();
+};
 
-// Example: Add a gift
-export async function addGift(data) {
-  const res = await fetch(`${API}/api/gifts`, {
+// Create a new gift
+export const createGiftItem = async (gift) => {
+  const res = await fetch(`${API}/api/gifts/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(gift),
   });
   return res.json();
-}
+};
+
+// Update a gift
+export const updateGiftItem = async (id, gift) => {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(gift),
+  });
+  return res.json();
+};
+
+// Delete a gift
+export const deleteGiftItem = async (id) => {
+  const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+  return res.json();
+};
 
   
 export async function signup(userData) {

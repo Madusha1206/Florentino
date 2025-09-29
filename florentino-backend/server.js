@@ -10,8 +10,11 @@ app.use(express.json());
 // Import routes
 const giftRoutes = require('./routes/giftRoutes');
 const authRoutes = require('./routes/authRoutes');
-app.use('/api/gifts', giftRoutes);
+
+// Use routes
 app.use('/api/auth', authRoutes);
+app.use('/api/gifts', giftRoutes);
+
 
 // const weddingBouquetRoutes = require('./routes/weddingBouquetRoutes');
 // const occasionRoutes = require('./routes/occasionRoutes');
