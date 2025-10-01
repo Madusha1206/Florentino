@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { Heart, Gift, GraduationCap, Calendar } from 'lucide-react';
-import { createGiftItem } from "../API"; // adjust path as needed
-
-
-
+import { addToCartItem } from "../API"; // Import the correct function
 
 const Occasions = () => {
   const [activeCategory, setActiveCategory] = useState('birthday');
@@ -14,23 +11,6 @@ const Occasions = () => {
     { id: 'graduation', name: 'Graduation', icon: <GraduationCap className="h-6 w-6" /> },
     { id: 'love-romance', name: 'Love & Romance', icon: <Heart className="h-6 w-6" /> }
   ];
-
-
-  const handleAddToCart = async (gift) => {
-    try {
-      const newGift = await createGiftItem(gift);
-      console.log("Gift created:", newGift);
-
-      // Optional: show alert or update state
-      alert(`${gift.name} has been added to the cart!`);
-    } catch (error) {
-      console.error("Error creating gift:", error);
-      alert("Failed to add item. Please try again.");
-    }
-  };
-
-
-
 
   const products = {
     birthday: [
@@ -55,6 +35,28 @@ const Occasions = () => {
     ]
   };
 
+  const handleAddToCart = async (product) => {
+    const cartItem = {
+      giftId: product.id.toString(),
+      name: product.name,
+      price: parseFloat(product.price.replace('Rs.', '').replace(',', '')), // Parse price to number
+      image: product.image,
+      quantity: 1
+    };
+
+    try {
+      const result = await addToCartItem(cartItem);
+      if (result.success) {
+        alert(`${product.name} has been added to the cart!`);
+      } else {
+        alert("Failed to add item.");
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Failed to add item. Please try again.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -73,10 +75,11 @@ const Occasions = () => {
             <button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-full transition-all duration-300 ${activeCategory === category.id
+              className={`flex items-center space-x-2 px-6 py-3 rounded-full transition-all duration-300 ${
+                activeCategory === category.id
                   ? 'bg-rose-600 text-white shadow-lg'
                   : 'bg-white text-gray-700 hover:bg-rose-50 hover:text-rose-600'
-                }`}
+              }`}
             >
               {category.icon}
               <span className="font-medium">{category.name}</span>
@@ -87,7 +90,10 @@ const Occasions = () => {
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products[activeCategory].map((product) => (
-            <div key={product.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            <div
+              key={product.id}
+              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            >
               <div className="relative">
                 <img
                   src={product.image}
@@ -110,7 +116,6 @@ const Occasions = () => {
                   >
                     Add to Cart
                   </button>
-
                 </div>
               </div>
             </div>
@@ -129,11 +134,9 @@ const Occasions = () => {
                 href="https://wa.me/94702370470?text=Hi%20Florentino%2C%20I%20want%20to%20contact%20an%20expert%20about%20occasions"
                 target="_blank"
                 rel="noopener noreferrer"
-
               >
                 Contact Our Experts
               </a>
-
             </button>
           </div>
         </div>

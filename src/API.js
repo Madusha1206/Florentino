@@ -5,14 +5,13 @@ export async function checkHealth() {
   return res.json();
 }
 
-
 export function api(path, options = {}) {
   return fetch(`${API}${path}`, options);
 }
 
 // Get all gifts
 export const getGiftItems = async () => {
-  const res = await fetch(API_URL);
+  const res = await fetch(`${API}/api/gifts/`);  // Fixed typo: use `${API}/api/gifts/`
   return res.json();
 };
 
@@ -28,7 +27,7 @@ export const createGiftItem = async (gift) => {
 
 // Update a gift
 export const updateGiftItem = async (id, gift) => {
-  const res = await fetch(`${API_URL}/${id}`, {
+  const res = await fetch(`${API}/api/gifts/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(gift),
@@ -38,11 +37,26 @@ export const updateGiftItem = async (id, gift) => {
 
 // Delete a gift
 export const deleteGiftItem = async (id) => {
-  const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+  const res = await fetch(`${API}/api/gifts/${id}`, { method: "DELETE" });
   return res.json();
 };
 
-  
+// Add to cart (NEW)
+export const addToCartItem = async (cartItem) => {
+  const res = await fetch(`${API}/api/cart/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(cartItem),
+  });
+  return res.json();
+};
+
+// Get cart items (NEW)
+export const getCartItems = async () => {
+  const res = await fetch(`${API}/api/cart/`);
+  return res.json();
+};
+
 export async function signup(userData) {
   const res = await fetch(`${API}/api/auth/signup`, {
     method: "POST",
@@ -51,27 +65,13 @@ export async function signup(userData) {
   });
   return res.json();
 }
+
 export async function login(userData) {
   const res = await fetch(`${API}/api/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userData),
   });
-
-  // Parse JSON safely
   const data = await res.json();
   return data;
 }
-
-
-// // Wedding Bouquets
-// export async function getWeddingBouquets() { /* ... */ }
-// export async function addWeddingBouquet(data) { /* ... */ }
-// export async function updateWeddingBouquet(id, data) { /* ... */ }
-// export async function deleteWeddingBouquet(id) { /* ... */ }
-
-// // Occasions
-// export async function getOccasions() { /* ... */ }
-// export async function addOccasion(data) { /* ... */ }
-// export async function updateOccasion(id, data) { /* ... */ }
-// export async function deleteOccasion(id) { /* ... */ }
