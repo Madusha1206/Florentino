@@ -3,7 +3,7 @@ import { Eye, EyeOff, Mail, Lock, User, Phone } from 'lucide-react';
 import { signup } from '../API';
 import { useNavigate } from 'react-router-dom';
 
-const Signup = ({ onClose, onSwitchToLogin }) => {
+const Signup = ({ onClose = () => {}, onSwitchToLogin = null }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -150,8 +150,11 @@ const Signup = ({ onClose, onSwitchToLogin }) => {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sage-400 hover:text-sage-600 transition-colors"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-pressed={showPassword}
+                  title={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  {showPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
                 </button>
               </div>
             </div>
@@ -173,8 +176,11 @@ const Signup = ({ onClose, onSwitchToLogin }) => {
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sage-400 hover:text-sage-600 transition-colors"
+                  aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                  aria-pressed={showConfirmPassword}
+                  title={showConfirmPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  {showConfirmPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
                 </button>
               </div>
             </div>
@@ -222,7 +228,14 @@ const Signup = ({ onClose, onSwitchToLogin }) => {
             <p className="text-sage-600">
               Already have an account?{' '}
               <button
-                onClick={onSwitchToLogin}
+                onClick={() => {
+                  try {
+                    if (onSwitchToLogin) onSwitchToLogin();
+                    else navigate('/login');
+                  } catch {
+                    navigate('/login');
+                  }
+                }}
                 className="text-rose-400 hover:text-rose-500 font-semibold transition-colors"
               >
                 Log In

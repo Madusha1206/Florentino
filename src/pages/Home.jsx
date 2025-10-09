@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../components/Sidebar';
 import { ArrowRight, Truck, Shield, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Home = () => {
@@ -52,7 +51,7 @@ const Home = () => {
     {
       icon: <Shield className="h-8 w-8 text-rose-600" />,
       title: 'Fresh Guarantee',
-      description: '7-day freshness guarantee on all flowers'
+      description: '4-day freshness guarantee on all flowers'
     },
     {
       icon: <Phone className="h-8 w-8 text-rose-600" />,
@@ -145,7 +144,7 @@ const Home = () => {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-8">
+          <div className="flex flex-col space-y-8">
             
             {/* Main Content */}
             <div className="flex-1">
@@ -162,14 +161,23 @@ const Home = () => {
                 ))}
               </div>
 
+              {/* Intro Text */}
+              <div className="mb-12 text-center max-w-3xl mx-auto">
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-3">Timeless Blooms for Every Moment</h2>
+                <p className="text-gray-600 text-base sm:text-lg">
+                  Convey what words cannot with stunning, fresh flowers that express heartfelt emotions for every occasion
+                  and create moments to remember.
+                </p>
+              </div>
+
               {/* Popular Categories */}
               <div className="mb-16">
                 <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Popular Categories</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[
-                    { name: 'Wedding Bouquets', image: 'https://images.pexels.com/photos/1070850/pexels-photo-1070850.jpeg?auto=compress&cs=tinysrgb&w=400', count: '25+ items' },
-                    { name: 'Birthday Flowers', image: 'https://images.pexels.com/photos/1406956/pexels-photo-1406956.jpeg?auto=compress&cs=tinysrgb&w=400', count: '30+ items' },
-                    { name: 'Anniversary Gifts', image: 'https://images.pexels.com/photos/1153655/pexels-photo-1153655.jpeg?auto=compress&cs=tinysrgb&w=400', count: '20+ items' }
+                    { name: 'Wedding Bouquets', image: '/images/wedding2.jpg', count: '25+ items' },
+                    { name: 'Money Bunches', image: '/images/Moneybunches.jpg', count: '30+ items' },
+                    { name: 'Anniversary Gifts', image: '/images/mixbunch5.jpg', count: '20+ items' }
                   ].map((category, index) => (
                     <div key={index} className="relative group cursor-pointer">
                       <img 
@@ -187,12 +195,27 @@ const Home = () => {
                   ))}
                 </div>
               </div>
+
+              {/* Four Highlight Images */}
+              <div className="mb-16">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {[
+                    { title: 'Love & Romance', image: '/images/largerosebunch.jpg' },
+                    { title: 'Graduation', image: '/images/bookbunch.jpg' },
+                    { title: 'Birthday', image: '/images/ballonhamperwithbunch.jpg' },
+                    { title: 'Anniversary', image: '/images/mixbunch5.jpg' }
+                  ].map((item, idx) => (
+                    <figure key={idx} className="bg-white rounded-xl shadow-sm overflow-hidden">
+                      <img src={item.image} alt={item.title} className="w-full h-64 object-cover" />
+                      <figcaption className="py-3 text-center text-lg font-medium text-gray-800">{item.title}</figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </div>
+            
             </div>
 
-            {/* Sidebar */}
-            <div className="lg:flex-shrink-0">
-              <Sidebar />
-            </div>
+          
           </div>
         </div>
       </section>

@@ -15,8 +15,9 @@
   font-style: normal;
 }
 
+/* Global font for the whole app */
 body {
-  font-family: "Jersey10", sans-serif;
+  font-family: "ChakraPetch", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
 @keyframes shake {

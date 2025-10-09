@@ -57,6 +57,22 @@ export const getCartItems = async () => {
   return res.json();
 };
 
+// Update a cart item (quantity, etc.)
+export const updateCartItemQty = async (id, updates) => {
+  const res = await fetch(`${API}/api/cart/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updates),
+  });
+  return res.json();
+};
+
+// Delete a cart item
+export const deleteCartItem = async (id) => {
+  const res = await fetch(`${API}/api/cart/${id}`, { method: "DELETE" });
+  return res.json();
+};
+
 export async function signup(userData) {
   const res = await fetch(`${API}/api/auth/signup`, {
     method: "POST",
@@ -74,4 +90,14 @@ export async function login(userData) {
   });
   const data = await res.json();
   return data;
+}
+
+// Submit contact message
+export async function submitContactMessage(payload) {
+  const res = await fetch(`${API}/api/contact/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return res.json();
 }

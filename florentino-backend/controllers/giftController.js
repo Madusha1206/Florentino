@@ -19,3 +19,30 @@ exports.createGift = async (req, res) => {
     res.status(400).json({ success: false, error: err.message });
   }
 };
+
+exports.updateGift = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updates = req.body;
+    const gift = await Gift.findByIdAndUpdate(id, updates, { new: true });
+    if (!gift) {
+      return res.status(404).json({ success: false, error: "Gift not found" });
+    }
+    res.json({ success: true, gift });
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.message });
+  }
+};
+
+exports.deleteGift = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const gift = await Gift.findByIdAndDelete(id);
+    if (!gift) {
+      return res.status(404).json({ success: false, error: "Gift not found" });
+    }
+    res.json({ success: true, message: "Gift deleted" });
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.message });
+  }
+};

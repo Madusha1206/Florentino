@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Facebook, Instagram } from 'lucide-react';
 
 const Footer = () => {
@@ -18,16 +19,16 @@ const Footer = () => {
   };
 
   const infoLinks = [
-    { name: 'Weddings', href: '#weddings' },
-    { name: 'Car Surprises', href: '#car-surprises' },
-    { name: 'Birthday Surprises', href: '#birthday-surprises' },
-    { name: 'Money Bunches', href: '#money-bunches' }
+    { name: 'Weddings' },
+    { name: 'Car Surprises' },
+    { name: 'Birthday Surprises' },
+    { name: 'Money Bunches' }
   ];
 
   const exploreLinks = [
-    { name: 'About Florentino', href: '#about' },
+    { name: 'About Florentino', href: '/about' },
     { name: 'Other Services', href: '#services' },
-    { name: 'Contact Us', href: '#contact' },
+    { name: 'Contact Us', href: '/contact' },
     { name: 'Delivery Areas', href: '#delivery' },
     { name: 'FAQ', href: '#faq' }
   ];
@@ -114,7 +115,9 @@ const Footer = () => {
               {infoLinks.map((link) => (
                 <li key={link.name}>
                   <a 
-                    href={link.href}
+                    href={`https://wa.me/94702370470?text=${encodeURIComponent('Hi Florentino, I want to know about ' + link.name)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-gray-300 text-sm hover:text-pink-400 transition-colors duration-200 block py-1"
                   >
                     {link.name}
@@ -130,12 +133,21 @@ const Footer = () => {
             <ul className="space-y-3">
               {exploreLinks.map((link) => (
                 <li key={link.name}>
-                  <a 
-                    href={link.href}
-                    className="text-gray-300 text-sm hover:text-pink-400 transition-colors duration-200 block py-1"
-                  >
-                    {link.name}
-                  </a>
+                  {link.href && link.href.startsWith('/') ? (
+                    <Link
+                      to={link.href}
+                      className="text-gray-300 text-sm hover:text-pink-400 transition-colors duration-200 block py-1"
+                    >
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <a 
+                      href={link.href}
+                      className="text-gray-300 text-sm hover:text-pink-400 transition-colors duration-200 block py-1"
+                    >
+                      {link.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>

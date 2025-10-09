@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Heart, Gift, GraduationCap, Calendar } from 'lucide-react';
 import { addToCartItem } from "../API"; // Import the correct function
 
 const Occasions = () => {
   const [activeCategory, setActiveCategory] = useState('birthday');
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const categories = [
     { id: 'birthday', name: 'Birthday', icon: <Gift className="h-6 w-6" /> },
@@ -36,8 +39,15 @@ const Occasions = () => {
   };
 
   const handleAddToCart = async (product) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Please log in or sign up to add items to your cart.');
+      navigate('/login', { state: { from: location } });
+      return;
+    }
+    // Use a namespaced id so items from Occasions don't collide with GiftItems ids
     const cartItem = {
-      giftId: product.id.toString(),
+      giftId: `occ-${product.id}`,
       name: product.name,
       price: parseFloat(product.price.replace('Rs.', '').replace(',', '')), // Parse price to number
       image: product.image,
@@ -46,7 +56,15 @@ const Occasions = () => {
 
     try {
       const result = await addToCartItem(cartItem);
+      if (result && result.unauthorized) {
+        alert('Your session expired. Please log in again.');
+        navigate('/login');
+        return;
+      }
       if (result.success) {
+        try {
+          window.dispatchEvent(new CustomEvent('cart:update', { detail: { delta: 1 } }));
+        } catch {}
         alert(`${product.name} has been added to the cart!`);
       } else {
         alert("Failed to add item.");
@@ -62,7 +80,7 @@ const Occasions = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">Special Occasions</h1>
+          
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Celebrate life's special moments with our carefully curated flower arrangements
             designed for every occasion that matters to you.

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Star, Heart } from 'lucide-react';
 
-const whatsappNumber = "94702370470"; // Replace with your WhatsApp number (no +)
+const whatsappNumber = "94702370470"; 
 
 const WeddingBouquets = () => {
   const bouquets = [
@@ -14,7 +14,7 @@ const WeddingBouquets = () => {
     },
     {
       id: 2,
-      name: 'Romantic Pink Bouquet',
+      name: 'Autumn Blossom Bouquet',
       image: '/images/wedding2.jpg',
       rating: 4.5,
       description: 'Soft pink peonies and roses with greenery'
@@ -60,7 +60,7 @@ const WeddingBouquets = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">Wedding Bouquets</h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4"></h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Make your special day unforgettable with our stunning collection of bridal bouquets, 
             crafted with love and attention to every detail.
@@ -116,22 +116,7 @@ const WeddingBouquets = () => {
           ))}
         </div>
 
-        {/* Consultation Section */}
-        <div className="bg-rose-50 rounded-lg p-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Need a Custom Bouquet?</h2>
-          <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            Our expert florists can create a personalized wedding bouquet that perfectly matches 
-            your vision and wedding theme. Schedule a consultation to discuss your dream bouquet.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-rose-600 text-white px-8 py-3 rounded-lg hover:bg-rose-700 transition-colors">
-              Schedule Consultation
-            </button>
-            <button className="border border-rose-600 text-rose-600 px-8 py-3 rounded-lg hover:bg-rose-600 hover:text-white transition-colors">
-              View Portfolio
-            </button>
-          </div>
-        </div>
+        
       </div>
     </div>
   );

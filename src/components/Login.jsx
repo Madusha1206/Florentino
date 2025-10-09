@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Flower2, Mail, Lock } from 'lucide-react';
 import { login } from '../API';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const Login = ({ onClose, onSwitchToSignup }) => {
+const Login = ({ onClose = null, onSwitchToSignup = null }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,20 +19,24 @@ const Login = ({ onClose, onSwitchToSignup }) => {
     setSuccess('');
 
     try {
+      setLoading(true);
       const result = await login(formData);
 
       if (result.success) {
         setSuccess(result.message);
         localStorage.setItem('token', result.token); // save JWT
         localStorage.setItem('user', JSON.stringify(result.user)); // optional user info
-        navigate('/'); // redirect
-        onClose(); // close modal if needed
+        try { window.dispatchEvent(new CustomEvent('auth:update', { detail: { loggedIn: true } })); } catch {}
+        navigate(from, { replace: true }); // redirect to intended page
+        try { onClose && onClose(); } catch (e) {}
       } else {
         setError(result.message || 'Login failed');
       }
     } catch (err) {
       setError('Login failed. Please try again.');
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,6 +64,16 @@ const Login = ({ onClose, onSwitchToSignup }) => {
         {/* Form */}
         <div className="p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-md px-3 py-2">
+                {error}
+              </div>
+            )}
+            {success && (
+              <div className="text-green-700 text-sm bg-green-50 border border-green-200 rounded-md px-3 py-2">
+                {success}
+              </div>
+            )}
             {/* Email Field */}
             <div>
               <label className="block text-sage-700 font-medium mb-2">Email </label>
@@ -92,8 +109,11 @@ const Login = ({ onClose, onSwitchToSignup }) => {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sage-400 hover:text-sage-600 transition-colors"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-pressed={showPassword}
+                  title={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  {showPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
                 </button>
               </div>
             </div>
@@ -115,9 +135,10 @@ const Login = ({ onClose, onSwitchToSignup }) => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-rose-600 hover:bg-rose-500 text-white py-3 rounded-lg transition-all duration-200 transform hover:scale-105 font-semibold"
+              disabled={loading}
+              className="w-full bg-rose-600 hover:bg-rose-500 disabled:opacity-60 text-white py-3 rounded-lg transition-all duration-200 transform hover:scale-105 font-semibold"
             >
-              Log In
+              {loading ? 'Signing in...' : 'Log In'}
             </button>
           </form>
 
@@ -133,7 +154,14 @@ const Login = ({ onClose, onSwitchToSignup }) => {
             <p className="text-sage-600">
               Don't have an account?{' '}
               <button
-                onClick={onSwitchToSignup}
+                onClick={() => {
+                  try {
+                    if (onSwitchToSignup) onSwitchToSignup();
+                    else navigate('/signup');
+                  } catch {
+                    navigate('/signup');
+                  }
+                }}
                 className="text-rose-600 hover:text-rose-500 font-semibold transition-colors"
               >
                 Create one
@@ -144,7 +172,13 @@ const Login = ({ onClose, onSwitchToSignup }) => {
 
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={() => {
+            if (onClose) {
+              try { onClose(); } catch {}
+            } else {
+              try { navigate(-1); } catch { navigate('/'); }
+            }
+          }}
           className="absolute top-4 right-4 text-sage-400 hover:text-sage-600 transition-colors"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
