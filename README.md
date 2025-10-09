@@ -1,4 +1,4 @@
-Florentino — Online Flower Shop
+🌸✨Florentino — Online Flower Shop
 
 A modern, full‑stack flower store built with React (Vite) + Tailwind on the frontend and Node.js + Express + MongoDB on the backend. Users can browse collections, add items to cart, check out, and contact the shop. Admins can review contact messages in MongoDB.
 
@@ -19,28 +19,26 @@ Highlights
 - Checkout – order summary + shipping, WhatsApp payment handoff
 - Contact Form – saved to MongoDB for admin review
 
-Architecture
-
-```
+🏗️ Architecture
 root/
-├─ images/                      # static images used by the UI
-├─ src/                         # React + Vite frontend
+├─ images/            
+├─ src/                          
 │  ├─ components/
-│  │  ├─ Header.jsx            # auth + cart badge
+│  │  ├─ Header.jsx            
 │  │  ├─ Login.jsx, Signup.jsx
 │  │  ├─ Contact.jsx
-│  │  ├─ RequireAuth.jsx       # route guard
+│  │  ├─ RequireAuth.jsx      
 │  │  └─ ScrollToTop.jsx
 │  ├─ pages/
 │  │  ├─ Home.jsx, About.jsx
 │  │  ├─ GiftItems.jsx, Occasions.jsx
 │  │  ├─ Cart.jsx, Checkout.jsx
 │  │  └─ WeddingBouquets.jsx
-│  ├─ API.js                    # frontend API helpers
+│  ├─ API.js                  
 │  ├─ index.css, main.jsx, App.jsx
 │  └─ index.html
 │
-└─ florentino-backend/          # Node + Express backend
+└─ florentino-backend/          
    ├─ controllers/
    │  ├─ giftController.js
    │  ├─ cartController.js
@@ -52,20 +50,16 @@ root/
    │  ├─ giftRoutes.js, cartRoutes.js, authRoutes.js
    │  └─ contactRoutes.js
    └─ server.js
-```
 
-Data Model (simplified)
-
-```json
+🧱 Data Model (Simplified)
 {
   "Gift": { "name": "String", "description": "String", "price": 4500, "image": "/images/...", "rating": 4 },
   "Cart": { "giftId": "String", "name": "String", "price": 4500, "image": "/images/...", "quantity": 1 },
   "User": { "email": "String", "passwordHash": "String", "name": "String" },
   "ContactMessage": { "name": "String", "phone": "String", "email": "String", "comment": "String" }
 }
-```
 
-Getting Started
+
 
 Prerequisites
 
