@@ -20,36 +20,7 @@ Highlights
 - Contact Form – saved to MongoDB for admin review
 
 🏗️ Architecture
-root/
-├─ images/            
-├─ src/                          
-│  ├─ components/
-│  │  ├─ Header.jsx            
-│  │  ├─ Login.jsx, Signup.jsx
-│  │  ├─ Contact.jsx
-│  │  ├─ RequireAuth.jsx      
-│  │  └─ ScrollToTop.jsx
-│  ├─ pages/
-│  │  ├─ Home.jsx, About.jsx
-│  │  ├─ GiftItems.jsx, Occasions.jsx
-│  │  ├─ Cart.jsx, Checkout.jsx
-│  │  └─ WeddingBouquets.jsx
-│  ├─ API.js                  
-│  ├─ index.css, main.jsx, App.jsx
-│  └─ index.html
-│
-└─ florentino-backend/          
-   ├─ controllers/
-   │  ├─ giftController.js
-   │  ├─ cartController.js
-   │  └─ contactController.js
-   ├─ models/
-   │  ├─ Gift.js, Cart.js, User.js
-   │  └─ ContactMessage.js
-   ├─ routes/
-   │  ├─ giftRoutes.js, cartRoutes.js, authRoutes.js
-   │  └─ contactRoutes.js
-   └─ server.js
+root/ ├─ images/ # static images used by the UI ├─ src/ # React + Vite frontend │ ├─ components/ │ │ ├─ Header.jsx # auth + cart badge │ │ ├─ Login.jsx, Signup.jsx │ │ ├─ Contact.jsx │ │ ├─ RequireAuth.jsx # route guard │ │ └─ ScrollToTop.jsx │ ├─ pages/ │ │ ├─ Home.jsx, About.jsx │ │ ├─ GiftItems.jsx, Occasions.jsx │ │ ├─ Cart.jsx, Checkout.jsx │ │ └─ WeddingBouquets.jsx │ ├─ API.js # frontend API helpers │ ├─ index.css, main.jsx, App.jsx │ └─ index.html │ └─ florentino-backend/ # Node + Express backend ├─ controllers/ │ ├─ giftController.js │ ├─ cartController.js │ └─ contactController.js ├─ models/ │ ├─ Gift.js, Cart.js, User.js │ └─ ContactMessage.js ├─ routes/ │ ├─ giftRoutes.js, cartRoutes.js, authRoutes.js │ └─ contactRoutes.js └─ server.js
 
 🧱 Data Model (Simplified)
 {
