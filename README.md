@@ -167,4 +167,4 @@ Known Issues / Notes
 
 License
 
-Private project. Do not redistribute without permission.add some emojis as proper way and sutably
+Private project. Do not redistribute without permission.
