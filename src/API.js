@@ -1,7 +1,19 @@
 const API = import.meta.env.VITE_API_URL;
 
+function authHeaders() {
+  const headers = { "Content-Type": "application/json" };
+  try {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+  } catch {
+    // Local storage may be unavailable in restricted browser contexts.
+  }
+  return headers;
+}
+
 export async function checkHealth() {
-  const res = await fetch(`${API}/api/health`);
+  const res = await fetch(`${API}/api/health`).catch(() => null);
+  if (!res) return { ok: false };
   return res.json();
 }
 
@@ -9,95 +21,112 @@ export function api(path, options = {}) {
   return fetch(`${API}${path}`, options);
 }
 
-// Get all gifts
-export const getGiftItems = async () => {
-  const res = await fetch(`${API}/api/gifts/`);  // Fixed typo: use `${API}/api/gifts/`
-  return res.json();
-};
+// Gifts
+export async function getGiftItems() {
+  const res = await fetch(`${API}/api/gifts`);
+  if (!res.ok) throw new Error('Failed to fetch gift items');
+  const data = await res.json();
+  return data.map((item) => ({
+    id: item._id,
+    name: item.name,
+    description: item.description,
+    image: item.image || '/images/placeholder.jpg',
+    price: item.price ? `$${item.price}` : '',
+    priceValue: item.price || 0,
+    rating: item.rating || 5,
+    reviews: item.reviews || 0,
+    isPopular: item.isPopular || false,
+  }));
+}
 
-// Create a new gift
-export const createGiftItem = async (gift) => {
-  const res = await fetch(`${API}/api/gifts/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(gift),
-  });
-  return res.json();
-};
-
-// Update a gift
-export const updateGiftItem = async (id, gift) => {
-  const res = await fetch(`${API}/api/gifts/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(gift),
-  });
-  return res.json();
-};
-
-// Delete a gift
-export const deleteGiftItem = async (id) => {
-  const res = await fetch(`${API}/api/gifts/${id}`, { method: "DELETE" });
-  return res.json();
-};
-
-// Add to cart (NEW)
-export const addToCartItem = async (cartItem) => {
-  const res = await fetch(`${API}/api/cart/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(cartItem),
-  });
-  return res.json();
-};
-
-// Get cart items (NEW)
-export const getCartItems = async () => {
-  const res = await fetch(`${API}/api/cart/`);
-  return res.json();
-};
-
-// Update a cart item (quantity, etc.)
-export const updateCartItemQty = async (id, updates) => {
-  const res = await fetch(`${API}/api/cart/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(updates),
-  });
-  return res.json();
-};
-
-// Delete a cart item
-export const deleteCartItem = async (id) => {
-  const res = await fetch(`${API}/api/cart/${id}`, { method: "DELETE" });
-  return res.json();
-};
-
-export async function signup(userData) {
-  const res = await fetch(`${API}/api/auth/signup`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(userData),
+export async function addGift(data) {
+  const res = await fetch(`${API}/api/gifts`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify(data),
   });
   return res.json();
 }
 
-export async function login(userData) {
-  const res = await fetch(`${API}/api/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+// Auth
+export async function signup(userData) {
+  const res = await fetch(`${API}/api/auth/signup`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData),
   });
-  const data = await res.json();
+  let data = {};
+  try { data = await res.json(); } catch {
+    // Some failed responses may not include JSON.
+  }
+  return { success: res.ok, ...data };
+}
+
+export async function login(credentials) {
+  const res = await fetch(`${API}/api/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(credentials),
+  });
+  let data = {};
+  try { data = await res.json(); } catch {
+    // Some failed responses may not include JSON.
+  }
+  if (!res.ok) return { success: false, ...data };
   return data;
 }
 
-// Submit contact message
+// Contact
 export async function submitContactMessage(payload) {
-  const res = await fetch(`${API}/api/contact/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+  const res = await fetch(`${API}/api/contact`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
   return res.json();
 }
+
+// Cart
+export async function getCartItems() {
+  const res = await fetch(`${API}/api/cart`, { headers: authHeaders() });
+  return res.json();
+}
+
+export async function addToCartItem(item) {
+  const res = await fetch(`${API}/api/cart`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify(item),
+  });
+  if (res.status === 401) return { unauthorized: true };
+  return res.json();
+}
+
+export async function updateCartItemQty(id, updates) {
+  const res = await fetch(`${API}/api/cart/${id}`, {
+    method: 'PUT',
+    headers: authHeaders(),
+    body: JSON.stringify(updates),
+  });
+  return res.json();
+}
+
+export async function deleteCartItem(id) {
+  const res = await fetch(`${API}/api/cart/${id}`, {
+    method: 'DELETE',
+    headers: authHeaders(),
+  });
+  return res.json();
+}
+
+// // Wedding Bouquets
+// export async function getWeddingBouquets() { /* ... */ }
+// export async function addWeddingBouquet(data) { /* ... */ }
+// export async function updateWeddingBouquet(id, data) { /* ... */ }
+// export async function deleteWeddingBouquet(id) { /* ... */ }
+
+// // Occasions
+// export async function getOccasions() { /* ... */ }
+// export async function addOccasion(data) { /* ... */ }
+// export async function updateOccasion(id, data) { /* ... */ }
+// export async function deleteOccasion(id) { /* ... */ }

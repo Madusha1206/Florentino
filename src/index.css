@@ -1,23 +1,9 @@
 
 @import "tailwindcss";
 
-@font-face {
-  font-family: "Jersey10";
-  src: url("./assets/fonts/Jersey10-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "ChakraPetch";
-  src: url("./assets/fonts/ChakraPetch-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
 /* Global font for the whole app */
 body {
-  font-family: "ChakraPetch", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
 @keyframes shake {

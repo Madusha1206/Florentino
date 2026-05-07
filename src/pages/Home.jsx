@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Truck, Shield, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Truck, Shield, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -38,9 +39,11 @@ const Home = () => {
 
   // Auto-slide functionality
   useEffect(() => {
-    const interval = setInterval(nextSlide, 6000);
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 6000);
     return () => clearInterval(interval);
-  }, []);
+  }, [heroSlides.length]);
 
   const features = [
     {
@@ -97,9 +100,9 @@ const Home = () => {
                       <p className="text-lg lg:text-xl mb-8 opacity-80 leading-relaxed max-w-xl ml-auto">
                         {slide.description}
                       </p>
-                      <button className="bg-transparent border-2 border-white text-white px-12 py-4 text-lg font-medium hover:bg-white hover:text-gray-900 transition-all duration-300 tracking-wider">
+                      <Link to="/catalog" className="inline-block bg-transparent border-2 border-white text-white px-12 py-4 text-lg font-medium hover:bg-white hover:text-gray-900 transition-all duration-300 tracking-wider">
                         {slide.buttonText}
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -179,7 +182,7 @@ const Home = () => {
                     { name: 'Money Bunches', image: '/images/Moneybunches.jpg', count: '30+ items' },
                     { name: 'Anniversary Gifts', image: '/images/mixbunch5.jpg', count: '20+ items' }
                   ].map((category, index) => (
-                    <div key={index} className="relative group cursor-pointer">
+                    <Link key={index} to="/catalog" className="relative group cursor-pointer">
                       <img 
                         src={category.image} 
                         alt={category.name}
@@ -191,7 +194,7 @@ const Home = () => {
                           <p className="text-sm opacity-90">{category.count}</p>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>

@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Heart, Gift, GraduationCap, Calendar } from 'lucide-react';
-import { addToCartItem } from "../API"; // Import the correct function
+import { Heart, Gift, GraduationCap, MessageCircle } from 'lucide-react';
+
+const whatsappNumber = '94702370470';
 
 const Occasions = () => {
   const [activeCategory, setActiveCategory] = useState('birthday');
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const categories = [
     { id: 'birthday', name: 'Birthday', icon: <Gift className="h-6 w-6" /> },
@@ -38,42 +36,8 @@ const Occasions = () => {
     ]
   };
 
-  const handleAddToCart = async (product) => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      alert('Please log in or sign up to add items to your cart.');
-      navigate('/login', { state: { from: location } });
-      return;
-    }
-    // Use a namespaced id so items from Occasions don't collide with GiftItems ids
-    const cartItem = {
-      giftId: `occ-${product.id}`,
-      name: product.name,
-      price: parseFloat(product.price.replace('Rs.', '').replace(',', '')), // Parse price to number
-      image: product.image,
-      quantity: 1
-    };
-
-    try {
-      const result = await addToCartItem(cartItem);
-      if (result && result.unauthorized) {
-        alert('Your session expired. Please log in again.');
-        navigate('/login');
-        return;
-      }
-      if (result.success) {
-        try {
-          window.dispatchEvent(new CustomEvent('cart:update', { detail: { delta: 1 } }));
-        } catch {}
-        alert(`${product.name} has been added to the cart!`);
-      } else {
-        alert("Failed to add item.");
-      }
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-      alert("Failed to add item. Please try again.");
-    }
-  };
+  const getWhatsAppLink = (product) =>
+    `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hi Florentino, I want to know more about ${product.name}.`)}`;
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -128,12 +92,15 @@ const Occasions = () => {
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">{product.name}</h3>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold text-rose-600">{product.price}</span>
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className="bg-rose-600 text-white px-6 py-2 rounded-lg hover:bg-rose-700 transition-colors"
+                  <a
+                    href={getWhatsAppLink(product)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition-colors"
                   >
-                    Add to Cart
-                  </button>
+                    <MessageCircle className="h-5 w-5" />
+                    Inquire
+                  </a>
                 </div>
               </div>
             </div>

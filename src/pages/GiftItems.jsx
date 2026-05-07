@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Star, Heart, ShoppingCart } from 'lucide-react';
-import { addToCartItem } from '../API';
+import { Star, Heart, MessageCircle } from 'lucide-react';
+
+const whatsappNumber = '94702370470';
 
 const GiftItems = () => {
   const [gifts] = useState([
@@ -9,52 +9,8 @@ const GiftItems = () => {
     { id: 2, name: 'Money Bunches', image: '/images/Moneybunches.jpg', rating: 4.5, price: 14800, description: 'Elegant money bouquet for a special gift.' },
     { id: 3, name: 'Ballon Hampers With Flowers', image: '/images/ballonhamperwithbunch.jpg', rating: 4.5, price: 27000, description: 'Festive balloon hamper with fresh blooms.' },
   ]);
-  const [cart, setCart] = useState([]); // local feedback after add
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const handleAddToCart = async (gift) => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      alert('Please log in or sign up to add items to your cart.');
-      navigate('/login', { state: { from: location } });
-      return;
-    }
-    const cartItem = {
-      giftId: gift._id ? String(gift._id) : String(gift.id),
-      name: gift.name,
-      price: gift.price,
-      image: gift.image,
-      quantity: 1,
-    };
-    try {
-      const result = await addToCartItem(cartItem);
-      if (result && result.unauthorized) {
-        alert('Your session expired. Please log in again.');
-        navigate('/login');
-        return;
-      }
-      if (result.success) {
-        // optionally update local cart state to reflect change
-        setCart((prev) => {
-          const existing = prev.find((i) => i.giftId === cartItem.giftId);
-          if (existing) return prev.map((i) => (i.giftId === cartItem.giftId ? { ...i, quantity: i.quantity + 1 } : i));
-          return [...prev, result.cartItem];
-        });
-        try {
-          window.dispatchEvent(new CustomEvent('cart:update', { detail: { delta: 1 } }));
-        } catch {}
-        alert(`${gift.name} added to cart!`);
-      } else {
-        alert('Failed to add to cart.');
-      }
-    } catch (err) {
-      console.error('Error adding to cart:', err);
-      alert('Failed to add item. Please try again.');
-    }
-  };
-
-  // note: cart updates/controls live on the Cart page
+  const getWhatsAppLink = (gift) =>
+    `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hi Florentino, I want to know more about ${gift.name}.`)}`;
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -88,9 +44,14 @@ const GiftItems = () => {
                   </div>
                   <p className="text-lg font-bold text-rose-600 mb-2">Rs. {(gift.price || 0).toLocaleString()}</p>
                   <p className="text-gray-600 mb-4">{gift.description || 'No description available'}</p>
-                  <button onClick={() => handleAddToCart(gift)} className="mt-auto flex items-center justify-center gap-2 w-full bg-rose-500 hover:bg-rose-600 text-white py-2 rounded-lg font-semibold transition-colors">
-                    <ShoppingCart className="h-5 w-5" /> Add to Cart
-                  </button>
+                  <a
+                    href={getWhatsAppLink(gift)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-auto flex items-center justify-center gap-2 w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-semibold transition-colors"
+                  >
+                    <MessageCircle className="h-5 w-5" /> Inquire on WhatsApp
+                  </a>
                 </div>
               </div>
             ))

@@ -3,7 +3,7 @@ import { Eye, EyeOff, Mail, Lock, User, Phone } from 'lucide-react';
 import { signup } from '../API';
 import { useNavigate } from 'react-router-dom';
 
-const Signup = ({ onClose = () => {}, onSwitchToLogin = null }) => {
+const Signup = ({ onClose = null, onSwitchToLogin = null }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -43,13 +43,13 @@ const Signup = ({ onClose = () => {}, onSwitchToLogin = null }) => {
   setLoading(true);
   try {
     const result = await signup(formData);
-    if (result.success || result.token) {
+    if (result && (result.success || result.token || /User created/i.test(result.message || ''))) {
       setSuccess('Account created! You can now log in.');
-      navigate('/login'); // Immediately switch to login tab
+      navigate('/login');
     } else {
-      setError(result.message || 'Signup failed');
+      setError(result?.message || 'Signup failed');
     }
-  } catch (err) {
+  } catch {
     setError('Signup failed. Please try again.');
   }
   setLoading(false);
@@ -245,7 +245,14 @@ const Signup = ({ onClose = () => {}, onSwitchToLogin = null }) => {
         </div>
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={() => {
+            try {
+              if (onClose) onClose();
+              else navigate(-1);
+            } catch {
+              navigate('/');
+            }
+          }}
           className="absolute top-4 right-4 text-sage-400 hover:text-sage-600 transition-colors"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
