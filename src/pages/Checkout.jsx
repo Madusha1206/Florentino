@@ -12,7 +12,9 @@ const Checkout = () => {
       try {
         const data = await getCartItems();
         if (data && data.success) setCart(data.cartItems || []);
-      } catch (e) {}
+      } catch {
+        // Checkout can render an empty cart when loading fails.
+      }
     })();
   }, []);
 
@@ -75,4 +77,3 @@ const Checkout = () => {
 };
 
 export default Checkout;
-

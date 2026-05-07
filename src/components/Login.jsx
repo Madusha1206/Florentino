@@ -26,9 +26,13 @@ const Login = ({ onClose = null, onSwitchToSignup = null }) => {
         setSuccess(result.message);
         localStorage.setItem('token', result.token); // save JWT
         localStorage.setItem('user', JSON.stringify(result.user)); // optional user info
-        try { window.dispatchEvent(new CustomEvent('auth:update', { detail: { loggedIn: true } })); } catch {}
+        try { window.dispatchEvent(new CustomEvent('auth:update', { detail: { loggedIn: true } })); } catch {
+          // Auth update events are optional UI synchronization.
+        }
         navigate(from, { replace: true }); // redirect to intended page
-        try { onClose && onClose(); } catch (e) {}
+        try { onClose && onClose(); } catch {
+          // Closing modal should not block a completed login.
+        }
       } else {
         setError(result.message || 'Login failed');
       }
@@ -50,12 +54,11 @@ const Login = ({ onClose = null, onSwitchToSignup = null }) => {
         {/* Header */}
         <div className="bg-gradient-to-r from-sage-100 bg white 100 p-8 text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
-           <img 
-          src="/images/logo.jpeg"   // <-- put your file path here
-          
-          className="h-20 w-20 object-contain bg-center"
-        />
-           
+            <img 
+              src="/images/logo.jpeg"
+              className="h-20 w-20 object-contain bg-center"
+              alt="Florentino logo"
+            />
           </div>
           <h2 className="text-2xl font-bold text-sage-900 mb-2">Welcome Back</h2>
           <p className="text-sage-600">Log in to your blooming account</p>
@@ -174,7 +177,9 @@ const Login = ({ onClose = null, onSwitchToSignup = null }) => {
         <button
           onClick={() => {
             if (onClose) {
-              try { onClose(); } catch {}
+              try { onClose(); } catch {
+                // Fallback navigation below handles close failures.
+              }
             } else {
               try { navigate(-1); } catch { navigate('/'); }
             }

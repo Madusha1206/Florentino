@@ -1,132 +1,177 @@
-import React, { useEffect, useState } from 'react';
-import { Plus, Minus, Trash2 } from 'lucide-react';
-import { useNavigate, Link } from 'react-router-dom';
-import { getCartItems, updateCartItemQty, deleteCartItem } from '../API';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Minus, MessageCircle, Plus, Trash2 } from 'lucide-react';
+import { clearStoredCart, getStoredCart, updateCartQuantity } from '../utils/cart';
+
+const whatsappNumber = '94702370470';
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
-  const navigate = useNavigate();
+  const [customerName, setCustomerName] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [deliveryNote, setDeliveryNote] = useState('');
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) return; // show empty state if not logged in
-    (async () => {
-      try {
-        const data = await getCartItems();
-        if (data && data.success) {
-          setCart(data.cartItems);
-          const count = (data.cartItems || []).reduce((acc, i) => acc + (i.quantity || 0), 0);
-          try { window.dispatchEvent(new CustomEvent('cart:update', { detail: { count } })); } catch {}
-        }
-      } catch (err) {
-        console.error('Failed to load cart', err);
-      }
-    })();
+    setCart(getStoredCart());
   }, []);
 
-  const updateQuantity = async (item, nextQty) => {
-    try {
-      if (!item._id) return;
-      if (nextQty <= 0) {
-        const res = await deleteCartItem(item._id);
-        if (res && res.success) setCart((prev) => prev.filter((i) => i._id !== item._id));
-        return;
-      }
-      const res = await updateCartItemQty(item._id, { quantity: nextQty });
-      if (res && res.success) {
-        setCart((prev) => {
-          const next = prev.map((i) => (i._id === item._id ? res.cartItem : i));
-          const count = next.reduce((acc, it) => acc + (it.quantity || 0), 0);
-          try { window.dispatchEvent(new CustomEvent('cart:update', { detail: { count } })); } catch {}
-          return next;
-        });
-      }
-    } catch (err) {
-      console.error('Update quantity error', err);
-      alert('Could not update quantity. Please try again.');
-    }
+  const total = useMemo(
+    () => cart.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0),
+    [cart]
+  );
+
+  const handleQuantityChange = (code, quantity) => {
+    setCart(updateCartQuantity(code, quantity));
   };
 
-  const handleIncrement = (item) => updateQuantity(item, (item.quantity || 1) + 1);
-  const handleDecrement = (item) => updateQuantity(item, (item.quantity || 1) - 1);
-  const handleRemove = (item) => updateQuantity(item, 0);
+  const handleClearCart = () => {
+    clearStoredCart();
+    setCart([]);
+  };
 
-  const total = cart.reduce((acc, i) => acc + i.price * i.quantity, 0);
+  const whatsappLink = useMemo(() => {
+    const lines = cart.map((item) => {
+      const priceText = item.price ? ` - Rs. ${((item.price || 0) * item.quantity).toLocaleString()}` : '';
+      return `${item.code} x ${item.quantity}${priceText}`;
+    });
 
-  const isLoggedIn = Boolean(localStorage.getItem('token'));
+    const message = [
+      'Hi Florentino, I want to order these item codes:',
+      '',
+      ...lines,
+      '',
+      total ? `Total: Rs. ${total.toLocaleString()}` : '',
+      customerName ? `Name: ${customerName}` : '',
+      customerPhone ? `Phone: ${customerPhone}` : '',
+      deliveryNote ? `Note: ${deliveryNote}` : '',
+    ].filter(Boolean).join('\n');
+
+    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  }, [cart, customerName, customerPhone, deliveryNote, total]);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-gray-800">Your Cart</h1>
-          <Link to="/gift-items" className="text-rose-600 hover:text-rose-500 font-medium">Continue shopping</Link>
+    <main className="min-h-screen bg-gray-50 py-10">
+      <section className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900">Cart</h1>
+            <p className="mt-2 text-gray-600">Review item codes and send your cart to Florentino on WhatsApp.</p>
+          </div>
+          <Link to="/catalog" className="font-semibold text-rose-600 hover:text-rose-700">
+            Continue browsing
+          </Link>
         </div>
 
-        {!isLoggedIn && (
-          <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-gray-700">Please log in to view your cart.</p>
-            <button onClick={() => navigate('/login')} className="mt-3 bg-rose-600 hover:bg-rose-500 text-white px-4 py-2 rounded-lg">Go to Login</button>
+        {cart.length === 0 ? (
+          <div className="rounded-lg bg-white p-8 text-center shadow">
+            <p className="text-gray-600">Your cart is empty.</p>
+            <Link
+              to="/catalog"
+              className="mt-5 inline-flex rounded-lg bg-rose-600 px-5 py-3 font-semibold text-white hover:bg-rose-700"
+            >
+              View Catalog
+            </Link>
           </div>
-        )}
-
-        {isLoggedIn && (
-          <div className="bg-white shadow-lg rounded-lg p-6">
-            {cart.length === 0 ? (
-              <p className="text-gray-600">Your cart is empty.</p>
-            ) : (
-              <>
-                <ul>
-              {cart.map((item) => (
-                <li key={item._id || item.giftId} className="border-b py-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3 text-gray-800">
-                      {item.image && (
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-12 h-12 rounded-md object-cover border border-gray-200"
-                        />
-                      )}
-                      <span>{item.name} x {item.quantity}</span>
+        ) : (
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+            <div className="lg:col-span-2">
+              <div className="overflow-hidden rounded-lg bg-white shadow">
+                {cart.map((item) => (
+                  <div key={item.code} className="flex flex-col gap-4 border-b border-gray-100 p-5 last:border-b-0 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex items-center gap-4">
+                      <img src={item.image} alt={`Florentino item ${item.code}`} className="h-20 w-20 rounded-md object-cover" />
+                      <div>
+                        <h2 className="text-lg font-semibold text-gray-900">Item Code: {item.code}</h2>
+                        <p className="text-sm text-gray-600">{item.category}</p>
+                        {item.price > 0 && <p className="mt-1 font-semibold text-rose-600">Rs. {item.price.toLocaleString()}</p>}
+                      </div>
                     </div>
-                    <div className="text-gray-900 font-medium">Rs. {(item.price * item.quantity).toLocaleString()}</div>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between text-sm">
-                        <div className="inline-flex items-center gap-2">
-                          <button onClick={() => handleDecrement(item)} className="p-1.5 rounded-md bg-gray-100 hover:bg-gray-200" aria-label="Decrease quantity">
-                            <Minus className="h-4 w-4" />
-                          </button>
-                          <span className="px-2">{item.quantity}</span>
-                          <button onClick={() => handleIncrement(item)} className="p-1.5 rounded-md bg-gray-100 hover:bg-gray-200" aria-label="Increase quantity">
-                            <Plus className="h-4 w-4" />
-                          </button>
-                        </div>
-                        <button onClick={() => handleRemove(item)} className="inline-flex items-center gap-1 text-red-600 hover:text-red-700">
-                          <Trash2 className="h-4 w-4" />
+
+                    <div className="flex items-center justify-between gap-4 sm:justify-end">
+                      <div className="inline-flex items-center rounded-lg border border-gray-200">
+                        <button
+                          type="button"
+                          onClick={() => handleQuantityChange(item.code, item.quantity - 1)}
+                          className="p-2 text-gray-700 hover:bg-gray-50"
+                          aria-label={`Decrease ${item.code}`}
+                        >
+                          <Minus className="h-4 w-4" />
+                        </button>
+                        <span className="min-w-10 px-3 text-center font-semibold">{item.quantity}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleQuantityChange(item.code, item.quantity + 1)}
+                          className="p-2 text-gray-700 hover:bg-gray-50"
+                          aria-label={`Increase ${item.code}`}
+                        >
+                          <Plus className="h-4 w-4" />
                         </button>
                       </div>
-                    </li>
-                  ))}
-                </ul>
-                <div className="flex justify-between mt-4 font-semibold text-lg">
-                  <span>Total:</span>
-                  <span>Rs. {total.toLocaleString()}</span>
-                </div>
-                <div className="mt-6 flex justify-end">
-                  <a
-                    href="/checkout"
-                    className="inline-flex items-center justify-center bg-[oklch(51.4%_0.222_16.935)] hover:opacity-95 text-white px-6 py-3 rounded-lg font-semibold"
-                  >
-                    Place Order
-                  </a>
-                </div>
-              </>
-            )}
+                      <button
+                        type="button"
+                        onClick={() => handleQuantityChange(item.code, 0)}
+                        className="rounded-lg p-2 text-red-600 hover:bg-red-50"
+                        aria-label={`Remove ${item.code}`}
+                      >
+                        <Trash2 className="h-5 w-5" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={handleClearCart}
+                className="mt-4 text-sm font-semibold text-gray-500 hover:text-red-600"
+              >
+                Clear cart
+              </button>
+            </div>
+
+            <aside className="rounded-lg bg-white p-6 shadow">
+              <h2 className="text-xl font-bold text-gray-900">Send to WhatsApp</h2>
+              <div className="mt-5 space-y-4">
+                <input
+                  value={customerName}
+                  onChange={(event) => setCustomerName(event.target.value)}
+                  placeholder="Your name"
+                  className="w-full rounded-lg border border-gray-200 px-3 py-2 outline-none focus:border-rose-500 focus:ring-2 focus:ring-rose-100"
+                />
+                <input
+                  value={customerPhone}
+                  onChange={(event) => setCustomerPhone(event.target.value)}
+                  placeholder="Phone number"
+                  className="w-full rounded-lg border border-gray-200 px-3 py-2 outline-none focus:border-rose-500 focus:ring-2 focus:ring-rose-100"
+                />
+                <textarea
+                  value={deliveryNote}
+                  onChange={(event) => setDeliveryNote(event.target.value)}
+                  placeholder="Delivery note or address"
+                  rows={4}
+                  className="w-full rounded-lg border border-gray-200 px-3 py-2 outline-none focus:border-rose-500 focus:ring-2 focus:ring-rose-100"
+                />
+              </div>
+
+              <div className="mt-5 flex justify-between border-t border-gray-100 pt-5 text-lg font-bold">
+                <span>Total</span>
+                <span>Rs. {total.toLocaleString()}</span>
+              </div>
+
+              <a
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 font-semibold text-white hover:bg-green-700"
+              >
+                <MessageCircle className="h-5 w-5" />
+                Send Cart
+              </a>
+            </aside>
           </div>
         )}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 
