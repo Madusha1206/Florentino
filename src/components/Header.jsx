@@ -35,17 +35,21 @@ const Header = () => {
   }, []);
 
   const navItems = [
-    { name: 'Home', href: '/' },
-    { name: 'Catalog', href: '/catalog' },
-    { name: 'Wedding Bouquets', href: '/wedding-bouquets' },
-    { name: 'Occasions', href: '/occasions' },
-    { name: 'Gift Items', href: '/gift-items' },
-    { name: 'About Us', href: '/about' },
-   
+    { name: 'Ballon Hampers', href: '/catalog#ballon-hampers' },
+    { name: 'Ballon Hampers with Gifts', href: '/catalog#ballon-hampers-with-gifts' },
+    { name: 'Rose Bunches', href: '/catalog#rose-bunches' },
+    { name: 'Flower Bunches', href: '/catalog#flower-bunches' },
+    { name: 'Cake with Flower Bunch', href: '/catalog#cake-with-flower-bunch' },
+    { name: 'Cakes', href: '/catalog#cakes' },
+    { name: 'Brownies', href: '/catalog#brownies' },
+    { name: 'Brownies with Gifts', href: '/catalog#brownies-with-gifts' },
+    { name: 'Teddies', href: '/catalog#teddies' },
+    { name: 'Chocolate Bar', href: '/catalog#chocolate-bar' },
+    { name: 'Money Bunches', href: '/catalog#money-bunches' },
   ];
 
   return (
-    <header className={`w-full z-40 transition-all duration-300 ${isScrolled ? 'bg-[#FAF5E6] shadow-md' : 'bg-[#FAF5E6]'}`}>
+    <header className={`w-full z-40 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md' : 'bg-white'}`}>
       {/* Delivery Banner */}
       {showDeliveryBanner && (
   <div className="bg-[oklch(51.4%_0.222_16.935)] text-white py-3 px-4 relative">
@@ -84,20 +88,7 @@ const Header = () => {
               <span className="text-2xl font-bold text-sage-700">Florentino</span>
             </div>
 
-            {/* Desktop Navigation */}
-            <div className="flex-1 flex justify-center">
-              <nav className="hidden md:flex items-center space-x-8">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className="font-bold text-sage-600 hover:underline underline-offset-4 decoration-2 transition-colors duration-200"
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </nav>
-            </div>
+            <div className="flex-1" />
 
             {/* Contact Button */}
             <div className="hidden md:flex items-center gap-3">
@@ -132,16 +123,28 @@ const Header = () => {
             </button>
           </div>
 
+          <nav className="mt-4 hidden items-center gap-8 overflow-x-auto border-t border-gray-100 bg-[#f7f0e4] px-6 py-5 md:flex">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className="whitespace-nowrap text-lg font-semibold tracking-wide text-gray-900 transition-colors hover:text-pink-500"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+
           {/* Mobile Navigation */}
           {isMenuOpen && (
-            <nav className="md:hidden mt-4 pb-4 text-center">
+            <nav className="md:hidden mt-4 pb-4 text-center bg-[#f7f0e4] rounded-lg py-4">
               <div className="flex flex-col space-y-4">
                 {navItems.map((item) => (
                   <Link
                     key={item.name}
                     to={item.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className="font-bold text-sage-600 hover:underline underline-offset-4 decoration-2 transition-colors duration-200"
+                    className="font-bold text-gray-900 hover:text-pink-500 transition-colors duration-200"
                   >
                     {item.name}
                   </Link>

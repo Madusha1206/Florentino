@@ -1,48 +1,55 @@
-const Gift = require("../models/Gift");
+const Gift = require('../models/Gift');
 
-exports.getGifts = async (req, res) => {
-  try {
-    const gifts = await Gift.find().sort({ createdAt: -1 });
-    res.json({ success: true, gifts });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-};
-
+// Create a new gift
 exports.createGift = async (req, res) => {
   try {
-    const { name, description, price, image, rating } = req.body;
-    const gift = new Gift({ name, description, price, image, rating });
+    const gift = new Gift(req.body);
     await gift.save();
-    res.status(201).json({ success: true, gift });
+    res.status(201).json(gift);
   } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
+    res.status(400).json({ error: err.message });
   }
 };
 
+// Get all gifts
+exports.getGifts = async (req, res) => {
+  try {
+    const gifts = await Gift.find();
+    res.json(gifts);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Get a single gift by ID
+exports.getGiftById = async (req, res) => {
+  try {
+    const gift = await Gift.findById(req.params.id);
+    if (!gift) return res.status(404).json({ error: 'Gift not found' });
+    res.json(gift);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Update a gift
 exports.updateGift = async (req, res) => {
   try {
-    const { id } = req.params;
-    const updates = req.body;
-    const gift = await Gift.findByIdAndUpdate(id, updates, { new: true });
-    if (!gift) {
-      return res.status(404).json({ success: false, error: "Gift not found" });
-    }
-    res.json({ success: true, gift });
+    const gift = await Gift.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!gift) return res.status(404).json({ error: 'Gift not found' });
+    res.json(gift);
   } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
+    res.status(400).json({ error: err.message });
   }
 };
 
+// Delete a gift
 exports.deleteGift = async (req, res) => {
   try {
-    const { id } = req.params;
-    const gift = await Gift.findByIdAndDelete(id);
-    if (!gift) {
-      return res.status(404).json({ success: false, error: "Gift not found" });
-    }
-    res.json({ success: true, message: "Gift deleted" });
+    const gift = await Gift.findByIdAndDelete(req.params.id);
+    if (!gift) return res.status(404).json({ error: 'Gift not found' });
+    res.json({ message: 'Gift deleted' });
   } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
+    res.status(500).json({ error: err.message });
   }
 };

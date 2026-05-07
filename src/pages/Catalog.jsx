@@ -1,56 +1,135 @@
-import React, { useMemo, useState } from 'react';
-import { Check, Heart, Search, ShoppingCart, Star } from 'lucide-react';
-import { addItemToCart } from '../utils/cart';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Check, Heart, Search, ShoppingCart } from 'lucide-react';
+import { addItemToCart, getStoredCart } from '../utils/cart';
 
-const catalogItems = [
-  { code: 'FLR-001', category: 'Wedding Bouquets', name: 'Classic White Rose Bouquet', image: '/images/Events.jpg', rating: 5 },
-  { code: 'FLR-002', category: 'Wedding Bouquets', name: 'Autumn Blossom Bouquet', image: '/images/wedding2.jpg', rating: 4.5 },
-  { code: 'FLR-003', category: 'Wedding Bouquets', name: 'Garden Style Bouquet', image: '/images/wedding3.jpg', rating: 4 },
-  { code: 'FLR-004', category: 'Wedding Bouquets', name: 'Blush & Ivory Bouquet', image: '/images/wedding4.jpg', rating: 5 },
-  { code: 'FLR-005', category: 'Wedding Bouquets', name: 'Wildflower Bouquet', image: '/images/wedding5.jpg', rating: 4 },
-  { code: 'FLR-006', category: 'Wedding Bouquets', name: 'Royal Purple Bouquet', image: '/images/wedding2.jpg', rating: 5 },
-  { code: 'FLR-007', category: 'Birthday', name: 'Happy Birthday Bouquet', price: 5800, image: '/images/firebunch1.jpg' },
-  { code: 'FLR-008', category: 'Birthday', name: 'Colorful Birthday Mix', price: 10500, image: '/images/facialbunch.jpg' },
-  { code: 'FLR-009', category: 'Birthday', name: 'Book Bunch', price: 8800, image: '/images/bookbunch.jpg' },
-  { code: 'FLR-010', category: 'Anniversary', name: 'Anniversary Mix Bouquet', price: 5600, image: '/images/mixroses.jpg' },
-  { code: 'FLR-011', category: 'Anniversary', name: 'Romantic Red Roses', price: 3500, image: '/images/redroseonly.jpg' },
-  { code: 'FLR-012', category: 'Anniversary', name: 'Anniversary Special', price: 4800, image: '/images/mixbunch5.jpg' },
-  { code: 'FLR-013', category: 'Graduation', name: 'Graduation Congratulations', price: 4500, image: '/images/mixbunch5.jpg' },
-  { code: 'FLR-014', category: 'Graduation', name: 'Success Celebration', price: 7800, image: '/images/firebunch1.jpg' },
-  { code: 'FLR-015', category: 'Graduation', name: 'Achievement Bouquet', price: 5800, image: '/images/mixbunch3.jpg' },
-  { code: 'FLR-016', category: 'Love & Romance', name: 'Love You Bouquet', price: 5200, image: '/images/mixbunch5.jpg' },
-  { code: 'FLR-017', category: 'Love & Romance', name: 'Romantic Gesture', price: 52000, image: '/images/largerosebunch.jpg' },
-  { code: 'FLR-018', category: 'Love & Romance', name: 'Passionate Roses', price: 3500, image: '/images/blackrosebunch.jpg' },
-  { code: 'FLR-019', category: 'Gift Items', name: 'Choco Bunch', price: 7000, image: '/images/chocobunch1.jpg', rating: 5 },
-  { code: 'FLR-020', category: 'Gift Items', name: 'Money Bunches', price: 14800, image: '/images/Moneybunches.jpg', rating: 4.5 },
-  { code: 'FLR-021', category: 'Gift Items', name: 'Balloon Hampers With Flowers', price: 27000, image: '/images/ballonhamperwithbunch.jpg', rating: 4.5 },
+const catalogSections = [
+  {
+    id: 'ballon-hampers',
+    title: 'Ballon Hampers',
+    items: [
+      { code: 'FLR-001', name: 'Classic White Rose Bouquet', price: 1240, image: '/images/Events.jpg' },
+      { code: 'FLR-002', name: 'Autumn Blossom Bouquet', price: 4561, image: '/images/wedding2.jpg' },
+      { code: 'FLR-003', name: 'Garden Style Bouquet', price: 1230, image: '/images/wedding3.jpg' },
+    ],
+  },
+  {
+    id: 'ballon-hampers-with-gifts',
+    title: 'Ballon Hampers with Gifts',
+    items: [
+      { code: 'FLR-004', name: 'Blush & Ivory Bouquet', price: 7850, image: '/images/wedding4.jpg' },
+      { code: 'FLR-005', name: 'Wildflower Bouquet', price: 7820, image: '/images/wedding5.jpg' },
+      { code: 'FLR-006', name: 'Royal Purple Bouquet', price: 4200, image: '/images/wedding2.jpg' },
+    ],
+  },
+  {
+    id: 'rose-bunches',
+    title: 'Rose Bunches',
+    items: [
+      { code: 'FLR-007', name: 'Happy Birthday Bouquet', price: 5800, image: '/images/firebunch1.jpg' },
+      { code: 'FLR-008', name: 'Colorful Birthday Mix', price: 10500, image: '/images/facialbunch.jpg' },
+      { code: 'FLR-009', name: 'Book Bunch', price: 8800, image: '/images/bookbunch.jpg' },
+    ],
+  },
+  {
+    id: 'flower-bunches',
+    title: 'Flower Bunches',
+    items: [
+      { code: 'FLR-010', name: 'Anniversary Mix Bouquet', price: 5600, image: '/images/mixroses.jpg' },
+      { code: 'FLR-011', name: 'Romantic Red Roses', price: 3500, image: '/images/redroseonly.jpg' },
+      { code: 'FLR-012', name: 'Anniversary Special', price: 4800, image: '/images/mixbunch5.jpg' },
+    ],
+  },
+  {
+    id: 'cake-with-flower-bunch',
+    title: 'Cake with Flower Bunch',
+    items: [
+      { code: 'FLR-013', name: 'Graduation Congratulations', price: 4500, image: '/images/mixbunch5.jpg' },
+      { code: 'FLR-014', name: 'Success Celebration', price: 7800, image: '/images/firebunch1.jpg' },
+    ],
+  },
+  {
+    id: 'cakes',
+    title: 'Cakes',
+    items: [
+      { code: 'FLR-015', name: 'Achievement Bouquet', price: 5800, image: '/images/mixbunch3.jpg' },
+      { code: 'FLR-016', name: 'Love You Bouquet', price: 5200, image: '/images/mixbunch5.jpg' },
+    ],
+  },
+  {
+    id: 'brownies',
+    title: 'Brownies',
+    items: [
+      { code: 'FLR-017', name: 'Romantic Gesture', price: 52000, image: '/images/largerosebunch.jpg' },
+    ],
+  },
+  {
+    id: 'brownies-with-gifts',
+    title: 'Brownies with Gifts',
+    items: [
+      { code: 'FLR-018', name: 'Passionate Roses', price: 3500, image: '/images/blackrosebunch.jpg' },
+    ],
+  },
+  {
+    id: 'teddies',
+    title: 'Teddies',
+    items: [
+      { code: 'FLR-019', name: 'Choco Bunch', price: 7000, image: '/images/chocobunch1.jpg' },
+    ],
+  },
+  {
+    id: 'chocolate-bar',
+    title: 'Chocolate Bar',
+    items: [
+      { code: 'FLR-020', name: 'Money Bunches', price: 14800, image: '/images/Moneybunches.jpg' },
+    ],
+  },
+  {
+    id: 'money-bunches',
+    title: 'Money Bunches',
+    items: [
+      { code: 'FLR-021', name: 'Balloon Hampers With Flowers', price: 27000, image: '/images/ballonhamperwithbunch.jpg' },
+    ],
+  },
 ];
 
-const categories = ['All', ...new Set(catalogItems.map((item) => item.category))];
-
 const Catalog = () => {
-  const [activeCategory, setActiveCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
-  const [addedCode, setAddedCode] = useState('');
+  const [cartCodes, setCartCodes] = useState(() => new Set(getStoredCart().map((item) => item.code)));
 
-  const filteredItems = useMemo(() => {
+  useEffect(() => {
+    const syncCartCodes = () => {
+      setCartCodes(new Set(getStoredCart().map((item) => item.code)));
+    };
+
+    window.addEventListener('cart:update', syncCartCodes);
+    window.addEventListener('storage', syncCartCodes);
+    return () => {
+      window.removeEventListener('cart:update', syncCartCodes);
+      window.removeEventListener('storage', syncCartCodes);
+    };
+  }, []);
+
+  const filteredSections = useMemo(() => {
     const query = searchTerm.trim().toLowerCase();
-    return catalogItems.filter((item) => {
-      const matchesCategory = activeCategory === 'All' || item.category === activeCategory;
-      const matchesSearch = !query || `${item.code} ${item.name} ${item.category}`.toLowerCase().includes(query);
-      return matchesCategory && matchesSearch;
-    });
-  }, [activeCategory, searchTerm]);
+    return catalogSections
+      .map((section) => ({
+        ...section,
+        items: section.items.filter((item) =>
+          !query || `${section.title} ${item.code} ${item.name}`.toLowerCase().includes(query)
+        ),
+      }))
+      .filter((section) => section.items.length > 0);
+  }, [searchTerm]);
 
   const handleAddToCart = (item) => {
     addItemToCart({
       code: item.code,
-      category: item.category,
+      name: item.name,
       price: item.price || 0,
       image: item.image,
     });
-    setAddedCode(item.code);
-    window.setTimeout(() => setAddedCode(''), 1400);
+    setCartCodes(new Set(getStoredCart().map((cartItem) => cartItem.code)));
   };
 
   return (
@@ -70,67 +149,57 @@ const Catalog = () => {
               type="search"
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
-              placeholder="Search by item code or category"
+              placeholder="Search by item code"
               className="w-full rounded-lg border border-gray-200 bg-white py-3 pl-10 pr-4 text-gray-800 outline-none focus:border-rose-500 focus:ring-2 focus:ring-rose-100"
             />
           </label>
         </div>
 
-        <div className="mb-8 flex gap-3 overflow-x-auto pb-2">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`whitespace-nowrap rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
-                activeCategory === category
-                  ? 'bg-rose-600 text-white'
-                  : 'bg-white text-gray-700 hover:bg-rose-50 hover:text-rose-600'
-              }`}
-            >
-              {category}
-            </button>
+        <div className="space-y-12">
+          {filteredSections.map((section) => (
+            <section key={section.title} id={section.id} className="scroll-mt-32">
+              <h2 className="mb-5 text-2xl font-bold text-gray-900">{section.title}</h2>
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {section.items.map((item) => (
+                  <article key={item.code} className="flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                    <div className="relative">
+                      <img src={item.image} alt={`Florentino item ${item.code}`} className="h-64 w-full object-cover" />
+                      <div className="absolute right-4 top-4 rounded-full bg-white p-2 shadow-md">
+                        <Heart className="h-5 w-5 text-gray-600" />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-1 flex-col p-6">
+                      <h3 className="text-xl font-semibold text-gray-800">Item Code: {item.code}</h3>
+                      {item.price && <p className="mt-3 text-lg font-bold text-rose-600">Rs. {item.price.toLocaleString()}</p>}
+                      <div className="flex-1" />
+                      {cartCodes.has(item.code) ? (
+                        <Link
+                          to="/cart"
+                          className="mt-5 inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-green-700"
+                        >
+                          <Check className="h-5 w-5" />
+                          Added
+                        </Link>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => handleAddToCart(item)}
+                          className="mt-5 inline-flex items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-rose-700"
+                        >
+                          <ShoppingCart className="h-5 w-5" />
+                          Add to Cart
+                        </button>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {filteredItems.map((item) => (
-            <article key={item.code} className="flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-              <div className="relative">
-                <img src={item.image} alt={`Florentino item ${item.code}`} className="h-64 w-full object-cover" />
-                <div className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-sm font-semibold text-rose-700 shadow-sm">
-                  {item.category}
-                </div>
-                <div className="absolute right-4 top-4 rounded-full bg-white p-2 shadow-md">
-                  <Heart className="h-5 w-5 text-gray-600" />
-                </div>
-              </div>
-
-              <div className="flex flex-1 flex-col p-6">
-                <h2 className="text-xl font-semibold text-gray-800">Item Code: {item.code}</h2>
-                {item.rating && (
-                  <div className="mt-3 flex items-center">
-                    {[...Array(5)].map((_, index) => (
-                      <Star key={index} className={`h-4 w-4 ${index < Math.floor(item.rating) ? 'fill-current text-yellow-400' : 'text-gray-300'}`} />
-                    ))}
-                    <span className="ml-2 text-sm text-gray-600">({item.rating})</span>
-                  </div>
-                )}
-                {item.price && <p className="mt-3 text-lg font-bold text-rose-600">Rs. {item.price.toLocaleString()}</p>}
-                <p className="mt-3 flex-1 text-gray-600">{item.category}</p>
-                <button
-                  type="button"
-                  onClick={() => handleAddToCart(item)}
-                  className="mt-5 inline-flex items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-rose-700"
-                >
-                  {addedCode === item.code ? <Check className="h-5 w-5" /> : <ShoppingCart className="h-5 w-5" />}
-                  {addedCode === item.code ? 'Added' : 'Add to Cart'}
-                </button>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        {filteredItems.length === 0 && (
+        {filteredSections.length === 0 && (
           <div className="rounded-lg bg-white p-8 text-center text-gray-600 shadow">
             No catalog items match your search.
           </div>

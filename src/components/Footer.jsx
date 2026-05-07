@@ -30,7 +30,7 @@ const Footer = () => {
     { name: 'Other Services', href: '#services' },
     { name: 'Contact Us', href: '/contact' },
     { name: 'Delivery Areas', href: '#delivery' },
-    { name: 'FAQ', href: '#faq' }
+   // { name: 'FAQ', href: '#faq' }
   ];
 
   const socialLinks = [

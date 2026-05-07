@@ -8,7 +8,7 @@ exports.signup = async (req, res) => {
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ error: 'User already exists' });
+    if (existingUser) return res.status(400).json({ success: false, message: 'User already exists' });
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -24,10 +24,13 @@ exports.signup = async (req, res) => {
 
     await user.save();
 
-    res.status(201).json({ message: 'User created successfully' });
+    res.status(201).json({ success: true, message: 'User created successfully' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: err.message });
+    if (err && err.code === 11000) {
+      return res.status(400).json({ success: false, message: 'User already exists' });
+    }
+    res.status(500).json({ success: false, message: err.message });
   }
 };
 
@@ -59,4 +62,3 @@ exports.login = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
-

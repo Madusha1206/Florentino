@@ -6,7 +6,7 @@ const Hero = () => {
     <section id="home" className="min-h-screen relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-sage-50 via-cream-50 to-rose-50">
-        <div className="absolute inset-0 bg-[url('C:\Users\buddh\OneDrive\Desktop\Florentino"></div>
+        <div className="absolute inset-0 bg-[url('/images/hero.jpg')] bg-cover bg-center opacity-20"></div>
       </div>
 
       {/* Floating Elements */}
