@@ -1,19 +1,19 @@
 import React, { useMemo, useState } from 'react';
-import { Check, Heart, Search, ShoppingCart, Star } from 'lucide-react';
+import { Check, Heart, Search, ShoppingCart } from 'lucide-react';
 import { addItemToCart } from '../utils/cart';
 
 const catalogItems = [
-  { code: 'FLR-001', category: 'Wedding Bouquets', name: 'Classic White Rose Bouquet', image: '/images/Events.jpg', rating: 5 },
-  { code: 'FLR-002', category: 'Wedding Bouquets', name: 'Autumn Blossom Bouquet', image: '/images/wedding2.jpg', rating: 4.5 },
-  { code: 'FLR-003', category: 'Wedding Bouquets', name: 'Garden Style Bouquet', image: '/images/wedding3.jpg', rating: 4 },
-  { code: 'FLR-004', category: 'Wedding Bouquets', name: 'Blush & Ivory Bouquet', image: '/images/wedding4.jpg', rating: 5 },
-  { code: 'FLR-005', category: 'Wedding Bouquets', name: 'Wildflower Bouquet', image: '/images/wedding5.jpg', rating: 4 },
-  { code: 'FLR-006', category: 'Wedding Bouquets', name: 'Royal Purple Bouquet', image: '/images/wedding2.jpg', rating: 5 },
-  { code: 'FLR-007', category: 'Birthday', name: 'Happy Birthday Bouquet', price: 5800, image: '/images/firebunch1.jpg' },
-  { code: 'FLR-008', category: 'Birthday', name: 'Colorful Birthday Mix', price: 10500, image: '/images/facialbunch.jpg' },
-  { code: 'FLR-009', category: 'Birthday', name: 'Book Bunch', price: 8800, image: '/images/bookbunch.jpg' },
-  { code: 'FLR-010', category: 'Anniversary', name: 'Anniversary Mix Bouquet', price: 5600, image: '/images/mixroses.jpg' },
-  { code: 'FLR-011', category: 'Anniversary', name: 'Romantic Red Roses', price: 3500, image: '/images/redroseonly.jpg' },
+  { code: 'FLR-001',  image: '/images/Events.jpg', price: 0 },
+  { code: 'FLR-002',  image: '/images/wedding2.jpg', price: 0 },
+  { code: 'FLR-003',  image: '/images/wedding3.jpg', price: 0 },
+  { code: 'FLR-004',  image: '/images/wedding4.jpg', price: 0 },
+  { code: 'FLR-005', image: '/images/wedding5.jpg', price: 0 },
+  { code: 'FLR-006',  image: '/images/wedding2.jpg', price: 0 },
+  { code: 'FLR-007', name: 'Happy Birthday Bouquet', price: 5800, image: '/images/firebunch1.jpg' },
+  { code: 'FLR-008',  name: 'Colorful Birthday Mix', price: 10500, image: '/images/facialbunch.jpg' },
+  { code: 'FLR-009', name: 'Book Bunch', price: 8800, image: '/images/bookbunch.jpg' },
+  { code: 'FLR-010',  name: 'Anniversary Mix Bouquet', price: 5600, image: '/images/mixroses.jpg' },
+  { code: 'FLR-011',  name: 'Romantic Red Roses', price: 3500, image: '/images/redroseonly.jpg' },
   { code: 'FLR-012', category: 'Anniversary', name: 'Anniversary Special', price: 4800, image: '/images/mixbunch5.jpg' },
   { code: 'FLR-013', category: 'Graduation', name: 'Graduation Congratulations', price: 4500, image: '/images/mixbunch5.jpg' },
   { code: 'FLR-014', category: 'Graduation', name: 'Success Celebration', price: 7800, image: '/images/firebunch1.jpg' },
@@ -21,9 +21,9 @@ const catalogItems = [
   { code: 'FLR-016', category: 'Love & Romance', name: 'Love You Bouquet', price: 5200, image: '/images/mixbunch5.jpg' },
   { code: 'FLR-017', category: 'Love & Romance', name: 'Romantic Gesture', price: 52000, image: '/images/largerosebunch.jpg' },
   { code: 'FLR-018', category: 'Love & Romance', name: 'Passionate Roses', price: 3500, image: '/images/blackrosebunch.jpg' },
-  { code: 'FLR-019', category: 'Gift Items', name: 'Choco Bunch', price: 7000, image: '/images/chocobunch1.jpg', rating: 5 },
-  { code: 'FLR-020', category: 'Gift Items', name: 'Money Bunches', price: 14800, image: '/images/Moneybunches.jpg', rating: 4.5 },
-  { code: 'FLR-021', category: 'Gift Items', name: 'Balloon Hampers With Flowers', price: 27000, image: '/images/ballonhamperwithbunch.jpg', rating: 4.5 },
+  { code: 'FLR-019', category: 'Gift Items', price: 7000, image: '/images/chocobunch1.jpg' },
+  { code: 'FLR-020', category: 'Gift Items', price: 14800, image: '/images/Moneybunches.jpg' },
+  { code: 'FLR-021', category: 'Gift Items', price: 27000, image: '/images/ballonhamperwithbunch.jpg' },
 ];
 
 const categories = ['All', ...new Set(catalogItems.map((item) => item.category))];
@@ -37,7 +37,7 @@ const Catalog = () => {
     const query = searchTerm.trim().toLowerCase();
     return catalogItems.filter((item) => {
       const matchesCategory = activeCategory === 'All' || item.category === activeCategory;
-      const matchesSearch = !query || `${item.code} ${item.name} ${item.category}`.toLowerCase().includes(query);
+      const matchesSearch = !query || `${item.code} ${item.category}`.toLowerCase().includes(query);
       return matchesCategory && matchesSearch;
     });
   }, [activeCategory, searchTerm]);
@@ -76,21 +76,7 @@ const Catalog = () => {
           </label>
         </div>
 
-        <div className="mb-8 flex gap-3 overflow-x-auto pb-2">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`whitespace-nowrap rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
-                activeCategory === category
-                  ? 'bg-rose-600 text-white'
-                  : 'bg-white text-gray-700 hover:bg-rose-50 hover:text-rose-600'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
+        {/* Category filter removed per user request */}
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {filteredItems.map((item) => (
@@ -107,16 +93,8 @@ const Catalog = () => {
 
               <div className="flex flex-1 flex-col p-6">
                 <h2 className="text-xl font-semibold text-gray-800">Item Code: {item.code}</h2>
-                {item.rating && (
-                  <div className="mt-3 flex items-center">
-                    {[...Array(5)].map((_, index) => (
-                      <Star key={index} className={`h-4 w-4 ${index < Math.floor(item.rating) ? 'fill-current text-yellow-400' : 'text-gray-300'}`} />
-                    ))}
-                    <span className="ml-2 text-sm text-gray-600">({item.rating})</span>
-                  </div>
-                )}
-                {item.price && <p className="mt-3 text-lg font-bold text-rose-600">Rs. {item.price.toLocaleString()}</p>}
-                <p className="mt-3 flex-1 text-gray-600">{item.category}</p>
+                {item.price !== undefined && <p className="mt-3 text-lg font-bold text-rose-600">Rs. {item.price.toLocaleString()}</p>}
+                <div className="mt-3 flex-1" />
                 <button
                   type="button"
                   onClick={() => handleAddToCart(item)}

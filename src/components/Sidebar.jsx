@@ -1,29 +1,11 @@
 import React from 'react';
-import { Star, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 const Sidebar = () => {
   const featuredProducts = [
-    {
-      id: 1,
-      name: 'Rose Bouquet',
-      price: '$45',
-      image: 'https://images.pexels.com/photos/1406956/pexels-photo-1406956.jpeg?auto=compress&cs=tinysrgb&w=400',
-      rating: 5
-    },
-    {
-      id: 2,
-      name: 'Wedding Centerpiece',
-      price: '$120',
-      image: 'https://images.pexels.com/photos/1070850/pexels-photo-1070850.jpeg?auto=compress&cs=tinysrgb&w=400',
-      rating: 5
-    },
-    {
-      id: 3,
-      name: 'Spring Mix',
-      price: '$35',
-      image: 'https://images.pexels.com/photos/1153655/pexels-photo-1153655.jpeg?auto=compress&cs=tinysrgb&w=400',
-      rating: 4
-    }
+    { id: 1, code: 'FLR-F001', price: 'Rs. 4,500', image: 'https://images.pexels.com/photos/1406956/pexels-photo-1406956.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { id: 2, code: 'FLR-F002', price: 'Rs. 12,000', image: 'https://images.pexels.com/photos/1070850/pexels-photo-1070850.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { id: 3, code: 'FLR-F003', price: 'Rs. 3,500', image: 'https://images.pexels.com/photos/1153655/pexels-photo-1153655.jpeg?auto=compress&cs=tinysrgb&w=400' }
   ];
 
   return (
@@ -39,16 +21,8 @@ const Sidebar = () => {
               className="w-16 h-16 object-cover rounded-lg"
             />
             <div className="flex-1">
-              <h4 className="font-medium text-gray-800">{product.name}</h4>
-              <div className="flex items-center space-x-1 mb-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star 
-                    key={i} 
-                    className={`h-3 w-3 ${i < product.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
-                  />
-                ))}
-              </div>
-              <div className="flex items-center justify-between">
+              <h4 className="font-medium text-gray-800">Item Code: {product.code}</h4>
+              <div className="flex items-center justify-between mt-2">
                 <span className="text-rose-600 font-semibold">{product.price}</span>
                 <button className="text-gray-400 hover:text-rose-600 transition-colors">
                   <Heart className="h-4 w-4" />
