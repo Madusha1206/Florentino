@@ -32,9 +32,6 @@ const Header = () => {
   const navItems = [
     { name: 'Home', href: '/' },
     { name: 'Catalog', href: '/catalog' },
-    { name: 'Wedding Bouquets', href: '/wedding-bouquets' },
-    { name: 'Occasions', href: '/occasions' },
-    { name: 'Gift Items', href: '/gift-items' },
     { name: 'About Us', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ];
