@@ -18,7 +18,6 @@ import Brownies from './pages/catalog/Brownies';
 import BrowniesWithGifts from './pages/catalog/BrowniesWithGifts';
 import Teddies from './pages/catalog/Teddies';
 import MoneyBunches from './pages/catalog/MoneyBunches';
-import Occasions from './pages/Occasions';
 import GiftItems from './pages/GiftItems';
 import Home from './pages/Home';
 import About from './pages/About';

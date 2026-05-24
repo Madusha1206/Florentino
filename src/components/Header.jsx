@@ -34,7 +34,7 @@ const Header = () => {
         <div className="header-banner">
           <div className="header-banner-left">
             <Truck className="banner-icon" />
-            <span>Islandwide Delivery Available!</span>
+            <span className="header-banner-text">Islandwide Delivery Available!</span>
           </div>
           <div className="header-banner-right">
             <a
