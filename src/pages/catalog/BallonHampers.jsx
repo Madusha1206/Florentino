@@ -53,7 +53,7 @@ const BallonHampers = () => {
                 <p className="mt-2 text-lg font-bold text-rose-600">Rs. {item.price.toLocaleString()}</p>
                 <button
                   onClick={() => handleAddToCart(item)}
-                  className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-lg bg-rose-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-rose-700"
+                  className={`mt-4 w-full inline-flex items-center justify-center gap-2 rounded-lg bg-rose-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-rose-700 ${addedCode === item.code ? 'cart-add-button-added' : ''}`}
                 >
                   {addedCode === item.code ? <Check className="h-4 w-4" /> : <ShoppingCart className="h-4 w-4" />}
                   {addedCode === item.code ? 'Added' : 'Add to Cart'}

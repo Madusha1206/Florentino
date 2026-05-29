@@ -1,4 +1,9 @@
 const CART_KEY = 'florentinoCart';
+const API = import.meta.env.VITE_API_URL;
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('online', () => syncCartToBackend(getStoredCart()));
+}
 
 export function getStoredCart() {
   try {
@@ -13,6 +18,7 @@ export function saveStoredCart(items) {
   localStorage.setItem(CART_KEY, JSON.stringify(items));
   const count = items.reduce((total, item) => total + item.quantity, 0);
   window.dispatchEvent(new CustomEvent('cart:update', { detail: { count } }));
+  syncCartToBackend(items);
 }
 
 export function addItemToCart(item) {
@@ -39,4 +45,16 @@ export function updateCartQuantity(code, quantity) {
 
 export function clearStoredCart() {
   saveStoredCart([]);
+}
+
+function syncCartToBackend(items) {
+  if (!API) return;
+
+  fetch(`${API}/api/cart/sync`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ items }),
+  }).catch(() => {
+    // Local cart remains available even if the backend is offline.
+  });
 }

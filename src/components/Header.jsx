@@ -1,7 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Truck, Home as HomeIcon } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ChevronDown, LayoutGrid, ShoppingCart, Truck, Home as HomeIcon } from 'lucide-react';
+import { Link, NavLink } from 'react-router-dom';
 import { getStoredCart } from '../utils/cart';
+
+const catalogCategories = [
+  { label: 'Ballon Hampers', path: '/catalog/ballon-hampers' },
+  { label: 'Brownies', path: '/catalog/brownies' },
+  { label: 'Cakes', path: '/catalog/cakes' },
+  { label: 'Flower Bunches', path: '/catalog/flower-bunches' },
+  { label: 'Rose Bunches', path: '/catalog/rose-bunches' },
+  { label: 'Money Bunches', path: '/catalog/money-bunches' },
+  { label: 'Teddies', path: '/catalog/teddies' },
+  { label: 'Cake with Flower Bunch', path: '/catalog/cake-with-flower-bunch' },
+  { label: 'Brownies with Gifts', path: '/catalog/brownies-with-gifts' },
+  { label: 'Ballon Hampers with Gifts', path: '/catalog/ballon-hampers-with-gifts' },
+];
 
 const Header = () => {
   const [cartCount, setCartCount] = useState(0);
@@ -67,6 +80,35 @@ const Header = () => {
           </div>
         </div>
       </div>
+
+      <nav className="catalog-category-bar" aria-label="Catalog categories">
+        <div className="catalog-category-inner">
+          <NavLink
+            to="/catalog/index"
+            className={({ isActive }) =>
+              `catalog-category-button ${isActive ? 'catalog-category-active' : ''}`
+            }
+          >
+            <LayoutGrid className="catalog-category-icon" />
+            <span>Categories</span>
+            <ChevronDown className="catalog-category-chevron" />
+          </NavLink>
+
+          <div className="catalog-category-scroll">
+            {catalogCategories.map((category) => (
+              <NavLink
+                key={category.path}
+                to={category.path}
+                className={({ isActive }) =>
+                  `catalog-category-link ${isActive ? 'catalog-category-link-active' : ''}`
+                }
+              >
+                {category.label}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      </nav>
     </header>
   );
 };

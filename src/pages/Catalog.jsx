@@ -98,7 +98,7 @@ const Catalog = () => {
                 <button
                   type="button"
                   onClick={() => handleAddToCart(item)}
-                  className="mt-5 inline-flex items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-rose-700"
+                  className={`mt-5 inline-flex items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-rose-700 ${addedCode === item.code ? 'cart-add-button-added' : ''}`}
                 >
                   {addedCode === item.code ? <Check className="h-5 w-5" /> : <ShoppingCart className="h-5 w-5" />}
                   {addedCode === item.code ? 'Added' : 'Add to Cart'}
