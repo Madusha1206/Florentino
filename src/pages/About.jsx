@@ -29,9 +29,9 @@ const About = () => {
   return (
     <div id="about" className="bg-white">
       {/* Hero Image */}
-      <div className="w-full h-72 md:h-96 relative">
+      <div className="w-full h-75 md:h-96 relative">
         <img
-          src={('/images/front.jpg')}
+          src={('/images/front.jpeg')}
           alt="Florentino Flowers Hero"
           className="w-full h-full object-cover object-center"
         />
