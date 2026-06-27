@@ -26,9 +26,4 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true,
   },
-
-  // Environment variables prefix
-  define: {
-    'process.env': process.env,
-  },
 })
