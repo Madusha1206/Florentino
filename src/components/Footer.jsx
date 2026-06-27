@@ -1,20 +1,35 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Facebook, Instagram, Flower2, Heart, Send } from 'lucide-react';
+import { subscribeToNewsletter } from '../API';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [newsletterMessage, setNewsletterMessage] = useState('');
+  const [newsletterStatus, setNewsletterStatus] = useState('');
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
     if (!email.trim()) return;
 
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log('Newsletter subscription:', email);
-    setEmail('');
-    setIsSubmitting(false);
+    setNewsletterMessage('');
+    setNewsletterStatus('');
+
+    try {
+      const result = await subscribeToNewsletter(email);
+      if (!result.success) throw new Error(result.message || 'Unable to subscribe right now.');
+
+      setEmail('');
+      setNewsletterStatus('success');
+      setNewsletterMessage('Subscribed. We will notify you about new items, updates, and offers.');
+    } catch (error) {
+      setNewsletterStatus('error');
+      setNewsletterMessage(error.message || 'Unable to subscribe right now.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const exploreLinks = [
@@ -141,6 +156,11 @@ const Footer = () => {
               {isSubmitting ? 'SUBMITTING...' : 'SUBMIT'}
             </button>
           </form>
+          {newsletterMessage && (
+            <p className={`footer-newsletter-status footer-newsletter-status-${newsletterStatus}`}>
+              {newsletterMessage}
+            </p>
+          )}
         </div>
 
         <div className="footer-bottom-row">

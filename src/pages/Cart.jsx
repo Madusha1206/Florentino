@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Minus, MessageCircle, Plus, Trash2 } from 'lucide-react';
+import { submitOrder } from '../API';
 import { clearStoredCart, getStoredCart, updateCartQuantity } from '../utils/cart';
 
 const whatsappNumber = '94702370470';
@@ -10,6 +11,7 @@ const Cart = () => {
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [deliveryNote, setDeliveryNote] = useState('');
+  const [sending, setSending] = useState(false);
 
   useEffect(() => {
     setCart(getStoredCart());
@@ -48,6 +50,33 @@ const Cart = () => {
 
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
   }, [cart, customerName, customerPhone, deliveryNote, total]);
+
+  const handleSendCart = async () => {
+    if (!customerName.trim() || !customerPhone.trim()) return;
+
+    setSending(true);
+    try {
+      await submitOrder({
+        customerName: customerName.trim(),
+        customerPhone: customerPhone.trim(),
+        deliveryNote: deliveryNote.trim(),
+        items: cart.map((item) => ({
+          code: item.code,
+          quantity: item.quantity,
+          price: item.price || 0,
+          category: item.category || '',
+          image: item.image || '',
+        })),
+        total,
+      });
+    } catch {
+      // Still open WhatsApp even if the save fails.
+    }
+    window.open(whatsappLink, '_blank', 'noopener,noreferrer');
+    setSending(false);
+  };
+
+  const canSend = customerName.trim() && customerPhone.trim() && cart.length > 0;
 
   return (
     <main className="min-h-screen bg-gray-50 py-10">
@@ -158,15 +187,18 @@ const Cart = () => {
                 <span>Rs. {total.toLocaleString()}</span>
               </div>
 
-              <a
-                href={whatsappLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 font-semibold text-white hover:bg-green-700"
+              <button
+                type="button"
+                onClick={handleSendCart}
+                disabled={!canSend || sending}
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 font-semibold text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <MessageCircle className="h-5 w-5" />
-                Send Cart
-              </a>
+                {sending ? 'Saving...' : 'Send Cart'}
+              </button>
+              {!canSend && (
+                <p className="mt-2 text-sm text-gray-500">Enter your name and phone to send the cart.</p>
+              )}
             </aside>
           </div>
         )}

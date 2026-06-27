@@ -86,6 +86,26 @@ export async function submitContactMessage(payload) {
   return res.json();
 }
 
+export async function submitOrder(orderData) {
+  const res = await fetch(`${API}/api/orders`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(orderData),
+  });
+  const data = await res.json().catch(() => ({}));
+  return { success: res.ok, ...data };
+}
+
+export async function subscribeToNewsletter(email) {
+  const res = await fetch(`${API}/api/newsletter/subscribe`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, source: 'footer' }),
+  });
+  const data = await res.json().catch(() => ({}));
+  return { success: res.ok, ...data };
+}
+
 // Cart
 export async function getCartItems() {
   const res = await fetch(`${API}/api/cart`, { headers: authHeaders() });

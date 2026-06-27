@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, LayoutGrid, ShoppingCart, Truck, Home as HomeIcon } from 'lucide-react';
-import { Link, NavLink } from 'react-router-dom';
+import { ChevronDown, LayoutGrid, Search, ShoppingCart, Truck, Home as HomeIcon } from 'lucide-react';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { getStoredCart } from '../utils/cart';
 
 const catalogCategories = [
@@ -18,6 +18,9 @@ const catalogCategories = [
 
 const Header = () => {
   const [cartCount, setCartCount] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const updateCount = () => {
@@ -39,6 +42,17 @@ const Header = () => {
       window.removeEventListener('storage', updateCount);
     };
   }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setSearchTerm(params.get('search') || '');
+  }, [location.search]);
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    const query = searchTerm.trim();
+    navigate(query ? `/catalog?search=${encodeURIComponent(query)}` : '/catalog');
+  };
 
   return (
     <header className="site-header">
@@ -65,9 +79,21 @@ const Header = () => {
             <img src="/images/logo.jpeg" alt="Florentino Logo" className="header-logo-img" />
             <div>
               <h1 className="header-logo-title">Florentino</h1>
-              <p className="header-logo-subtitle">Handmade floral gifts and bouquets</p>
+              {/* <p className="header-logo-subtitle">Handmade floral gifts and bouquets</p> */}
             </div>
           </div>
+
+          <form className="header-search" role="search" onSubmit={handleSearchSubmit}>
+            <Search className="header-search-icon" />
+            <input
+              type="search"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              placeholder="Search code or price"
+              aria-label="Search catalog by item code or price"
+              className="header-search-input"
+            />
+          </form>
 
           <div className="header-actions">
             <Link to="/cart" className="icon-button cart-button" aria-label="Open cart">

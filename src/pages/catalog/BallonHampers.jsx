@@ -33,7 +33,7 @@ const BallonHampers = () => {
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900">Balloon Hampers</h1>
-          <p className="mt-3 text-gray-600">Browse our festive balloon hamper collection.</p>
+          <p className="mt-3 text-gray-600">අවශ්‍ය items ඒවායේ කේතය අනුව තෝරන්න, ඉන්පසු ඒවා cart එකට එකතු කර WhatsApp හරහා අපට එවන්න.</p>
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">

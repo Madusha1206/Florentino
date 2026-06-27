@@ -6,25 +6,25 @@ const services = [
   {
     title: 'Car Surprises',
     description: 'Decorated car surprise setups for proposals, birthdays, anniversaries, and special arrivals.',
-    image: '/images/services/car-surprises.jpg',
+    video: '/videos/carvid1.mp4',
     icon: Car,
   },
   {
     title: 'Wedding Bouquets',
     description: 'Elegant bridal bouquets and floral arrangements designed to match your wedding theme.',
-    image: '/images/services/wedding-bouquets.jpg',
+    image: '/images/services/IMG_8617.jpg',
     icon: Sparkles,
   },
   {
     title: 'Birthday Surprises',
     description: 'Personalized surprise gifts, flowers, cakes, balloons, and sweet arrangements for birthdays.',
-    image: '/images/services/birthday-surprises.jpg',
+    image: '/images/services/IMG_8477.jpg',
     icon: Gift,
   },
   {
     title: 'Birthday Setups',
     description: 'Beautiful birthday decoration setups for homes, hotels, outdoor spaces, and intimate parties.',
-    image: '/images/services/birthday-setups.jpg',
+    image: '/images/services/IMG_8595.jpg',
     icon: Cake,
   },
 ];
@@ -50,14 +50,28 @@ const OtherServices = () => {
           return (
             <article className="service-ad-card" key={service.title}>
               <div className="service-ad-image-wrap">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="service-ad-image"
-                  onError={(event) => {
-                    event.currentTarget.style.display = 'none';
-                  }}
-                />
+                {service.video ? (
+                  <video
+                    src={service.video}
+                    className="service-ad-video"
+                    controls
+                    playsInline
+                    preload="metadata"
+                    aria-label={`${service.title} video`}
+                    onError={(event) => {
+                      event.currentTarget.style.display = 'none';
+                    }}
+                  />
+                ) : service.image ? (
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="service-ad-image"
+                    onError={(event) => {
+                      event.currentTarget.style.display = 'none';
+                    }}
+                  />
+                ) : null}
                 <div className="service-ad-image-fallback">
                   <Icon className="service-ad-fallback-icon" />
                   <span>Upload image later</span>

@@ -7,6 +7,8 @@ const giftRoutes = require("./routes/giftRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const authRoutes = require("./routes/authRoutes");
 const contactRoutes = require("./routes/contactRoutes");
+const newsletterRoutes = require("./routes/newsletterRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
 const app = express();
 app.use(cors());
@@ -16,6 +18,8 @@ app.use("/api/gifts", giftRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/newsletter", newsletterRoutes);
+app.use("/api/orders", orderRoutes);
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
