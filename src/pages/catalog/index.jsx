@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const catalogPages = [
-  { title: 'Ballon Hampers', path: '/catalog/ballon-hampers' },
-  { title: 'Ballon Hampers with Gifts', path: '/catalog/ballon-hampers-with-gifts' },
+  { title: 'Balloon Hampers', path: '/catalog/ballon-hampers' },
+  { title: 'Balloon Hampers with Gifts', path: '/catalog/ballon-hampers-with-gifts' },
   { title: 'Rose Bunches', path: '/catalog/rose-bunches' },
   { title: 'Flower Bunches', path: '/catalog/flower-bunches' },
   { title: 'Cake with Flower Bunch', path: '/catalog/cake-with-flower-bunch' },
@@ -12,6 +12,7 @@ const catalogPages = [
   { title: 'Brownies with Gifts', path: '/catalog/brownies-with-gifts' },
   { title: 'Teddies', path: '/catalog/teddies' },
   { title: 'Money Bunches', path: '/catalog/money-bunches' },
+  { title: 'Wedding Bouquets', path: '/catalog/wedding-bouquets' },
 ];
 
 const CatalogIndex = () => (

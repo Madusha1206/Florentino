@@ -4,7 +4,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { getStoredCart } from '../utils/cart';
 
 const catalogCategories = [
-  { label: 'Ballon Hampers', path: '/catalog/ballon-hampers' },
+  { label: 'Balloon Hampers', path: '/catalog/ballon-hampers' },
   { label: 'Brownies', path: '/catalog/brownies' },
   { label: 'Cakes', path: '/catalog/cakes' },
   { label: 'Flower Bunches', path: '/catalog/flower-bunches' },
@@ -13,7 +13,8 @@ const catalogCategories = [
   { label: 'Teddies', path: '/catalog/teddies' },
   { label: 'Cake with Flower Bunch', path: '/catalog/cake-with-flower-bunch' },
   { label: 'Brownies with Gifts', path: '/catalog/brownies-with-gifts' },
-  { label: 'Ballon Hampers with Gifts', path: '/catalog/ballon-hampers-with-gifts' },
+  { label: 'Balloon Hampers with Gifts', path: '/catalog/ballon-hampers-with-gifts' },
+  { label: 'Wedding Bouquets', path: '/catalog/wedding-bouquets' },
 ];
 
 const Header = () => {

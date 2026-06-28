@@ -391,7 +391,7 @@ b,
 
 .catalog-category-scroll {
   display: grid;
-  grid-template-columns: repeat(10, minmax(0, 1fr));
+  grid-template-columns: repeat(11, minmax(0, 1fr));
   align-items: center;
   gap: clamp(0.2rem, 0.55vw, 0.5rem);
   min-width: 0;
@@ -1195,7 +1195,7 @@ b,
   .catalog-category-scroll {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(10, minmax(0, 1fr));
+    grid-template-columns: repeat(11, minmax(0, 1fr));
     justify-content: stretch;
     gap: 0.18rem;
     padding-bottom: 0;

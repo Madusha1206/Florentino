@@ -1,82 +1,153 @@
-👇🌸✨Florentino — Online Flower Shop
+# Florentino
 
-A modern, full‑stack flower store built with React (Vite) + Tailwind on the frontend and Node.js + Express + MongoDB on the backend. Users can browse collections, add items to cart, check out, and contact the shop. Admins can review contact messages in MongoDB.
+Florentino is a React and Express website for a Sri Lankan floral gift shop. The site presents a searchable product catalog, lets customers add item codes to a local cart, and sends order details to Florentino through WhatsApp while optionally saving cart/order data to the backend.
 
-Stack
+## Tech Stack
 
-- React 18 + Vite
-- Tailwind CSS + lucide‑react icons
+- React 19 + Vite 7
+- React Router 7
+- Tailwind CSS 4 and custom CSS
+- lucide-react icons
 - Node.js + Express
 - MongoDB + Mongoose
-- JWT‑based authentication
+- JWT utilities for auth-ready API routes
 
-Highlights
+## Website Features
 
-- Sign up / Log in – required for cart and checkout
-- Gift Items + Occasions – add to cart from multiple pages
-- Live Cart Badge – updates instantly across pages (event bus)
-- Cart CRUD – quantity increment/decrement and delete
-- Checkout – order summary + shipping, WhatsApp payment handoff
-- Contact Form – saved to MongoDB for admin review
+- Home, About, FAQ, Contact, Catalog, Cart, and Other Services pages
+- Sticky header with category navigation, search, cart count, and delivery banner
+- Catalog search by item code, category, or price
+- Category pages for:
+  - Balloon Hampers
+  - Balloon Hampers with Gifts
+  - Brownies
+  - Brownies with Gifts
+  - Cakes
+  - Cake with Flower Bunch
+  - Flower Bunches
+  - Money Bunches
+  - Rose Bunches
+  - Teddies
+  - Wedding Bouquets
+- Local cart using `localStorage`
+- Cart quantity controls, clear cart action, and live header badge updates
+- WhatsApp order handoff with customer name, phone, delivery note, item codes, quantities, and totals
+- Optional backend cart sync through `VITE_API_URL`
+- Contact form and newsletter subscription API support
+- Other services section for car surprises, wedding bouquets, birthday surprises, and birthday setups
 
-Architecture
+## Project Structure
 
-```
-root/
-├─ images/                      # static images used by the UI
-├─ src/                         # React + Vite frontend
-│  ├─ components/
-│  │  ├─ Header.jsx            # auth + cart badge
-│  │  ├─ Login.jsx, Signup.jsx
-│  │  ├─ Contact.jsx
-│  │  ├─ RequireAuth.jsx       # route guard
-│  │  └─ ScrollToTop.jsx
-│  ├─ pages/
-│  │  ├─ Home.jsx, About.jsx
-│  │  ├─ GiftItems.jsx, Occasions.jsx
-│  │  ├─ Cart.jsx, Checkout.jsx
-│  │  └─ WeddingBouquets.jsx
-│  ├─ API.js                    # frontend API helpers
-│  ├─ index.css, main.jsx, App.jsx
-│  └─ index.html
-│
-└─ florentino-backend/          # Node + Express backend
-   ├─ controllers/
-   │  ├─ giftController.js
-   │  ├─ cartController.js
-   │  └─ contactController.js
-   ├─ models/
-   │  ├─ Gift.js, Cart.js, User.js
-   │  └─ ContactMessage.js
-   ├─ routes/
-   │  ├─ giftRoutes.js, cartRoutes.js, authRoutes.js
-   │  └─ contactRoutes.js
-   └─ server.js
-```
-
-Data Model (simplified)
-
-```json
-{
-  "Gift": { "name": "String", "description": "String", "price": 4500, "image": "/images/...", "rating": 4 },
-  "Cart": { "giftId": "String", "name": "String", "price": 4500, "image": "/images/...", "quantity": 1 },
-  "User": { "email": "String", "passwordHash": "String", "name": "String" },
-  "ContactMessage": { "name": "String", "phone": "String", "email": "String", "comment": "String" }
-}
+```text
+.
+|-- images/                         # Source product and service images
+|-- public/
+|   |-- images/                     # Browser-served catalog images
+|   `-- videos/                     # Browser-served service videos
+|-- src/
+|   |-- components/                 # Header, Footer, Contact, WhatsApp chat, UI helpers
+|   |-- data/catalogItems.js        # Static catalog item list and image mapping
+|   |-- hooks/useCartItemToggle.js  # Cart toggle helper hook
+|   |-- pages/                      # Main website pages
+|   |-- pages/catalog/              # Category pages and shared category layout
+|   |-- utils/cart.js               # localStorage cart and backend sync helpers
+|   |-- API.js                      # Frontend API helpers
+|   |-- App.jsx                     # App routes
+|   `-- main.jsx                    # React entry point
+|-- florentino-backend/
+|   |-- controllers/                # API controller logic
+|   |-- middleware/                 # Auth middleware
+|   |-- models/                     # MongoDB models
+|   |-- routes/                     # Express route modules
+|   `-- server.js                   # Express app entry point
+|-- package.json                    # Frontend scripts and dependencies
+`-- vite.config.js
 ```
 
-Getting Started
+## Frontend Routes
 
-Prerequisites
+- `/` - home page
+- `/catalog` - full searchable catalog
+- `/catalog/index` - category index
+- `/catalog/ballon-hampers`
+- `/catalog/ballon-hampers-with-gifts`
+- `/catalog/rose-bunches`
+- `/catalog/flower-bunches`
+- `/catalog/cake-with-flower-bunch`
+- `/catalog/cakes`
+- `/catalog/brownies`
+- `/catalog/brownies-with-gifts`
+- `/catalog/teddies`
+- `/catalog/money-bunches`
+- `/catalog/wedding-bouquets`
+- `/about`
+- `/other-services`
+- `/faq`
+- `/contact`
+- `/cart`
 
-- Node.js ≥ 18
-- MongoDB (local or Atlas)
+## Backend API
 
-1) Backend (Express)
+Base URL is configured in the frontend with `VITE_API_URL`.
+
+- `GET /api/gifts` - list gifts
+- `POST /api/gifts` - create gift
+- `PUT /api/gifts/:id` - update gift
+- `DELETE /api/gifts/:id` - delete gift
+- `POST /api/cart` - add cart item
+- `POST /api/cart/sync` - sync local cart items to backend
+- `GET /api/cart` - list cart items
+- `PUT /api/cart/:id` - update cart item
+- `DELETE /api/cart/:id` - delete cart item
+- `POST /api/auth/signup` - create user
+- `POST /api/auth/login` - log in user
+- `POST /api/contact` - save contact message
+- `GET /api/contact` - list contact messages
+- `POST /api/newsletter/subscribe` - subscribe email address
+- `GET /api/newsletter/subscribers` - list subscribers
+- `POST /api/orders` - save order
+- `GET /api/orders` - list orders
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18 or newer
+- npm
+- MongoDB local instance or MongoDB Atlas connection string
+
+### Frontend
+
+Create `.env` in the project root:
+
+```env
+VITE_API_URL=http://localhost:5000
+```
+
+Install and run:
+
+```bash
+npm install
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+### Backend
 
 Create `florentino-backend/.env`:
 
-```
+```env
 PORT=5000
 MONGODB_URI=mongodb://localhost:27017/florentino
 JWT_SECRET=change_me
@@ -84,87 +155,52 @@ JWT_SECRET=change_me
 
 Install and run:
 
-```
+```bash
 cd florentino-backend
 npm install
 npm start
 ```
 
-2) Frontend (React + Vite)
+For development with nodemon:
 
-Create `./.env` at project root:
-
-```
-VITE_API_URL=http://localhost:5000
-```
-
-Install and run:
-
-```
-npm install
+```bash
+cd florentino-backend
 npm run dev
 ```
 
-Useful Scripts
+## Catalog Image Notes
 
-- Frontend: `npm run dev`, `npm run build`, `npm run preview`
-- Backend: `cd florentino-backend && npm start`
+Catalog item metadata lives in `src/data/catalogItems.js`. Images referenced there must be available under `public/images/<category-folder>/` so Vite can serve them at runtime.
 
-API (preview)
+The root `images/` folder is used as the source image collection. Keep the public image folders in sync when adding, renaming, or removing catalog assets.
 
-Base URL: `${VITE_API_URL}` (e.g., http://localhost:5000)
+## Order Flow
 
-- Auth
-  - POST `/api/auth/signup` – create user
-  - POST `/api/auth/login` – returns `{ success, token, user }`
+1. Customer browses `/catalog` or a category page.
+2. Customer adds item codes to the cart.
+3. Cart data is stored locally in `localStorage` under `florentinoCart`.
+4. If `VITE_API_URL` is configured, cart changes are synced to `POST /api/cart/sync`.
+5. Customer enters name, phone, and an optional delivery note on `/cart`.
+6. The site attempts to save the order to `POST /api/orders`.
+7. WhatsApp opens with a prefilled message for Florentino.
 
-- Gifts
-  - GET `/api/gifts` – list gifts
-  - POST `/api/gifts` – create
-  - PUT `/api/gifts/:id` – update
-  - DELETE `/api/gifts/:id` – delete
+## Useful Scripts
 
-- Cart
-  - GET `/api/cart` – list items
-  - POST `/api/cart` – add item (increases qty if `giftId` exists)
-  - PUT `/api/cart/:id` – update quantity (`<= 0` deletes)
-  - DELETE `/api/cart/:id` – remove item
+- `npm run dev` - start Vite development server
+- `npm run build` - build frontend for production
+- `npm run preview` - preview production build
+- `npm run lint` - run ESLint
+- `cd florentino-backend && npm start` - start Express backend
+- `cd florentino-backend && npm run dev` - start backend with nodemon
 
-- Contact
-  - POST `/api/contact` – create contact message
-  - GET `/api/contact` – list messages (protect in prod)
+## Deployment Notes
 
-Key Features in Detail
+- Set `VITE_API_URL` to the deployed backend URL before building the frontend.
+- Configure CORS on the backend if frontend and backend are deployed on different domains.
+- Keep `JWT_SECRET` private and use a strong production value.
+- Protect admin-style read endpoints before production, especially contact messages, orders, subscribers, and cart listing routes.
+- Verify that all referenced images in `src/data/catalogItems.js` exist in `public/images`.
 
-- Auth Guard (RequireAuth)
-  - `/cart` and `/checkout` are protected; unauthenticated users are redirected to `/login`.
-  - After login, users are returned to where they came from.
-
-- Cart UX
-  - Add to Cart from Gift Items and Occasions.
-  - Header badge updates instantly via a small `window` event (`cart:update`).
-  - Cart shows thumbnails, quantity controls, and line totals.
-
-- Checkout
-  - Summarizes items and total, collects shipping details.
-  - “Proceed to Payment” opens WhatsApp with a prefilled order message.
-
-- Contact
-  - Contact form persists messages in MongoDB for admin review.
-
-Roadmap
-
-- Admin UI for viewing contact messages
-- Order capture + email receipts
-- Inventory + pricing management
-- Image upload for gifts
-
-Known Issues / Notes
-
-- Protect `/api/contact` GET before production (add auth/roles middleware).
-- Ensure `VITE_API_URL` matches your backend URL for all API calls.
-- If cart badge doesn’t update, confirm `cart:update` events are dispatched on add and count is set on cart load.
-
-License
+## License
 
 Private project. Do not redistribute without permission.

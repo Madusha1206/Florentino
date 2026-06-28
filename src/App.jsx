@@ -21,6 +21,7 @@ import MoneyBunches from './pages/catalog/MoneyBunches';
 import GiftItems from './pages/GiftItems';
 import Home from './pages/Home';
 import About from './pages/About';
+import WeddingBouquets from './pages/WeddingBouquets';
 import Cart from './pages/Cart';
 import OtherServices from './pages/OtherServices';
 import FAQ from './pages/FAQ';
@@ -47,6 +48,7 @@ function App() {
         <Route path="/catalog/brownies-with-gifts" element={<BrowniesWithGifts />} />
         <Route path="/catalog/teddies" element={<Teddies />} />
         <Route path="/catalog/money-bunches" element={<MoneyBunches />} />
+        <Route path="/catalog/wedding-bouquets" element={<WeddingBouquets />} />
         <Route path="/about" element={<About />} />
         <Route path="/other-services" element={<OtherServices />} />
         <Route path="/faq" element={<FAQ />} />
