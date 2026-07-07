@@ -1353,9 +1353,10 @@ a.border-sage-300:hover {
   background-color: #fff3f8 !important;
 }
 
-.cart-add-button-added,
-.cart-add-button-added:hover {
-  background-color: #bbf7d0 !important;
-  color: #166534 !important;
-  border-color: #86efac !important;
+button.cart-add-button-added,
+button.cart-add-button-added:hover,
+button.cart-add-button-added:focus {
+  background-color: #f9d6e6 !important;
+  color: #760338 !important;
+  border-color: #e44f92 !important;
 }

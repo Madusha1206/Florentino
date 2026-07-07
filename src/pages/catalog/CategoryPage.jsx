@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Check, Heart, ShoppingCart } from 'lucide-react';
 import { addItemToCart } from '../../utils/cart';
+import { useCartItemToggle } from '../../hooks/useCartItemToggle';
 import { getCatalogItemsByCategory } from '../../data/catalogItems';
 
 const fallbackDescriptions = {
@@ -9,7 +10,7 @@ const fallbackDescriptions = {
   'Brownies': 'Delicious brownies for gifts and celebrations.',
   'Brownies with Gifts': 'Brownie gift sets with thoughtful add-ons.',
   'Cake with Flower Bunch': 'Cake and flower combinations for special occasions.',
-  Cakes: 'Freshly baked cakes for every celebration.',
+  Cakes: 'We will customize your own cake to suit your occasion.',
   'Flower Bunches': 'Beautiful flower bunches for any celebration.',
   'Money Bunches': 'Stylish money bunches for special occasions.',
   'Rose Bunches': 'Elegant rose bunches for every occasion.',
@@ -17,19 +18,21 @@ const fallbackDescriptions = {
   'Wedding Bouquets': 'Wedding bouquets and event floral arrangements.',
 };
 
+const formatPrice = (price) => (price === undefined ? 'Contact for price' : `Rs. ${price.toLocaleString()}`);
+
 const CategoryPage = ({ title, category = title, description = fallbackDescriptions[category] }) => {
-  const [addedCode, setAddedCode] = useState('');
   const items = getCatalogItemsByCategory(category);
+  const { isInCart } = useCartItemToggle();
 
   const handleAddToCart = (item) => {
+    if (isInCart(item.code)) return;
+
     addItemToCart({
       code: item.code,
       category: item.category,
       price: item.price || 0,
       image: item.image,
     });
-    setAddedCode(item.code);
-    window.setTimeout(() => setAddedCode(''), 1400);
   };
 
   return (
@@ -41,33 +44,40 @@ const CategoryPage = ({ title, category = title, description = fallbackDescripti
         </div>
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((item) => (
-            <article key={item.code} className="overflow-hidden rounded-lg bg-white shadow-lg transition-all hover:shadow-xl">
-              <div className="relative h-72 bg-gray-200">
-                <img src={item.image} alt={item.code} className="h-full w-full object-cover" loading="lazy" />
-                <div className="absolute right-3 top-3 rounded-full bg-white p-2 shadow">
-                  <Heart className="h-5 w-5 text-gray-600" />
+          {items.map((item) => {
+            const isAdded = isInCart(item.code);
+
+            return (
+              <article key={item.code} className="group flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:-translate-y-1">
+                <div className="relative h-64 overflow-hidden bg-gray-200">
+                  <img
+                    src={item.image}
+                    alt={`Florentino item ${item.code}`}
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 group-active:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute right-4 top-4 rounded-full bg-white p-2 shadow-md">
+                    <Heart className="h-5 w-5 text-gray-600" />
+                  </div>
                 </div>
-                <div className="absolute left-3 top-3 rounded-full bg-rose-500 px-2 py-1 text-xs font-semibold text-white">
-                  {item.code}
+
+                <div className="flex flex-1 flex-col p-6">
+                  <h2 className="text-xl font-semibold text-gray-800">Item Code: {item.code}</h2>
+                  <p className="mt-3 text-lg font-bold text-rose-600">Price: {formatPrice(item.price)}</p>
+                  <div className="mt-3 flex-1" />
+                  <button
+                    type="button"
+                    onClick={() => handleAddToCart(item)}
+                    aria-pressed={isAdded}
+                    className={`mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-rose-700 ${isAdded ? 'cart-add-button-added' : ''}`}
+                  >
+                    {isAdded ? <Check className="h-5 w-5" /> : <ShoppingCart className="h-5 w-5" />}
+                    {isAdded ? 'Added' : 'Add to Cart'}
+                  </button>
                 </div>
-              </div>
-              <div className="p-4">
-                <p className="text-sm font-semibold text-gray-600">{item.code}</p>
-                {item.price !== undefined && (
-                  <p className="mt-2 text-lg font-bold text-rose-600">Rs. {item.price.toLocaleString()}</p>
-                )}
-                <button
-                  type="button"
-                  onClick={() => handleAddToCart(item)}
-                  className={`mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-rose-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-rose-700 ${addedCode === item.code ? 'cart-add-button-added' : ''}`}
-                >
-                  {addedCode === item.code ? <Check className="h-4 w-4" /> : <ShoppingCart className="h-4 w-4" />}
-                  {addedCode === item.code ? 'Added' : 'Add to Cart'}
-                </button>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
 
         {items.length === 0 && (

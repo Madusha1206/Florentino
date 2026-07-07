@@ -87,7 +87,7 @@ const Cart = () => {
             <p className="mt-2 text-gray-600">Review item codes and send your cart to Florentino on WhatsApp.</p>
           </div>
           <Link to="/catalog" className="font-semibold text-rose-600 hover:text-rose-700">
-            Continue browsing
+            Continue shopping
           </Link>
         </div>
 

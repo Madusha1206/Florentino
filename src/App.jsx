@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import WhatsAppChat from './components/WhatsAppChat';
@@ -26,6 +26,38 @@ import Cart from './pages/Cart';
 import OtherServices from './pages/OtherServices';
 import FAQ from './pages/FAQ';
 
+const appRoutes = [
+  { path: '/', element: <Home /> },
+  { path: '/catalog', element: <Catalog /> },
+  { path: '/catalog/index', element: <CatalogIndex /> },
+  { path: '/catalog/ballon-hampers', element: <BallonHampers /> },
+  { path: '/catalog/ballon-hampers-with-gifts', element: <BallonHampersWithGifts /> },
+  { path: '/catalog/rose-bunches', element: <RoseBunches /> },
+  { path: '/catalog/flower-bunches', element: <FlowerBunches /> },
+  { path: '/catalog/cake-with-flower-bunch', element: <CakeWithFlowerBunch /> },
+  { path: '/catalog/cakes', element: <Cakes /> },
+  { path: '/catalog/brownies', element: <Brownies /> },
+  { path: '/catalog/brownies-with-gifts', element: <BrowniesWithGifts /> },
+  { path: '/catalog/teddies', element: <Teddies /> },
+  { path: '/catalog/money-bunches', element: <MoneyBunches /> },
+  { path: '/catalog/wedding-bouquets', element: <WeddingBouquets /> },
+  { path: '/about', element: <About /> },
+  { path: '/other-services', element: <OtherServices /> },
+  { path: '/faq', element: <FAQ /> },
+  { path: '/contact', element: <Contact /> },
+  { path: '/cart', element: <Cart /> },
+];
+
+const RouteFallback = () => {
+  const { pathname } = useLocation();
+  const normalizedPathname = pathname.replace(/\/+$/, '') || '/';
+  const recoveredRoute = appRoutes
+    .filter((route) => route.path !== '/')
+    .find((route) => normalizedPathname.endsWith(route.path));
+
+  return recoveredRoute?.element || <Home />;
+};
+
 
 
 function App() {
@@ -35,25 +67,10 @@ function App() {
       <Header />
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/catalog" element={<Catalog />} />
-        <Route path="/catalog/index" element={<CatalogIndex />} />
-        <Route path="/catalog/ballon-hampers" element={<BallonHampers />} />
-        <Route path="/catalog/ballon-hampers-with-gifts" element={<BallonHampersWithGifts />} />
-        <Route path="/catalog/rose-bunches" element={<RoseBunches />} />
-        <Route path="/catalog/flower-bunches" element={<FlowerBunches />} />
-        <Route path="/catalog/cake-with-flower-bunch" element={<CakeWithFlowerBunch />} />
-        <Route path="/catalog/cakes" element={<Cakes />} />
-        <Route path="/catalog/brownies" element={<Brownies />} />
-        <Route path="/catalog/brownies-with-gifts" element={<BrowniesWithGifts />} />
-        <Route path="/catalog/teddies" element={<Teddies />} />
-        <Route path="/catalog/money-bunches" element={<MoneyBunches />} />
-        <Route path="/catalog/wedding-bouquets" element={<WeddingBouquets />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/other-services" element={<OtherServices />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/cart" element={<Cart />} />
+        {appRoutes.map((route) => (
+          <Route key={route.path} path={route.path} element={route.element} />
+        ))}
+        <Route path="*" element={<RouteFallback />} />
       </Routes>
 
       <Footer />
