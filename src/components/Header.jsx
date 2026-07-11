@@ -1,20 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, LayoutGrid, Search, ShoppingCart, Truck, Home as HomeIcon } from 'lucide-react';
+import { Search, ShoppingCart, Truck, Home as HomeIcon } from 'lucide-react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { getStoredCart } from '../utils/cart';
 
-const catalogCategories = [
-  { label: 'Balloon Hampers', path: '/catalog/ballon-hampers' },
-  { label: 'Brownies', path: '/catalog/brownies' },
-  { label: 'Cakes', path: '/catalog/cakes' },
-  { label: 'Flower Bunches', path: '/catalog/flower-bunches' },
-  { label: 'Rose Bunches', path: '/catalog/rose-bunches' },
-  { label: 'Money Bunches', path: '/catalog/money-bunches' },
-  { label: 'Teddies', path: '/catalog/teddies' },
-  { label: 'Cake with Flower Bunch', path: '/catalog/cake-with-flower-bunch' },
-  { label: 'Brownies with Gifts', path: '/catalog/brownies-with-gifts' },
-  { label: 'Balloon Hampers with Gifts', path: '/catalog/ballon-hampers-with-gifts' },
-  { label: 'Wedding Bouquets', path: '/catalog/wedding-bouquets' },
+const catalogMenuGroups = [
+  {
+    label: 'Catalog',
+    path: '/catalog/index',
+    items: [
+      { label: 'Balloon Hampers', path: '/catalog/ballon-hampers' },
+      { label: 'Balloon Hampers with Gifts', path: '/catalog/ballon-hampers-with-gifts' },
+      { label: 'Rose Bunches', path: '/catalog/rose-bunches' },
+      { label: 'Flower Bunches', path: '/catalog/flower-bunches' },
+      { label: 'Cake with Flower Bunch', path: '/catalog/cake-with-flower-bunch' },
+      { label: 'Cakes', path: '/catalog/cakes' },
+      { label: 'Brownies', path: '/catalog/brownies' },
+      { label: 'Brownies with Gifts', path: '/catalog/brownies-with-gifts' },
+      { label: 'Teddies', path: '/catalog/teddies' },
+      { label: 'Money Bunches', path: '/catalog/money-bunches' },
+      { label: 'Wedding Bouquets', path: '/catalog/wedding-bouquets' },
+    ],
+  },
+];
+
+const primaryNavLinks = [
+  { label: 'Events', path: '/other-services' },
+  { label: 'About Us', path: '/about' },
+  { label: 'Contact Us', path: '/contact' },
 ];
 
 const Header = () => {
@@ -80,7 +92,6 @@ const Header = () => {
             <img src="/images/logo.jpeg" alt="Florentino Logo" className="header-logo-img" />
             <div>
               <h1 className="header-logo-title">Florentino</h1>
-              {/* <p className="header-logo-subtitle">Handmade floral gifts and bouquets</p> */}
             </div>
           </div>
 
@@ -108,32 +119,50 @@ const Header = () => {
         </div>
       </div>
 
-      <nav className="catalog-category-bar" aria-label="Catalog categories">
-        <div className="catalog-category-inner">
-          <NavLink
-            to="/catalog/index"
-            className={({ isActive }) =>
-              `catalog-category-button ${isActive ? 'catalog-category-active' : ''}`
-            }
-          >
-            <LayoutGrid className="catalog-category-icon" />
-            <span>Categories</span>
-            <ChevronDown className="catalog-category-chevron" />
-          </NavLink>
-
-          <div className="catalog-category-scroll">
-            {catalogCategories.map((category) => (
+      <nav className="primary-nav-bar" aria-label="Primary navigation">
+        <div className="primary-nav-inner">
+          {catalogMenuGroups.map((group) => (
+            <div key={group.label} className="primary-nav-item">
               <NavLink
-                key={category.path}
-                to={category.path}
-                className={({ isActive }) =>
-                  `catalog-category-link ${isActive ? 'catalog-category-link-active' : ''}`
-                }
+                to={group.path}
+                className={({ isActive }) => {
+                  const isGroupActive =
+                    isActive ||
+                    group.items.some((item) => item.path === location.pathname) ||
+                    (group.label === 'Catalog' && location.pathname === '/catalog');
+
+                  return `primary-nav-link ${isGroupActive ? 'primary-nav-link-active' : ''}`;
+                }}
               >
-                {category.label}
+                {group.label}
               </NavLink>
-            ))}
-          </div>
+              <div className="primary-nav-dropdown" role="menu" aria-label={`${group.label} categories`}>
+                {group.items.map((item) => (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    className={({ isActive }) =>
+                      `primary-nav-dropdown-link ${isActive ? 'active' : ''}`
+                    }
+                    role="menuitem"
+                  >
+                    {item.label}
+                  </NavLink>
+                ))}
+              </div>
+            </div>
+          ))}
+          {primaryNavLinks.map((link) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              className={({ isActive }) =>
+                `primary-nav-link ${isActive ? 'primary-nav-link-active' : ''}`
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
         </div>
       </nav>
     </header>

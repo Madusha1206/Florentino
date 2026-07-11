@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Cake, Car, Gift, Sparkles } from 'lucide-react';
+import { ArrowRight, Cake, Car, Gift, Sparkles, X } from 'lucide-react';
 
 const services = [
   {
@@ -16,9 +16,9 @@ const services = [
     icon: Sparkles,
   },
   {
-    title: 'Birthday Surprises',
-    description: 'Personalized surprise gifts, flowers, cakes, balloons, and sweet arrangements for birthdays.',
-    image: '/images/services/IMG_8477.jpg',
+    title: 'Money Bunches',
+    description: 'Do you need a different type of surprise?',
+    image: '/images/MoneyBunches/IMG_3465.jpg',
     icon: Gift,
   },
   {
@@ -30,6 +30,11 @@ const services = [
 ];
 
 const OtherServices = () => {
+  const [showCarSurpriseDetails, setShowCarSurpriseDetails] = useState(false);
+  const [showMoneyBunchDetails, setShowMoneyBunchDetails] = useState(false);
+  const carSurpriseMessage = `Hi Florentino, I want to know more about Car Surprises.`;
+  const moneyBunchMessage = `Hi Florentino, I want to know more about Money Bunches.`;
+
   return (
     <main className="other-services-page">
       <section className="other-services-hero">
@@ -84,15 +89,35 @@ const OtherServices = () => {
                 </div>
                 <h2>{service.title}</h2>
                 <p>{service.description}</p>
-                <a
-                  href={`https://wa.me/94762370470?text=${encodeURIComponent(`Hi Florentino, I want to know more about ${service.title}.`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="service-ad-button"
-                >
-                  Ask about this service
-                  <ArrowRight className="service-ad-button-icon" />
-                </a>
+                {service.title === 'Car Surprises' ? (
+                  <button
+                    type="button"
+                    className="service-ad-button"
+                    onClick={() => setShowCarSurpriseDetails(true)}
+                  >
+                    Ask about this service
+                    <ArrowRight className="service-ad-button-icon" />
+                  </button>
+                ) : service.title === 'Money Bunches' ? (
+                  <button
+                    type="button"
+                    className="service-ad-button"
+                    onClick={() => setShowMoneyBunchDetails(true)}
+                  >
+                    Ask about this service
+                    <ArrowRight className="service-ad-button-icon" />
+                  </button>
+                ) : (
+                  <a
+                    href={`https://wa.me/94762370470?text=${encodeURIComponent(`Hi Florentino, I want to know more about ${service.title}.`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="service-ad-button"
+                  >
+                    Ask about this service
+                    <ArrowRight className="service-ad-button-icon" />
+                  </a>
+                )}
               </div>
             </article>
           );
@@ -106,6 +131,188 @@ const OtherServices = () => {
           Contact Florentino
         </Link>
       </section>
+
+      {showCarSurpriseDetails && (
+        <div
+          className="service-modal-backdrop"
+          role="presentation"
+          onClick={() => setShowCarSurpriseDetails(false)}
+        >
+          <section
+            className="service-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="car-surprise-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="service-modal-close"
+              aria-label="Close car surprise details"
+              onClick={() => setShowCarSurpriseDetails(false)}
+            >
+              <X className="service-modal-close-icon" />
+            </button>
+
+            <div className="service-modal-header">
+              <span className="service-modal-eyebrow">Price list</span>
+              <h2 id="car-surprise-title">Car Surprise Details</h2>
+              <p>Order should be confirmed before 5 days. Delivery charge depends on your location.</p>
+            </div>
+
+            <div className="service-price-list">
+              <section className="service-price-section">
+                <h3>Transport</h3>
+                <p>Transport charge changes depending on your location.</p>
+              </section>
+
+              <section className="service-price-section">
+                <h3>Cake</h3>
+                <ul>
+                  <li>1kg - Rs. 6,800</li>
+                  <li>500g - Rs. 3,500</li>
+                </ul>
+                <p>Price changes depending on the design.</p>
+              </section>
+
+              <section className="service-price-section">
+                <h3>Flowers</h3>
+                <p>Starting from Rs. 1,500.</p>
+              </section>
+
+              <section className="service-price-section">
+                <h3>Photo frame</h3>
+                <p>12x18 - Rs. 4,800</p>
+              </section>
+
+              <section className="service-price-section">
+                <h3>Chocolate box</h3>
+                <p>Starting from Rs. 4,500.</p>
+              </section>
+
+              <section className="service-price-section">
+                <h3>Fire works</h3>
+                <ul>
+                  <li>Rs. 5,500 - අහස් කූරු 50, ටින් 1, Shell 1</li>
+                  <li>Rs. 6,500 - අහස් කූරු 100, ටින් 1, Shell 1</li>
+                  <li>Rs. 8,000 - අහස් කූරු 100, ටින් 1, Shell 2</li>
+                </ul>
+              </section>
+
+              <section className="service-price-section">
+                <h3>Car decorations - Rs. 4,000</h3>
+                <ul>
+                  <li>Lighting</li>
+                  <li>Carpet</li>
+                  <li>Birthday candle</li>
+                  <li>Balloons</li>
+                  <li>Music</li>
+                  <li>Shine board</li>
+                </ul>
+              </section>
+            </div>
+
+            <div className="service-modal-note">
+              <p>දවස් 5 කට කලින් order එක confirm කරන්න ඕන.</p>
+              <p>Deliver charge එක ඔයාලගේ location එක අනුව වෙනස් වේ.</p>
+              <p>Order should be confirmed before 5 days.</p>
+              <p>Deliver charge will depend on your location.</p>
+              <p>Thank you for contacting us. Have a nice day.</p>
+            </div>
+
+            <a
+              href={`https://wa.me/94762370470?text=${encodeURIComponent(carSurpriseMessage)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="service-modal-whatsapp"
+            >
+              Continue on WhatsApp
+              <ArrowRight className="service-ad-button-icon" />
+            </a>
+          </section>
+        </div>
+      )}
+
+      {showMoneyBunchDetails && (
+        <div
+          className="service-modal-backdrop"
+          role="presentation"
+          onClick={() => setShowMoneyBunchDetails(false)}
+        >
+          <section
+            className="service-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="money-bunch-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="service-modal-close"
+              aria-label="Close money bunch details"
+              onClick={() => setShowMoneyBunchDetails(false)}
+            >
+              <X className="service-modal-close-icon" />
+            </button>
+
+            <div className="service-modal-header">
+              <span className="service-modal-eyebrow">Price list</span>
+              <h2 id="money-bunch-title">Money Bunch Details</h2>
+              <p>Order should be confirmed before 5 days. Delivery charge depends on your location.</p>
+            </div>
+
+            <div className="service-price-list">
+              <section className="service-price-section">
+                <h3>Rs. 5,000 + Rs. 2,500</h3>
+                <p>100 only</p>
+              </section>
+
+              <section className="service-price-section">
+                <h3>Rs. 10,000 + Rs. 4,800</h3>
+                <p>100 only</p>
+              </section>
+
+              <section className="service-price-section">
+                <h3>Rs. 15,000 + Rs. 5,300</h3>
+              </section>
+
+              <section className="service-price-section">
+                <h3>Rs. 20,000 + Rs. 6,000</h3>
+              </section>
+
+              <section className="service-price-section">
+                <h3>Rs. 25,000 + Rs. 6,500</h3>
+              </section>
+
+              <section className="service-price-section">
+                <h3>Rs. 30,000 + Rs. 7,500</h3>
+              </section>
+
+              <section className="service-price-section">
+                <h3>Rs. 50,000 + Rs. 8,500</h3>
+              </section>
+            </div>
+
+            <div className="service-modal-note">
+              <p>දවස් 5 කට කලින් order එක confirm කරන්න ඕන.</p>
+              <p>Deliver charge එක ඔයාලගේ location එක අනුව වෙනස් වේ.</p>
+              <p>Order should be confirmed before 5 days.</p>
+              <p>Deliver charge will depend on your location.</p>
+              <p>Thank you for contacting us. Have a nice day.</p>
+            </div>
+
+            <a
+              href={`https://wa.me/94762370470?text=${encodeURIComponent(moneyBunchMessage)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="service-modal-whatsapp"
+            >
+              Continue on WhatsApp
+              <ArrowRight className="service-ad-button-icon" />
+            </a>
+          </section>
+        </div>
+      )}
     </main>
   );
 };

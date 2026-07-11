@@ -1,15 +1,13 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Check, Heart, ShoppingCart } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { addItemToCart } from '../utils/cart';
 import { useCartItemToggle } from '../hooks/useCartItemToggle';
 import { catalogItems } from '../data/catalogItems';
 
-const categories = ['All', ...new Set(catalogItems.map((item) => item.category))];
 const formatPrice = (price) => (price === undefined ? 'Contact for price' : `Rs. ${price.toLocaleString()}`);
 
 const Catalog = () => {
-  const [activeCategory, setActiveCategory] = useState('All');
   const [searchParams] = useSearchParams();
   const searchTerm = searchParams.get('search') || '';
   const { isInCart } = useCartItemToggle();
@@ -18,15 +16,14 @@ const Catalog = () => {
     const query = searchTerm.trim().toLowerCase();
     const compactQuery = query.replace(/[,\s]/g, '');
     return catalogItems.filter((item) => {
-      const matchesCategory = activeCategory === 'All' || item.category === activeCategory;
       const priceText = String(item.price ?? '');
       const matchesSearch =
         !query ||
         `${item.code} ${item.category} ${priceText}`.toLowerCase().includes(query) ||
         priceText.includes(compactQuery);
-      return matchesCategory && matchesSearch;
+      return matchesSearch;
     });
-  }, [activeCategory, searchTerm]);
+  }, [searchTerm]);
 
   const handleAddToCart = (item) => {
     if (isInCart(item.code)) return;
@@ -40,32 +37,33 @@ const Catalog = () => {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 py-10">
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
+    <main className="catalog-page min-h-screen bg-gray-50 py-10">
+      <section className="catalog-shell max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="catalog-hero-panel mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">Florentino Catalog</h1>
-            <p className="mt-3 max-w-2xl text-lg text-gray-600">
-              Search from the header by item code or price, add the required items to cart, and send the cart to WhatsApp.
+            
+            <h1 className="catalog-title text-4xl font-bold text-gray-900">Florentino Catalog</h1>
+            <p className="catalog-intro mt-3 max-w-2xl text-lg text-gray-600">
+              All our high rated items are displaying in here or you can search by item code or price.
             </p>
-            <p>අවශ්‍ය items ඒවායේ කේතය අනුව තෝරන්න, ඉන්පසු ඒවා cart එකට එකතු කර WhatsApp හරහා අපට එවන්න.</p>
+            <p className="catalog-local-copy">
+              ඔබ කැමති අයිතම තෝරා, cart එකට එකතු කර, WhatsApp හරහා අප සමඟ ඇණවුම බෙදා ගන්න.
+            </p>
           </div>
         </div>
 
-        {/* Category filter removed per user request */}
-
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="catalog-grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {filteredItems.map((item) => {
             const isAdded = isInCart(item.code);
 
             return (
-              <article key={item.code} className="flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <article key={item.code} className="catalog-card flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                 <div className="relative">
                   <img src={item.image} alt={`Florentino item ${item.code}`} className="h-64 w-full object-cover" />
-                  <div className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-sm font-semibold text-rose-700 shadow-sm">
+                  <div className="catalog-chip absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-sm font-semibold text-rose-700 shadow-sm">
                     {item.category}
                   </div>
-                  <div className="absolute right-4 top-4 rounded-full bg-white p-2 shadow-md">
+                  <div className="catalog-heart absolute right-4 top-4 rounded-full bg-white p-2 shadow-md">
                     <Heart className="h-5 w-5 text-gray-600" />
                   </div>
                 </div>

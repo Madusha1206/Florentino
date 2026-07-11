@@ -27,6 +27,9 @@ const Cart = () => {
   };
 
   const handleClearCart = () => {
+    const confirmed = window.confirm('Are you sure you want to clear your cart?');
+    if (!confirmed) return;
+
     clearStoredCart();
     setCart([]);
   };
@@ -83,8 +86,8 @@ const Cart = () => {
       <section className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">Cart</h1>
-            <p className="mt-2 text-gray-600">Review item codes and send your cart to Florentino on WhatsApp.</p>
+            <h1 className="text-4xl font-bold text-gray-900">Your Cart</h1>
+            
           </div>
           <Link to="/catalog" className="font-semibold text-rose-600 hover:text-rose-700">
             Continue shopping
@@ -93,7 +96,7 @@ const Cart = () => {
 
         {cart.length === 0 ? (
           <div className="rounded-lg bg-white p-8 text-center shadow">
-            <p className="text-gray-600">Your cart is empty.</p>
+            <p className="text-gray-600">Hurry Up.Your cart is empty.</p>
             <Link
               to="/catalog"
               className="mt-5 inline-flex rounded-lg bg-rose-600 px-5 py-3 font-semibold text-white hover:bg-rose-700"
