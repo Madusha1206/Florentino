@@ -81,9 +81,10 @@ export async function submitContactMessage(payload) {
   const res = await fetch(`${API}/api/contact`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+    body: JSON.stringify({ ...payload, source: 'contact-page' }),
   });
-  return res.json();
+  const data = await res.json().catch(() => ({}));
+  return { success: res.ok, ...data };
 }
 
 export async function submitOrder(orderData) {

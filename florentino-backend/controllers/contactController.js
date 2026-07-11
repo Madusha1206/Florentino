@@ -2,11 +2,28 @@ const ContactMessage = require("../models/ContactMessage");
 
 exports.createMessage = async (req, res) => {
   try {
-    const { name, phone, email, comment } = req.body;
+    const name = String(req.body.name || "").trim();
+    const phone = String(req.body.phone || "").trim();
+    const email = String(req.body.email || "").trim().toLowerCase();
+    const comment = String(req.body.comment || "").trim();
+    const source = String(req.body.source || "contact-page").trim();
+
     if (!name || !phone || !email || !comment) {
       return res.status(400).json({ success: false, message: "All fields are required" });
     }
-    const msg = new ContactMessage({ name, phone, email, comment });
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ success: false, message: "Enter a valid email address" });
+    }
+
+    const msg = new ContactMessage({
+      name,
+      phone,
+      email,
+      comment,
+      source,
+      userAgent: req.get("user-agent") || "",
+    });
     await msg.save();
     res.status(201).json({ success: true, message: "Message received", data: msg });
   } catch (err) {
@@ -23,4 +40,3 @@ exports.getMessages = async (_req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
-
