@@ -57,9 +57,9 @@ const Catalog = () => {
             const isAdded = isInCart(item.code);
 
             return (
-              <article key={item.code} className="catalog-card flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-                <div className="relative">
-                  <img src={item.image} alt={`Florentino item ${item.code}`} className="h-64 w-full object-cover" />
+              <article key={item.code} className="catalog-card flex flex-col overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <div className="relative aspect-[4/5] overflow-hidden bg-white">
+                  <img src={item.image} alt={`Florentino item ${item.code}`} className="h-full w-full object-contain" />
                   <div className="catalog-chip absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-sm font-semibold text-rose-700 shadow-sm">
                     {item.category}
                   </div>
@@ -68,15 +68,14 @@ const Catalog = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-1 flex-col p-6">
-                  <h2 className="text-xl font-semibold text-gray-800">Item Code: {item.code}</h2>
-                  <p className="mt-3 text-lg font-bold text-rose-600">Price: {formatPrice(item.price)}</p>
-                  <div className="mt-3 flex-1" />
+                <div className="flex flex-col p-4">
+                  <h2 className="text-base font-semibold text-gray-800">Item Code: {item.code}</h2>
+                  <p className="mt-1 text-sm font-bold text-rose-600">Price: {formatPrice(item.price)}</p>
                   <button
                     type="button"
                     onClick={() => handleAddToCart(item)}
                     aria-pressed={isAdded}
-                    className={`mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-rose-700 ${isAdded ? 'cart-add-button-added' : ''}`}
+                    className={`mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-rose-700 ${isAdded ? 'cart-add-button-added' : ''}`}
                   >
                     {isAdded ? <Check className="h-5 w-5" /> : <ShoppingCart className="h-5 w-5" />}
                     {isAdded ? 'Added' : 'Add to Cart'}
