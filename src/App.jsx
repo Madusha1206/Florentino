@@ -7,7 +7,6 @@ import Contact from './components/Contact';
 import ScrollToTop from './components/ScrollToTop';
 
 import Catalog from './pages/Catalog';
-import CatalogIndex from './pages/catalog/index';
 import BallonHampers from './pages/catalog/BallonHampers';
 import BallonHampersWithGifts from './pages/catalog/BallonHampersWithGifts';
 import RoseBunches from './pages/catalog/RoseBunches';
@@ -29,7 +28,6 @@ import FAQ from './pages/FAQ';
 const appRoutes = [
   { path: '/', element: <Home /> },
   { path: '/catalog', element: <Catalog /> },
-  { path: '/catalog/index', element: <CatalogIndex /> },
   { path: '/catalog/ballon-hampers', element: <BallonHampers /> },
   { path: '/catalog/ballon-hampers-with-gifts', element: <BallonHampersWithGifts /> },
   { path: '/catalog/rose-bunches', element: <RoseBunches /> },
