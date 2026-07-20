@@ -1048,7 +1048,7 @@ b,
 .home-about-image-wrap {
   min-height: clamp(30rem, 54vw, 40rem);
   overflow: hidden;
-  border-radius: 0 48% 0 48%;
+  border-radius: 42% 58% 37% 63% / 32% 38% 62% 68%;
   box-shadow: 0 28px 70px rgba(66,42,49,.2);
 }
 .home-about-image-wrap img {
@@ -1112,7 +1112,7 @@ b,
   .home-about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
   .home-about-image-wrap {
     min-height: 27rem;
-    border-radius: 0 38% 0 38%;
+    border-radius: 44% 56% 40% 60% / 30% 36% 64% 70%;
   }
   .home-about-copy { text-align: center; }
 }
