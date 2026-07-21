@@ -4278,11 +4278,11 @@ p, a, button, label, h1, h2, h3 { overflow-wrap: anywhere; }
 }
 
 .product-cart-button--added {
-  --cart-glow: rgba(0, 200, 83, 0.42);
-  background: linear-gradient(135deg, #00c853, #009624);
+  --cart-glow: rgba(132, 156, 60, 0.45);
+  background: linear-gradient(135deg, #90a854, #667a2e);
   color: #fff;
   box-shadow:
-    0 4px 15px rgba(0, 200, 83, 0.4),
+    0 4px 15px rgba(132, 156, 60, 0.42),
     inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
