@@ -5071,6 +5071,14 @@ textarea {
     min-height: 2.75rem;
   }
 
+  .mobile-menu-label {
+    display: none;
+  }
+
+  .mobile-menu-toggle {
+    padding: 0;
+  }
+
   .mobile-header-search {
     width: calc(100% - 1.5rem);
     padding-bottom: 0.75rem;
