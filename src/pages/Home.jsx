@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { Check, ShoppingCart } from 'lucide-react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { catalogItems } from '../data/catalogItems';
 import { getCategoryPath } from '../data/categoryPaths';
 import { useCartItemToggle } from '../hooks/useCartItemToggle';
-import Contact from '../components/Contact';
+import VideoAlbum from '../components/VideoAlbum';
 import GalleryLoadMore from '../components/GalleryLoadMore';
+import ProductCartButton from '../components/ProductCartButton';
 
 const ITEMS_PER_PAGE = 8;
 const formatPrice = (price) =>
   price === undefined ? 'Rs.' : 'Rs. ' + price.toLocaleString();
 
 const Home = () => {
-  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const { isInCart, toggleCartItem } = useCartItemToggle();
-  const visibleItems = catalogItems.slice(0, visibleCount);
+  const visibleItems = catalogItems.slice(0, ITEMS_PER_PAGE);
 
   const handleAddToCart = (item) => {
     toggleCartItem({
@@ -34,7 +34,12 @@ const Home = () => {
           <h1 id='home-heading'>Flowers for every special moment</h1>
           <p>Stay tunned for the next big offer!!!</p>
           <div className='home-parallax-actions'>
-            <a href='#featured-collection' className='home-primary-cta'>Explore the collection</a>
+            <Link to='/catalog' className='home-primary-cta home-explore-button'>
+              <ArrowRight className='home-explore-button__arrow home-explore-button__arrow--first' aria-hidden='true' />
+              <span className='home-explore-button__circle' aria-hidden='true' />
+              <span className='home-explore-button__text'>Explore the collection</span>
+              <ArrowRight className='home-explore-button__arrow home-explore-button__arrow--second' aria-hidden='true' />
+            </Link>
             <a href='https://wa.me/94702370470' target='_blank' rel='noreferrer' className='home-secondary-cta'>
               Order on WhatsApp
             </a>
@@ -62,24 +67,19 @@ const Home = () => {
               </div>
               <div className='home-product-details'>
                 <h3>Item Code: {item.code}</h3>
-                <p>{formatPrice(item.price)}</p>
-                <button
-                  type='button'
+                <p className='product-price'>{formatPrice(item.price)}</p>
+                <ProductCartButton
+                  isAdded={isInCart(item.code)}
                   onClick={() => handleAddToCart(item)}
-                  aria-pressed={isInCart(item.code)}
-                  className={isInCart(item.code) ? 'home-cart-button home-cart-button-added' : 'home-cart-button'}
-                >
-                  {isInCart(item.code) ? <Check /> : <ShoppingCart />}
-                  {isInCart(item.code) ? 'Added' : 'Add to Cart'}
-                </button>
+                  itemCode={item.code}
+                />
               </div>
             </article>
           ))}
         </div>
         <GalleryLoadMore
-          visibleCount={visibleCount}
+          visibleCount={visibleItems.length}
           totalCount={catalogItems.length}
-          onShowMore={() => setVisibleCount((count) => count + ITEMS_PER_PAGE)}
         />
 
       </section>
@@ -91,7 +91,7 @@ const Home = () => {
           </div>
           <div className='home-about-copy'>
             <p className='home-about-eyebrow'>Our story</p>
-            <h2 id='about-heading'>About Florentino</h2>
+            <h2 id='about-heading'>Florentino</h2>
             <p>
               Founded in 2017, Florentino creates meaningful floral gifts that transform
               everyday moments into lasting memories.
@@ -100,13 +100,11 @@ const Home = () => {
               Every bouquet, hamper, and celebration piece is thoughtfully arranged with
               fresh ideas, personal care, and a genuine passion for beautiful details.
             </p>
-            <a href='#contact' className='home-about-button'>Contact our team</a>
+            <a href='#video-album' className='home-about-button'>Watch our work</a>
           </div>
         </div>
       </section>
-      <div className='home-contact-section'>
-        <Contact />
-      </div>
+      <VideoAlbum />
     </main>
   );
 };
