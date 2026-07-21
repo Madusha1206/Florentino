@@ -5650,6 +5650,18 @@ h6 {
   color: #f4f1e8 !important;
 }
 
+/* Match the Events title to the Video Album Instagram heading. */
+.other-services-hero h1,
+.home-video-heading h2 {
+  font-family: var(--body-font) !important;
+  font-size: clamp(1.55rem, 3vw, 2rem);
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  line-height: 1.25;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 /* Animated Home catalog CTA */
 .home-explore-button {
   --main-size: 1rem;
