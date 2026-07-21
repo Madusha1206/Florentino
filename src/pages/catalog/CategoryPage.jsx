@@ -34,19 +34,19 @@ const CategoryPage = ({ title, category = title, description = fallbackDescripti
 
   return (
     <main className="min-h-screen bg-gray-50 py-10">
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section className="catalog-shell mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <h1 className="category-page-title text-4xl font-bold text-gray-900">{title}</h1>
           {description && <p className="category-page-description mt-3 text-gray-600">{description}</p>}
         </div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="catalog-grid grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4 lg:gap-8">
           {items.map((item) => {
             const isAdded = isInCart(item.code);
 
             return (
-              <article key={item.code} className="group flex flex-col overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:-translate-y-1">
-                <div className="relative aspect-[4/5] overflow-hidden bg-white">
+              <article key={item.code} className="catalog-card group flex flex-col overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:-translate-y-1">
+                <div className="catalog-card-image relative aspect-[4/5] overflow-hidden bg-white">
                   <img
                     src={item.image}
                     alt={`Florentino item ${item.code}`}
@@ -55,7 +55,7 @@ const CategoryPage = ({ title, category = title, description = fallbackDescripti
                   />
                 </div>
 
-                <div className="flex flex-col p-4">
+                <div className="catalog-card-details flex flex-col p-4">
                   <h2 className="text-base font-semibold text-gray-800">Item Code: {item.code}</h2>
                   <p className="product-price mt-1 text-sm font-bold">Price: {formatPrice(item.price)}</p>
                   <ProductCartButton

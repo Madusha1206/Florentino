@@ -56,13 +56,13 @@ const Catalog = () => {
           </div>
         </div>
 
-        <div className="catalog-grid grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="catalog-grid grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4 lg:gap-8">
           {filteredItems.map((item) => {
             const isAdded = isInCart(item.code);
 
             return (
               <article key={item.code} className="catalog-card flex flex-col overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-                <div className="relative aspect-[4/5] overflow-hidden bg-white">
+                <div className="catalog-card-image relative aspect-[4/5] overflow-hidden bg-white">
                   <img src={item.image} alt={`Florentino item ${item.code}`} className="h-full w-full object-contain" />
                   <Link
                     to={getCategoryPath(item.category)}
@@ -73,7 +73,7 @@ const Catalog = () => {
                   </Link>
                 </div>
 
-                <div className="flex flex-col p-4">
+                <div className="catalog-card-details flex flex-col p-4">
                   <h2 className="text-base font-semibold text-gray-800">Item Code: {item.code}</h2>
                   <p className="product-price mt-1 text-sm font-bold">Price: {formatPrice(item.price)}</p>
                   <ProductCartButton
