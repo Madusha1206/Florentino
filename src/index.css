@@ -1178,8 +1178,11 @@ b,
   line-height: 1.8;
 }
 .home-about-button {
-  display: inline-flex;
-  margin-top: 1.25rem;
+  display: flex;
+  width: max-content;
+  max-width: 100%;
+  justify-content: center;
+  margin: 1.25rem auto 0;
   border: 1px solid #a68b43;
   background: #a68b43;
   color: #fff;
@@ -5432,7 +5435,6 @@ textarea {
   .home-parallax-actions,
   .home-primary-cta,
   .home-secondary-cta,
-  .home-about-button,
   .home-load-more,
   .home-video-load-more,
   .instagram-explore-button,
