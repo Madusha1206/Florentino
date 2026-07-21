@@ -115,7 +115,9 @@ const Cart = () => {
                       <div>
                         <h2 className="text-lg font-semibold text-gray-900">Item Code: {item.code}</h2>
                         <p className="text-sm text-gray-600">{item.category}</p>
-                        <p className="mt-1 font-semibold text-gray-900">Rs.</p>
+                        <p className="mt-1 font-semibold text-gray-900">
+                          Rs. {(item.price || 0).toLocaleString()}
+                        </p>
                       </div>
                     </div>
 

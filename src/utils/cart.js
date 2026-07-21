@@ -1,5 +1,20 @@
+import { catalogItems } from '../data/catalogItems';
+
 const CART_KEY = 'florentinoCart';
 const API = import.meta.env.VITE_API_URL;
+const catalogByCode = new Map(catalogItems.map((catalogItem) => [catalogItem.code, catalogItem]));
+
+function refreshCartItem(cartItem) {
+  const catalogItem = catalogByCode.get(cartItem.code);
+  if (!catalogItem) return cartItem;
+
+  return {
+    ...cartItem,
+    category: catalogItem.category,
+    image: catalogItem.image,
+    price: catalogItem.price ?? 0,
+  };
+}
 
 if (typeof window !== 'undefined') {
   window.addEventListener('online', () => syncCartToBackend(getStoredCart()));
@@ -8,7 +23,16 @@ if (typeof window !== 'undefined') {
 export function getStoredCart() {
   try {
     const stored = localStorage.getItem(CART_KEY);
-    return stored ? JSON.parse(stored) : [];
+    if (!stored) return [];
+
+    const parsed = JSON.parse(stored);
+    if (!Array.isArray(parsed)) return [];
+
+    const refreshed = parsed.map(refreshCartItem);
+    const refreshedJson = JSON.stringify(refreshed);
+    if (refreshedJson !== stored) localStorage.setItem(CART_KEY, refreshedJson);
+
+    return refreshed;
   } catch {
     return [];
   }
@@ -26,7 +50,9 @@ export function addItemToCart(item) {
   const existing = current.find((cartItem) => cartItem.code === item.code);
   const next = existing
     ? current.map((cartItem) =>
-        cartItem.code === item.code ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+        cartItem.code === item.code
+          ? { ...cartItem, ...item, quantity: cartItem.quantity + 1 }
+          : cartItem
       )
     : [...current, { ...item, quantity: 1 }];
 
