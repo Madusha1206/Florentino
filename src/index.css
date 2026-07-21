@@ -1213,8 +1213,36 @@ b,
   .home-about-copy { text-align: center; }
 }
 @media (max-width: 520px) {
-  .home-product-grid { grid-template-columns: 1fr; }
-  .home-product-card { width: min(100%, 25rem); margin-inline: auto; }
+  .home-product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+  }
+
+  .home-product-card {
+    width: 100%;
+    margin-inline: 0;
+  }
+
+  .home-product-details {
+    padding: 0.7rem;
+  }
+
+  .home-product-details h3 {
+    font-size: 0.78rem;
+    line-height: 1.3;
+  }
+
+  .home-product-details p {
+    font-size: 0.8rem;
+  }
+
+  .home-product-category {
+    top: 0.5rem;
+    left: 0.5rem;
+    max-width: calc(100% - 1rem);
+    padding: 0.35rem 0.5rem;
+    font-size: 0.6rem;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .home-about { background-attachment: fixed; }
