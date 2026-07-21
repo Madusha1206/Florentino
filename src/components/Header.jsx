@@ -109,9 +109,7 @@ const Header = () => {
           <span className="header-news-ticker__text header-news-ticker__text--copy-two" aria-hidden="true">
             Islandwide Delivery Available!
           </span>
-          <span className="header-news-ticker__text header-news-ticker__text--copy-three" aria-hidden="true">
-            Islandwide Delivery Available!
-          </span>
+
         </div>
 
         <ul className="header-banner-socials header-social-wrapper header-ticker-socials" aria-label="Social media links">

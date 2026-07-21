@@ -19,7 +19,7 @@ const CatalogIndex = () => (
   <main className="min-h-screen bg-gray-50 py-10">
     <section className="mx-auto max-w-5xl space-y-6 rounded-3xl bg-white p-8 shadow-lg">
       <div>
-        <h1 className="text-4xl font-bold text-gray-900">Catalog Sections</h1>
+        <h1 className="text-4xl font-bold text-gray-900">Catalog Categories</h1>
         <p className="mt-3 text-gray-600">Select a category to explore the special collections in our catalog.</p>
       </div>
 

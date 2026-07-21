@@ -200,11 +200,11 @@ const Cart = () => {
                   <Send className="send-cart-button__icon" />
                 </span>
                 <span className="send-cart-button__text">
-                  {sending ? 'Saving...' : 'Send Cart'}
+                  {sending ? 'Sending...' : 'Send Cart'}
                 </span>
               </button>
               {!canSend && (
-                <p className="mt-2 text-sm text-gray-500">Enter your name and phone to send the cart.</p>
+                <p className="mt-2 text-sm text-gray-500">Enter your name and valid mobile number to send the cart.</p>
               )}
             </aside>
           </div>
