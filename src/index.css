@@ -4704,6 +4704,85 @@ p, a, button, label, h1, h2, h3 { overflow-wrap: anywhere; }
   }
 }
 
+/* Uiverse-inspired treatment for Back controls. */
+.back-to-top {
+  display: flex;
+  width: 100px;
+  height: 3em;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  border: none;
+  border-radius: 3px;
+  background: #fff;
+  color: #212121;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: none;
+  transition: opacity 0.2s linear, visibility 0.2s linear,
+    transform 0.2s linear, box-shadow 0.2s linear;
+}
+
+.back-to-top::before {
+  content: none;
+}
+
+.back-to-top:hover,
+.back-to-top:focus-visible {
+  background: #fff;
+  color: #212121;
+  box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #ffffff;
+  transform: translateY(-2px);
+}
+
+.back-to-top__text {
+  position: static;
+  inset: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.back-to-top__clone {
+  display: none;
+}
+
+.back-to-top__text > span {
+  font-size: 0.82rem;
+  transition: none;
+}
+
+.back-to-top:hover .back-to-top__text > span,
+.back-to-top:focus-visible .back-to-top__text > span {
+  transform: none;
+}
+
+.back-to-top > svg {
+  position: static;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  margin-left: 5px;
+  font-size: 20px;
+  transform: none;
+  transition: all 0.4s ease-in;
+}
+
+.back-to-top:hover > svg,
+.back-to-top:focus-visible > svg {
+  font-size: 1.2em;
+  transform: translateX(-5px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top,
+  .back-to-top > svg {
+    transition: none;
+  }
+}
+
 /* Keep the Home catalog progress and CTA centered. */
 .gallery-load-more {
   display: flex;
