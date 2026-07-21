@@ -88,7 +88,7 @@ const Footer = () => {
             </ul>
 
             <div className="footer-follow">
-              <h3><b>CONNECT</b></h3>
+              <h3><b>FOLLOW US</b></h3>
               <ul className="footer-social-grid" aria-label="Follow Florentino on social media">
                 <li>
                   <a className="footer-social-tile footer-social-tile--facebook" href="https://www.facebook.com/share/187dExL2is/" target="_blank" rel="noreferrer" aria-label="Facebook" title="Facebook">
