@@ -99,6 +99,7 @@ const Header = () => {
     const query = searchQuery.trim();
     navigate(query ? `/catalog?search=${encodeURIComponent(query)}` : '/catalog');
     setMobileSearchOpen(false);
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -148,7 +149,9 @@ const Header = () => {
           </form>
 
           <div className="header-logo">
-            <img src="/images/logo.jpeg" alt="Florentino Logo" className="header-logo-img" />
+            <Link to="/" className="header-logo-link" aria-label="Florentino home">
+              <img src="/images/logo.jpeg" alt="Florentino Logo" className="header-logo-img" />
+            </Link>
           </div>
 
           <div className="header-actions">
@@ -269,6 +272,24 @@ const Header = () => {
         className={mobileMenuOpen ? 'mobile-navigation mobile-navigation-open' : 'mobile-navigation'}
         aria-label='Mobile navigation'
       >
+        <form className='mobile-navigation-search' role='search' onSubmit={handleSearchSubmit}>
+          <Search className='mobile-navigation-search-icon' aria-hidden='true' />
+          <input
+            type='search'
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+            placeholder='Search code, category or price'
+            aria-label='Search catalog'
+          />
+          <button type='submit' className='mobile-navigation-search-submit'>Search</button>
+        </form>
+        <NavLink
+          to='/'
+          className='mobile-navigation-link mobile-navigation-home'
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          Home
+        </NavLink>
         <div className='mobile-navigation-row'>
           <NavLink to='/catalog' onClick={() => setMobileMenuOpen(false)}>Catalog</NavLink>
           <button
