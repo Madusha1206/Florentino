@@ -5189,7 +5189,9 @@ textarea {
 /* Uiverse-inspired treatment for Back controls. */
 .back-to-top {
   display: flex;
-  width: 100px;
+  width: 9.25rem;
+  min-width: 9.25rem;
+  max-width: calc(100vw - 1.5rem);
   height: 3em;
   padding: 0;
   align-items: center;
@@ -5222,9 +5224,11 @@ textarea {
   position: static;
   inset: auto;
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
+  white-space: nowrap;
 }
 
 .back-to-top__clone {
@@ -5233,6 +5237,9 @@ textarea {
 
 .back-to-top__text > span {
   font-size: 0.82rem;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
   transition: none;
 }
 
