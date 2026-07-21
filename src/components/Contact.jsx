@@ -10,9 +10,7 @@ const Contact = () => (
   <main className="contact-location-page">
     <section className="contact-location-hero" aria-labelledby="contact-location-heading">
       <div className="contact-location-intro">
-
-
-
+        <h1 id="contact-location-heading" className="sr-only">Contact Florentino</h1>
       </div>
     </section>
 
