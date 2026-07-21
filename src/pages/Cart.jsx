@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Minus, MessageCircle, Plus, Trash2 } from 'lucide-react';
+import { Minus, Plus, Send, Trash2 } from 'lucide-react';
 import { submitOrder } from '../API';
 import { clearStoredCart, getStoredCart, updateCartQuantity } from '../utils/cart';
 
@@ -155,7 +155,7 @@ const Cart = () => {
               <button
                 type="button"
                 onClick={handleClearCart}
-                className="mt-4 text-sm font-semibold text-gray-500 hover:text-red-600"
+                className="site-action-button mt-4 text-sm font-semibold text-gray-500 hover:text-red-600"
               >
                 Clear cart
               </button>
@@ -167,19 +167,19 @@ const Cart = () => {
                 <input
                   value={customerName}
                   onChange={(event) => setCustomerName(event.target.value)}
-                  placeholder="Your name"
+                  placeholder="Receiver's name"
                   className="w-full rounded-lg border border-gray-200 px-3 py-2 outline-none focus:border-rose-500 focus:ring-2 focus:ring-rose-100"
                 />
                 <input
                   value={customerPhone}
                   onChange={(event) => setCustomerPhone(event.target.value)}
-                  placeholder="Phone number"
+                  placeholder="Receiver's Mobile number"
                   className="w-full rounded-lg border border-gray-200 px-3 py-2 outline-none focus:border-rose-500 focus:ring-2 focus:ring-rose-100"
                 />
                 <textarea
                   value={deliveryNote}
                   onChange={(event) => setDeliveryNote(event.target.value)}
-                  placeholder="Delivery note or address"
+                  placeholder="Receiver's address"
                   rows={4}
                   className="w-full rounded-lg border border-gray-200 px-3 py-2 outline-none focus:border-rose-500 focus:ring-2 focus:ring-rose-100"
                 />
@@ -194,10 +194,14 @@ const Cart = () => {
                 type="button"
                 onClick={handleSendCart}
                 disabled={!canSend || sending}
-                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 font-semibold text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60"
+                className="send-cart-button site-action-button"
               >
-                <MessageCircle className="h-5 w-5" />
-                {sending ? 'Saving...' : 'Send Cart'}
+                <span className="send-cart-button__icon-wrap" aria-hidden="true">
+                  <Send className="send-cart-button__icon" />
+                </span>
+                <span className="send-cart-button__text">
+                  {sending ? 'Saving...' : 'Send Cart'}
+                </span>
               </button>
               {!canSend && (
                 <p className="mt-2 text-sm text-gray-500">Enter your name and phone to send the cart.</p>

@@ -1,6 +1,8 @@
 import React from 'react';
+import { ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-const GalleryLoadMore = ({ visibleCount, totalCount, onShowMore }) => {
+const GalleryLoadMore = ({ visibleCount, totalCount }) => {
   if (totalCount === 0) return null;
 
   const shownCount = Math.min(visibleCount, totalCount);
@@ -27,13 +29,13 @@ const GalleryLoadMore = ({ visibleCount, totalCount, onShowMore }) => {
       </div>
 
       {hasMore && (
-        <button
-          type="button"
-          className="gallery-load-more__button"
-          onClick={onShowMore}
-        >
-          Show more
-        </button>
+        <Link to="/catalog" className="catalog-view-all-button">
+          <span className="catalog-view-all-button__icon-wrapper" aria-hidden="true">
+            <ArrowUpRight className="catalog-view-all-button__icon" />
+            <ArrowUpRight className="catalog-view-all-button__icon catalog-view-all-button__icon--copy" />
+          </span>
+          <span>View full catalog</span>
+        </Link>
       )}
     </div>
   );

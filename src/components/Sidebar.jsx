@@ -34,7 +34,7 @@ const Sidebar = () => {
         <p className="text-sm text-gray-600 mb-3">
           Get 15% off on orders above $100. Use code: BLOOM15
         </p>
-        <button className="w-full bg-rose-600 text-white py-2 px-4 rounded-lg hover:bg-rose-700 transition-colors">
+        <button className="site-action-button w-full bg-rose-600 text-white py-2 px-4 rounded-lg hover:bg-rose-700 transition-colors">
           Shop Now
         </button>
       </div>

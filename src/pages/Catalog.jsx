@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
-import { Check, ShoppingCart } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useCartItemToggle } from '../hooks/useCartItemToggle';
 import { catalogItems } from '../data/catalogItems';
 import { getCategoryPath } from '../data/categoryPaths';
+import ProductCartButton from '../components/ProductCartButton';
 
-const formatPrice = (price) => (price === undefined ? 'Rs.' : `Rs. ${price.toLocaleString()}`);
+const formatPrice = (price) => (price === undefined ? 'Rs.' : 'Rs. ' + price.toLocaleString());
 
 const Catalog = () => {
   const [searchParams] = useSearchParams();
@@ -42,10 +43,15 @@ const Catalog = () => {
             
             <h1 className="catalog-title text-4xl font-bold text-gray-900">Florentino Catalog</h1>
             <p className="catalog-intro mt-3 max-w-2xl text-lg text-gray-600">
-              All our high rated items are displaying in here or you can search by item code or price.
+              All our rated items are displaying in here.Select Add to cart button to add your favorite items to the cart and send your order via WhatsApp.
             </p>
             <p className="catalog-local-copy">
-              ඔබ කැමති අයිතම තෝරා, cart එකට එකතු කර, WhatsApp හරහා අප සමඟ ඇණවුම බෙදා ගන්න.
+              ඔබ කැමති අයිතම තෝරා,
+              <span className="catalog-local-cart">
+                <ShoppingCart aria-hidden="true" />
+                එක
+              </span>
+              click කර, WhatsApp හරහා අප සමඟ ඇණවුම බෙදා ගන්න.
             </p>
           </div>
         </div>
@@ -70,15 +76,11 @@ const Catalog = () => {
                 <div className="flex flex-col p-4">
                   <h2 className="text-base font-semibold text-gray-800">Item Code: {item.code}</h2>
                   <p className="product-price mt-1 text-sm font-bold">Price: {formatPrice(item.price)}</p>
-                  <button
-                    type="button"
+                  <ProductCartButton
+                    isAdded={isAdded}
                     onClick={() => handleAddToCart(item)}
-                    aria-pressed={isAdded}
-                    className={`mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-rose-700 ${isAdded ? 'cart-add-button-added' : ''}`}
-                  >
-                    {isAdded ? <Check className="h-5 w-5" /> : <ShoppingCart className="h-5 w-5" />}
-                    {isAdded ? 'Added' : 'Add to Cart'}
-                  </button>
+                    itemCode={item.code}
+                  />
                 </div>
               </article>
             );

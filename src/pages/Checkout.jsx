@@ -65,7 +65,7 @@ const Checkout = () => {
             <button
               onClick={placeViaWhatsApp}
               disabled={!name || !phone || !address || cart.length === 0}
-              className="w-full bg-[oklch(51.4%_0.222_16.935)] hover:opacity-95 text-white px-4 py-3 rounded-lg font-semibold disabled:opacity-60"
+              className="site-action-button w-full bg-[oklch(51.4%_0.222_16.935)] hover:opacity-95 text-white px-4 py-3 rounded-lg font-semibold disabled:opacity-60"
             >
               Proceed to Payment
             </button>

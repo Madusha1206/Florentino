@@ -1,7 +1,9 @@
 import React from 'react';
-import { Check, ShoppingCart } from 'lucide-react';
 import { useCartItemToggle } from '../../hooks/useCartItemToggle';
 import { getCatalogItemsByCategory } from '../../data/catalogItems';
+import ProductCartButton from '../../components/ProductCartButton';
+
+const formatPrice = (price) => (price === undefined ? 'Rs.' : 'Rs. ' + price.toLocaleString());
 
 const fallbackDescriptions = {
   'Balloon Hampers': 'Balloon hampers for birthdays, celebrations, and surprise gifting.',
@@ -16,8 +18,6 @@ const fallbackDescriptions = {
   Teddies: 'Adorable teddy bear gift sets for special moments.',
   'Wedding Bouquets': 'Wedding bouquets and event floral arrangements.',
 };
-
-const formatPrice = (price) => (price === undefined ? 'Rs.' : `Rs. ${price.toLocaleString()}`);
 
 const CategoryPage = ({ title, category = title, description = fallbackDescriptions[category] }) => {
   const items = getCatalogItemsByCategory(category);
@@ -37,7 +37,7 @@ const CategoryPage = ({ title, category = title, description = fallbackDescripti
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <h1 className="category-page-title text-4xl font-bold text-gray-900">{title}</h1>
-          {description && <p className="mt-3 text-gray-600">{description}</p>}
+          {description && <p className="category-page-description mt-3 text-gray-600">{description}</p>}
         </div>
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -58,15 +58,11 @@ const CategoryPage = ({ title, category = title, description = fallbackDescripti
                 <div className="flex flex-col p-4">
                   <h2 className="text-base font-semibold text-gray-800">Item Code: {item.code}</h2>
                   <p className="product-price mt-1 text-sm font-bold">Price: {formatPrice(item.price)}</p>
-                  <button
-                    type="button"
+                  <ProductCartButton
+                    isAdded={isAdded}
                     onClick={() => handleAddToCart(item)}
-                    aria-pressed={isAdded}
-                    className={`mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-rose-700 ${isAdded ? 'cart-add-button-added' : ''}`}
-                  >
-                    {isAdded ? <Check className="h-5 w-5" /> : <ShoppingCart className="h-5 w-5" />}
-                    {isAdded ? 'Added' : 'Add to Cart'}
-                  </button>
+                    itemCode={item.code}
+                  />
                 </div>
               </article>
             );
