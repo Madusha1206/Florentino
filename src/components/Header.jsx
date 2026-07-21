@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Home as HomeIcon, Facebook, Instagram, Menu, X, ChevronDown } from 'lucide-react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { ShoppingCart, Home as HomeIcon, Facebook, Instagram, Menu, X, ChevronDown, Search } from 'lucide-react';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { getStoredCart } from '../utils/cart';
 
 const catalogMenuGroups = [
@@ -26,30 +26,29 @@ const catalogMenuGroups = [
 const primaryNavLinks = [
   { label: 'Events', path: '/other-services' },
   { label: 'About Us', path: '/#about' },
-  { label: 'Contact Us', path: '/#contact' },
+  { label: 'Contact Us', path: '/contact' },
 ];
 
-const headerSocialLinks = [
+const tickerSocialLinks = [
   {
     name: 'TikTok',
-    href: '#tiktok',
+    href: 'https://www.tiktok.com/@florentino.gifts?_r=1&_t=ZS-98DdWFGXK4r',
     icon: () => (
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43V7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.43z" />
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.3 0 .59.05.88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43V7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.43Z" />
       </svg>
     ),
   },
-  { name: 'Instagram', href: '#instagram', icon: Instagram },
   {
-    name: 'WhatsApp',
-    href: '#whatsapp',
-    icon: () => (
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488z" />
-      </svg>
-    ),
+    name: 'Instagram',
+    href: 'https://www.instagram.com/florentino.florist?igsh=Y2Q0aGg4OTUzdmhx',
+    icon: Instagram,
   },
-  { name: 'Facebook', href: '#facebook', icon: Facebook },
+  {
+    name: 'Facebook',
+    href: 'https://www.facebook.com/share/187dExL2is/',
+    icon: Facebook,
+  },
 ];
 
 const Header = () => {
@@ -57,7 +56,11 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCatalogOpen, setMobileCatalogOpen] = useState(false);
   const [desktopCatalogOpen, setDesktopCatalogOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const mobileSearchInputRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const updateCount = () => {
@@ -84,36 +87,83 @@ const Header = () => {
     setMobileMenuOpen(false);
     setMobileCatalogOpen(false);
     setDesktopCatalogOpen(false);
+    setMobileSearchOpen(false);
   }, [location.pathname, location.hash]);
+
+  useEffect(() => {
+    if (mobileSearchOpen) mobileSearchInputRef.current?.focus();
+  }, [mobileSearchOpen]);
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    const query = searchQuery.trim();
+    navigate(query ? `/catalog?search=${encodeURIComponent(query)}` : '/catalog');
+    setMobileSearchOpen(false);
+  };
 
   return (
     <header className="site-header">
       <div className="header-banner">
-        <div className="header-banner-spacer" aria-hidden="true" />
-        <div className="header-banner-offer">
-          <div className="header-banner-left">
-            <img src="/images/florentino-delivery-van.png" alt="" className="delivery-vehicle" aria-hidden="true" />
-            <span className="header-banner-text">Islandwide Delivery Available!</span>
-          </div>
+        <div className="header-news-ticker" aria-label="Islandwide Delivery Available!">
+          <span className="header-news-ticker__text">Islandwide Delivery Available!</span>
+          <span className="header-news-ticker__text header-news-ticker__text--copy-two" aria-hidden="true">
+            Islandwide Delivery Available!
+          </span>
+          <span className="header-news-ticker__text header-news-ticker__text--copy-three" aria-hidden="true">
+            Islandwide Delivery Available!
+          </span>
         </div>
-        <div className="header-banner-socials" aria-label="Social media links">
-          {headerSocialLinks.map((social) => (
-            <a key={social.name} href={social.href} className="header-social-link" aria-label={social.name}>
-              <social.icon />
-            </a>
-          ))}
-        </div>
-      </div>
 
+        <ul className="header-banner-socials header-social-wrapper header-ticker-socials" aria-label="Social media links">
+          {tickerSocialLinks.map((social) => (
+            <li key={social.name}>
+              <a
+                href={social.href}
+                target="_blank"
+                rel="noreferrer"
+                className={'header-social-icon header-social-' + social.name.toLowerCase()}
+                aria-label={social.name}
+              >
+                <span className="header-social-tooltip" role="tooltip">{social.name}</span>
+                <span className="header-social-glyph" aria-hidden="true">
+                  <social.icon />
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className="header-main">
         <div className="header-layout">
-          <div className="header-layout-spacer" aria-hidden="true" />
+          <form className="aether-search-field header-search-desktop" role="search" onSubmit={handleSearchSubmit}>
+            <div className="aether-search-field__input">
+              <Search className="aether-search-field__icon" aria-hidden="true" />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Search code, category or price"
+                aria-label="Search catalog"
+              />
+              <span className="aether-search-field__kbd" aria-hidden="true">Enter</span>
+            </div>
+          </form>
 
           <div className="header-logo">
             <img src="/images/logo.jpeg" alt="Florentino Logo" className="header-logo-img" />
           </div>
 
           <div className="header-actions">
+            <button
+              type="button"
+              className={`icon-button header-search-toggle${mobileSearchOpen ? ' header-search-toggle-active' : ''}`}
+              aria-label={mobileSearchOpen ? 'Close catalog search' : 'Open catalog search'}
+              aria-expanded={mobileSearchOpen}
+              aria-controls="mobile-header-search"
+              onClick={() => setMobileSearchOpen((open) => !open)}
+            >
+              {mobileSearchOpen ? <X className="icon-svg" /> : <Search className="icon-svg" />}
+            </button>
             <Link to="/cart" className="icon-button cart-button" aria-label="Open cart">
               <ShoppingCart className="icon-svg" />
               {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
@@ -134,6 +184,25 @@ const Header = () => {
             <span className='mobile-menu-label'>{mobileMenuOpen ? 'Close' : 'Menu'}</span>
           </button>
         </div>
+        <form
+          id="mobile-header-search"
+          className={`aether-search-field mobile-header-search${mobileSearchOpen ? ' mobile-header-search-open' : ''}`}
+          role="search"
+          onSubmit={handleSearchSubmit}
+        >
+          <div className="aether-search-field__input">
+            <Search className="aether-search-field__icon" aria-hidden="true" />
+            <input
+              ref={mobileSearchInputRef}
+              type="search"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder="Search code, category or price"
+              aria-label="Search catalog"
+            />
+            <button type="submit" className="mobile-search-submit site-action-button">Search</button>
+          </div>
+        </form>
       </div>
 
       <nav className="primary-nav-bar" aria-label="Primary navigation">
