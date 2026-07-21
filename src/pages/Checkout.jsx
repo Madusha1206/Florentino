@@ -46,14 +46,14 @@ const Checkout = () => {
                     {item.image && <img src={item.image} alt={item.name} className="w-12 h-12 rounded object-cover" />}
                     <div className="text-gray-800">{item.name} x {item.quantity}</div>
                   </div>
-                  <div className="text-gray-900 font-medium">Rs. {(item.price * item.quantity).toLocaleString()}</div>
+                  <div className="text-gray-900 font-medium">Rs.</div>
                 </div>
               ))
             )}
           </div>
           <div className="flex justify-between mt-4 font-semibold text-lg">
             <span>Total:</span>
-            <span>Rs. {total.toLocaleString()}</span>
+            <span>Rs.</span>
           </div>
         </div>
         <div className="bg-white rounded-lg shadow p-6">

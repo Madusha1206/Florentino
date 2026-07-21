@@ -1,44 +1,27 @@
 import React, { useState } from 'react';
-import { Check, Heart, ShoppingCart } from 'lucide-react';
+import { Check, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { catalogItems } from '../data/catalogItems';
+import { getCategoryPath } from '../data/categoryPaths';
 import { useCartItemToggle } from '../hooks/useCartItemToggle';
-import { addItemToCart } from '../utils/cart';
 import Contact from '../components/Contact';
+import GalleryLoadMore from '../components/GalleryLoadMore';
 
 const ITEMS_PER_PAGE = 8;
-const categoryPaths = {
-  'Balloon Hampers': '/catalog/ballon-hampers',
-  'Balloon Hampers with Gifts': '/catalog/ballon-hampers-with-gifts',
-  'Brownies': '/catalog/brownies',
-  'Brownies with Gifts': '/catalog/brownies-with-gifts',
-  'Cake with Flower Bunch': '/catalog/cake-with-flower-bunch',
-  'Cakes': '/catalog/cakes',
-  'Flower Bunches': '/catalog/flower-bunches',
-  'Money Bunches': '/catalog/money-bunches',
-  'Rose Bunches': '/catalog/rose-bunches',
-  'Teddies': '/catalog/teddies',
-  'Wedding Bouquets': '/catalog/wedding-bouquets',
-};
 const formatPrice = (price) =>
-  price === undefined ? 'Contact for price' : 'Rs. ' + price.toLocaleString();
+  price === undefined ? 'Rs.' : 'Rs. ' + price.toLocaleString();
 
 const Home = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const { isInCart } = useCartItemToggle();
-  const totalPages = Math.ceil(catalogItems.length / ITEMS_PER_PAGE);
-  const pageStart = (currentPage - 1) * ITEMS_PER_PAGE;
-  const visibleItems = catalogItems.slice(pageStart, pageStart + ITEMS_PER_PAGE);
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+  const { isInCart, toggleCartItem } = useCartItemToggle();
+  const visibleItems = catalogItems.slice(0, visibleCount);
 
   const handleAddToCart = (item) => {
-    if (isInCart(item.code)) return;
-    addItemToCart({ code: item.code, category: item.category, price: item.price || 0, image: item.image });
-  };
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    window.requestAnimationFrame(() => {
-      document.getElementById('featured-collection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    toggleCartItem({
+      code: item.code,
+      category: item.category,
+      price: item.price || 0,
+      image: item.image,
     });
   };
 
@@ -70,13 +53,12 @@ const Home = () => {
               <div className='home-product-image-wrap'>
                 <img src={item.image} alt={'Florentino ' + item.category + ' item ' + item.code} />
                 <Link
-                  to={categoryPaths[item.category] || '/catalog'}
+                  to={getCategoryPath(item.category)}
                   className='home-product-category'
                   aria-label={'View all ' + item.category}
                 >
                   {item.category}
                 </Link>
-                <span className='home-product-heart' aria-hidden='true'><Heart /></span>
               </div>
               <div className='home-product-details'>
                 <h3>Item Code: {item.code}</h3>
@@ -94,27 +76,11 @@ const Home = () => {
             </article>
           ))}
         </div>
-        <nav className='home-pagination' aria-label='Catalog pages'>
-          <button type='button' onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-            Previous
-          </button>
-          <div className='home-page-numbers'>
-            {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
-              <button
-                key={page}
-                type='button'
-                onClick={() => handlePageChange(page)}
-                className={page === currentPage ? 'home-page-number home-page-number-active' : 'home-page-number'}
-                aria-current={page === currentPage ? 'page' : undefined}
-              >
-                {page}
-              </button>
-            ))}
-          </div>
-          <button type='button' onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-            Next
-          </button>
-        </nav>
+        <GalleryLoadMore
+          visibleCount={visibleCount}
+          totalCount={catalogItems.length}
+          onShowMore={() => setVisibleCount((count) => count + ITEMS_PER_PAGE)}
+        />
 
       </section>
       <section id='about' className='home-about' aria-labelledby='about-heading'>

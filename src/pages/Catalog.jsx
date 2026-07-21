@@ -1,16 +1,16 @@
 import React, { useMemo } from 'react';
-import { Check, Heart, ShoppingCart } from 'lucide-react';
-import { useSearchParams } from 'react-router-dom';
-import { addItemToCart } from '../utils/cart';
+import { Check, ShoppingCart } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useCartItemToggle } from '../hooks/useCartItemToggle';
 import { catalogItems } from '../data/catalogItems';
+import { getCategoryPath } from '../data/categoryPaths';
 
-const formatPrice = (price) => (price === undefined ? 'Contact for price' : `Rs. ${price.toLocaleString()}`);
+const formatPrice = (price) => (price === undefined ? 'Rs.' : `Rs. ${price.toLocaleString()}`);
 
 const Catalog = () => {
   const [searchParams] = useSearchParams();
   const searchTerm = searchParams.get('search') || '';
-  const { isInCart } = useCartItemToggle();
+  const { isInCart, toggleCartItem } = useCartItemToggle();
 
   const filteredItems = useMemo(() => {
     const query = searchTerm.trim().toLowerCase();
@@ -26,9 +26,7 @@ const Catalog = () => {
   }, [searchTerm]);
 
   const handleAddToCart = (item) => {
-    if (isInCart(item.code)) return;
-
-    addItemToCart({
+    toggleCartItem({
       code: item.code,
       category: item.category,
       price: item.price || 0,
@@ -52,7 +50,7 @@ const Catalog = () => {
           </div>
         </div>
 
-        <div className="catalog-grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="catalog-grid grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {filteredItems.map((item) => {
             const isAdded = isInCart(item.code);
 
@@ -60,17 +58,18 @@ const Catalog = () => {
               <article key={item.code} className="catalog-card flex flex-col overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                 <div className="relative aspect-[4/5] overflow-hidden bg-white">
                   <img src={item.image} alt={`Florentino item ${item.code}`} className="h-full w-full object-contain" />
-                  <div className="catalog-chip absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-sm font-semibold text-rose-700 shadow-sm">
+                  <Link
+                    to={getCategoryPath(item.category)}
+                    className="catalog-chip absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-sm font-semibold text-rose-700 shadow-sm"
+                    aria-label={`View all ${item.category}`}
+                  >
                     {item.category}
-                  </div>
-                  <div className="catalog-heart absolute right-4 top-4 rounded-full bg-white p-2 shadow-md">
-                    <Heart className="h-5 w-5 text-gray-600" />
-                  </div>
+                  </Link>
                 </div>
 
                 <div className="flex flex-col p-4">
                   <h2 className="text-base font-semibold text-gray-800">Item Code: {item.code}</h2>
-                  <p className="mt-1 text-sm font-bold text-rose-600">Price: {formatPrice(item.price)}</p>
+                  <p className="product-price mt-1 text-sm font-bold">Price: {formatPrice(item.price)}</p>
                   <button
                     type="button"
                     onClick={() => handleAddToCart(item)}

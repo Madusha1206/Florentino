@@ -1,6 +1,5 @@
 import React from 'react';
-import { Check, Heart, ShoppingCart } from 'lucide-react';
-import { addItemToCart } from '../../utils/cart';
+import { Check, ShoppingCart } from 'lucide-react';
 import { useCartItemToggle } from '../../hooks/useCartItemToggle';
 import { getCatalogItemsByCategory } from '../../data/catalogItems';
 
@@ -18,16 +17,14 @@ const fallbackDescriptions = {
   'Wedding Bouquets': 'Wedding bouquets and event floral arrangements.',
 };
 
-const formatPrice = (price) => (price === undefined ? 'Contact for price' : `Rs. ${price.toLocaleString()}`);
+const formatPrice = (price) => (price === undefined ? 'Rs.' : `Rs. ${price.toLocaleString()}`);
 
 const CategoryPage = ({ title, category = title, description = fallbackDescriptions[category] }) => {
   const items = getCatalogItemsByCategory(category);
-  const { isInCart } = useCartItemToggle();
+  const { isInCart, toggleCartItem } = useCartItemToggle();
 
   const handleAddToCart = (item) => {
-    if (isInCart(item.code)) return;
-
-    addItemToCart({
+    toggleCartItem({
       code: item.code,
       category: item.category,
       price: item.price || 0,
@@ -39,11 +36,11 @@ const CategoryPage = ({ title, category = title, description = fallbackDescripti
     <main className="min-h-screen bg-gray-50 py-10">
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">{title}</h1>
+          <h1 className="category-page-title text-4xl font-bold text-gray-900">{title}</h1>
           {description && <p className="mt-3 text-gray-600">{description}</p>}
         </div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((item) => {
             const isAdded = isInCart(item.code);
 
@@ -56,14 +53,11 @@ const CategoryPage = ({ title, category = title, description = fallbackDescripti
                     className="h-full w-full object-contain"
                     loading="lazy"
                   />
-                  <div className="absolute right-4 top-4 rounded-full bg-white p-2 shadow-md">
-                    <Heart className="h-5 w-5 text-gray-600" />
-                  </div>
                 </div>
 
                 <div className="flex flex-col p-4">
                   <h2 className="text-base font-semibold text-gray-800">Item Code: {item.code}</h2>
-                  <p className="mt-1 text-sm font-bold text-rose-600">Price: {formatPrice(item.price)}</p>
+                  <p className="product-price mt-1 text-sm font-bold">Price: {formatPrice(item.price)}</p>
                   <button
                     type="button"
                     onClick={() => handleAddToCart(item)}

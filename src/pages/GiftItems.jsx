@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Heart, MessageCircle } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 
 const whatsappNumber = '94702370470';
 
 const GiftItems = () => {
   const [gifts] = useState([
-    { id: 1, code: 'FLR-019', image: '/images/chocobunch1.jpg', price: 7000 },
-    { id: 2, code: 'FLR-020', image: '/images/Moneybunches.jpg', price: 14800 },
-    { id: 3, code: 'FLR-021', image: '/images/ballonhamperwithbunch.jpg', price: 27000 },
+    { id: 1, code: 'FLR-019', image: '/images/BrowniesWithGifts/BRG1.JPG', price: undefined },
+    { id: 2, code: 'FLR-020', image: '/images/MoneyBunches/IMG_3465.jpg', price: undefined },
+    { id: 3, code: 'FLR-021', image: '/images/BallonHampersWithGifts/BG1.jpg', price: undefined },
   ]);
   const getWhatsAppLink = (gift) =>
     `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hi Florentino, I want to know more about item ${gift.code}.`)}`;
@@ -28,15 +28,10 @@ const GiftItems = () => {
               <div key={gift.id || gift._id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col">
                 <div className="relative">
                   <img src={gift.image} alt={gift.code} className="w-full h-64 object-cover" />
-                  <div className="absolute top-4 right-4">
-                    <button className="bg-white p-2 rounded-full shadow-md hover:bg-rose-50 transition-colors">
-                      <Heart className="h-5 w-5 text-gray-600 hover:text-rose-600" />
-                    </button>
-                  </div>
                 </div>
                 <div className="p-6 flex flex-col flex-1">
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">Item Code: {gift.code}</h3>
-                  <p className="text-lg font-bold text-rose-600 mb-2">Rs. {(gift.price || 0).toLocaleString()}</p>
+                  <p className="product-price text-lg font-bold mb-2">Rs.</p>
                   <a
                     href={getWhatsAppLink(gift)}
                     target="_blank"

@@ -115,7 +115,7 @@ const Cart = () => {
                       <div>
                         <h2 className="text-lg font-semibold text-gray-900">Item Code: {item.code}</h2>
                         <p className="text-sm text-gray-600">{item.category}</p>
-                        {item.price > 0 && <p className="mt-1 font-semibold text-rose-600">Rs. {item.price.toLocaleString()}</p>}
+                        <p className="mt-1 font-semibold text-gray-900">Rs.</p>
                       </div>
                     </div>
 
@@ -187,7 +187,7 @@ const Cart = () => {
 
               <div className="mt-5 flex justify-between border-t border-gray-100 pt-5 text-lg font-bold">
                 <span>Total</span>
-                <span>Rs. {total.toLocaleString()}</span>
+                <span>Rs.</span>
               </div>
 
               <button

@@ -148,6 +148,7 @@ export const catalogItems = [
     'FB35.jpg',
     'FB36.jpg',
     'FB37.jpg',
+    'FB38.jpeg',
   ]),
   ...fromFiles('Money Bunches', 'MoneyBunches', [
     'IMG_1105.jpg',
@@ -157,11 +158,7 @@ export const catalogItems = [
     'M5000.JPG',
     'M10000.JPG',
     'M50000.JPG',
-  ], {
-    M5000: 5000,
-    M10000: 10000,
-    M50000: 50000,
-  }),
+  ]),
   ...fromFiles('Rose Bunches', 'RoseBunches', [
     'RB1.jpg',
     'RB2.jpg',
@@ -204,6 +201,7 @@ export const catalogItems = [
     'WB18.JPG',
     'WB19.JPG',
     'WB20.JPG',
+    'WB21.jpeg',
   ]),
 ];
 

@@ -33,7 +33,7 @@ export function useCartItemToggle() {
       return false;
     }
 
-    const isCurrentlyInCart = cartCodes.has(item.code);
+    const isCurrentlyInCart = getStoredCart().some((cartItem) => cartItem.code === item.code);
 
     if (isCurrentlyInCart) {
       // Remove from cart
@@ -43,12 +43,10 @@ export function useCartItemToggle() {
       addItemToCart(item);
     }
 
-    // Notify all components to update
-    window.dispatchEvent(new CustomEvent('cart:update'));
 
     // Return the new state (true = now added, false = now removed)
     return !isCurrentlyInCart;
-  }, [cartCodes]);
+  }, []);
 
   return { isInCart, toggleCartItem };
 }

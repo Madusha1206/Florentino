@@ -30,7 +30,7 @@ export async function getGiftItems() {
     id: item._id,
     name: item.name,
     description: item.description,
-    image: item.image || '/images/placeholder.jpg',
+    image: item.image || '/images/front.jpeg',
     price: item.price ? `$${item.price}` : '',
     priceValue: item.price || 0,
     rating: item.rating || 5,

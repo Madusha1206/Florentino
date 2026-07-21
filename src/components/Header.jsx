@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Truck, Home as HomeIcon, Facebook, Instagram, Menu, X, ChevronDown } from 'lucide-react';
+import { ShoppingCart, Home as HomeIcon, Facebook, Instagram, Menu, X, ChevronDown } from 'lucide-react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { getStoredCart } from '../utils/cart';
 
@@ -56,6 +56,7 @@ const Header = () => {
   const [cartCount, setCartCount] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCatalogOpen, setMobileCatalogOpen] = useState(false);
+  const [desktopCatalogOpen, setDesktopCatalogOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -82,6 +83,7 @@ const Header = () => {
   useEffect(() => {
     setMobileMenuOpen(false);
     setMobileCatalogOpen(false);
+    setDesktopCatalogOpen(false);
   }, [location.pathname, location.hash]);
 
   return (
@@ -90,18 +92,8 @@ const Header = () => {
         <div className="header-banner-spacer" aria-hidden="true" />
         <div className="header-banner-offer">
           <div className="header-banner-left">
-            <Truck className="banner-icon" />
+            <img src="/images/florentino-delivery-van.png" alt="" className="delivery-vehicle" aria-hidden="true" />
             <span className="header-banner-text">Islandwide Delivery Available!</span>
-          </div>
-          <div className="header-banner-right">
-            <a
-              href="https://wa.me/94702370470?text=Hi%20Florentino%2C%20I%20want%20to%20know%20about%20delivery%20options"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="banner-link"
-            >
-              Click Here
-            </a>
           </div>
         </div>
         <div className="header-banner-socials" aria-label="Social media links">
@@ -139,6 +131,7 @@ const Header = () => {
             onClick={() => setMobileMenuOpen((open) => !open)}
           >
             {mobileMenuOpen ? <X /> : <Menu />}
+            <span className='mobile-menu-label'>{mobileMenuOpen ? 'Close' : 'Menu'}</span>
           </button>
         </div>
       </div>
@@ -146,9 +139,19 @@ const Header = () => {
       <nav className="primary-nav-bar" aria-label="Primary navigation">
         <div className="primary-nav-inner">
           {catalogMenuGroups.map((group) => (
-            <div key={group.label} className="primary-nav-item">
+            <div
+              key={group.label}
+              className={`primary-nav-item ${desktopCatalogOpen ? 'primary-nav-item-dropdown-open' : ''}`}
+              onMouseEnter={() => setDesktopCatalogOpen(true)}
+              onMouseLeave={() => setDesktopCatalogOpen(false)}
+              onFocusCapture={() => setDesktopCatalogOpen(true)}
+              onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget)) setDesktopCatalogOpen(false);
+              }}
+            >
               <NavLink
                 to={group.path}
+                onClick={() => setDesktopCatalogOpen(false)}
                 className={({ isActive }) => {
                   const isGroupActive =
                     isActive ||
@@ -165,6 +168,7 @@ const Header = () => {
                   <NavLink
                     key={item.path}
                     to={item.path}
+                    onClick={() => setDesktopCatalogOpen(false)}
                     className={({ isActive }) =>
                       `primary-nav-dropdown-link ${isActive ? 'active' : ''}`
                     }

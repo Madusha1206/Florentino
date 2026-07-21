@@ -6,7 +6,7 @@ const Hero = () => {
     <section id="home" className="min-h-screen relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-sage-50 via-cream-50 to-rose-50">
-        <div className="absolute inset-0 bg-[url('C:\Users\buddh\OneDrive\Desktop\Florentino"></div>
+        <div className="absolute inset-0 bg-[url('/images/florentino-parallax-hero.png')] bg-cover bg-center"></div>
       </div>
 
       {/* Floating Elements */}
@@ -66,7 +66,7 @@ const Hero = () => {
           <div className="relative">
             <div className="relative z-10">
               <img
-                src="https://images.pexels.com/photos/1444442/pexels-photo-1444442.jpeg?auto=compress&cs=tinysrgb&w=800&h=1000&fit=crop"
+                src="/images/FlowerBunches/FB1.jpg"
                 alt="Beautiful flower arrangement"
                 className="rounded-3xl shadow-2xl w-full max-w-md mx-auto"
               />
