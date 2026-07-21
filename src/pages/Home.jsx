@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
 import { catalogItems } from '../data/catalogItems';
 import { getCategoryPath } from '../data/categoryPaths';
 import { useCartItemToggle } from '../hooks/useCartItemToggle';
@@ -35,10 +34,12 @@ const Home = () => {
           <p>Stay tunned for the next big offer!!!</p>
           <div className='home-parallax-actions'>
             <Link to='/catalog' className='home-primary-cta home-explore-button'>
-              <ArrowRight className='home-explore-button__arrow home-explore-button__arrow--first' aria-hidden='true' />
-              <span className='home-explore-button__circle' aria-hidden='true' />
-              <span className='home-explore-button__text'>Explore the collection</span>
-              <ArrowRight className='home-explore-button__arrow home-explore-button__arrow--second' aria-hidden='true' />
+              <span>Explore the collection</span>
+              <svg viewBox='0 0 28 20' aria-hidden='true' focusable='false'>
+                <polygon points='0,0 7,10 0,20 4,20 11,10 4,0' />
+                <polygon points='8,0 15,10 8,20 12,20 19,10 12,0' />
+                <polygon points='16,0 23,10 16,20 20,20 27,10 20,0' />
+              </svg>
             </Link>
             <a href='https://wa.me/94702370470' target='_blank' rel='noreferrer' className='home-secondary-cta'>
               Order on WhatsApp
