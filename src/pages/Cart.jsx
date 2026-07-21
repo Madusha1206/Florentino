@@ -89,7 +89,7 @@ const Cart = () => {
             <h1 className="text-4xl font-bold text-gray-900">Your Cart</h1>
             
           </div>
-          <Link to="/catalog" className="font-semibold text-rose-600 hover:text-rose-700">
+          <Link to="/catalog" className="geeral font-sans text-rose-600 hover:text-rose-700">
             Continue shopping
           </Link>
         </div>

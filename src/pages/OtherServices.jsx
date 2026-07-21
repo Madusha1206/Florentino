@@ -49,13 +49,14 @@ const OtherServices = () => {
   return (
     <main className="other-services-page">
       <section className="other-services-hero">
-        <div className="other-services-hero-inner">
-          <span className="other-services-eyebrow">Florentino Events</span>
+        <div className="other-services-hero-inner"><center>
+          
           <h1>Florentino Events</h1>
           <p>
             Celebrate with custom surprise setups, wedding bouquets, and decorated moments made for photos,
             memories, and gifts.
           </p>
+          </center>
         </div>
       </section>
 
