@@ -3571,6 +3571,193 @@ p, a, button, label, h1, h2, h3 { overflow-wrap: anywhere; }
     display: none;
   }
 }
+/* Shredder-style Clear Cart button */
+.clear-cart-wrapper {
+  position: relative;
+  isolation: isolate;
+  width: max-content;
+  margin-top: 1.5rem;
+}
+
+.clear-cart-wrapper .btn-delete {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  user-select: none;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem 1.4rem 0.5rem 1rem;
+  background-color: rgb(255, 0, 0);
+  background-image: radial-gradient(circle at 50% -50%, #fff, 10%, transparent);
+  color: #fff;
+  font-family: Inter, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow:
+    0 1px 1px rgba(3, 7, 18, 0.16),
+    0 3px 4px rgba(3, 7, 18, 0.14),
+    0 7px 9px rgba(3, 7, 18, 0.11),
+    0 12px 16px rgba(3, 7, 18, 0.09),
+    0 19px 26px rgba(3, 7, 18, 0.07),
+    0 27px 37px rgba(3, 7, 18, 0.05),
+    0 37px 50px rgba(3, 7, 18, 0.02);
+  transition: box-shadow 300ms ease, transform 150ms ease;
+}
+
+.clear-cart-wrapper .btn-delete::before,
+.clear-cart-wrapper .btn-delete::after {
+  position: absolute;
+  top: calc(50% - 10px);
+  left: 0;
+  width: 10px;
+  aspect-ratio: 1 / 2;
+  border-radius: 35%;
+  background-color: inherit;
+  content: "";
+  opacity: 1;
+  transition: left 300ms ease, right 300ms ease, opacity 300ms ease;
+}
+
+.clear-cart-wrapper .btn-delete::after {
+  right: 0;
+  left: auto;
+}
+
+.clear-cart-wrapper .btn-svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: #fff;
+  transition: transform 300ms ease;
+}
+
+.clear-cart-wrapper .btn-delete:hover {
+  box-shadow:
+    0 3px 4px rgba(3, 7, 18, 0.13),
+    0 14px 17px rgba(3, 7, 18, 0.11),
+    0 31px 38px rgba(3, 7, 18, 0.09),
+    0 55px 67px rgba(3, 7, 18, 0.07),
+    0 86px 105px rgba(3, 7, 18, 0.06),
+    0 124px 151px rgba(3, 7, 18, 0.04),
+    0 169px 206px rgba(3, 7, 18, 0.02);
+  transform: scale(1.07);
+}
+
+.clear-cart-wrapper .btn-delete:hover .btn-svg {
+  transform: rotate(-8deg) scale(1.8);
+}
+
+.clear-cart-wrapper .btn-delete:hover::after {
+  right: -4px;
+}
+
+.clear-cart-wrapper .btn-delete:hover::before {
+  left: -4px;
+}
+
+.clear-cart-wrapper .btn-delete:active::after {
+  right: 0;
+}
+
+.clear-cart-wrapper .btn-delete:active::before {
+  left: 0;
+}
+
+.clear-cart-document {
+  position: absolute;
+  top: -180%;
+  left: 50%;
+  z-index: 0;
+  width: 78%;
+  height: 160px;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 22px 14px;
+  border: 1px solid rgba(0, 0, 0, 0.13);
+  background: #fff;
+  opacity: 0;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.07));
+  transform: translate(-50%, 0) scale(0);
+  transition: transform 300ms ease, opacity 1s ease;
+}
+
+.clear-cart-document span {
+  display: block;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(157, 5, 74, 0.2);
+}
+
+.clear-cart-wrapper .btn-delete:hover ~ .clear-cart-document {
+  opacity: 1;
+  transform: translate(-50%, -30%) scale(1);
+}
+
+.clear-cart-wrapper .btn-delete:focus ~ .clear-cart-document {
+  opacity: 1;
+  animation: clear-cart-feed 1.5s forwards;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.clear-cart-shredded {
+  position: absolute;
+  top: -180%;
+  left: 50%;
+  z-index: 0;
+  width: 78%;
+  height: 160px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 0;
+  opacity: 0;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.07));
+  transform: translate(-50%, -50%);
+}
+
+.clear-cart-wrapper .btn-delete:focus ~ .clear-cart-shredded {
+  animation: clear-cart-shred 1.5s cubic-bezier(1, 0.6, 0.6, 1) reverse;
+}
+
+@keyframes clear-cart-feed {
+  from { clip-path: inset(0 0 0 0); }
+  to { clip-path: inset(100% 0 0 0); }
+}
+
+@keyframes clear-cart-shred {
+  0% {
+    stroke-width: 9;
+    opacity: 0;
+    clip-path: inset(0 0 0 0);
+  }
+  30% { opacity: 1; }
+  100% {
+    stroke-width: 9;
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+@media (max-width: 520px) {
+  .clear-cart-wrapper,
+  .clear-cart-wrapper .btn-delete {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clear-cart-wrapper .btn-delete,
+  .clear-cart-wrapper .btn-svg,
+  .clear-cart-document,
+  .clear-cart-shredded {
+    animation: none !important;
+    transition: none;
+  }
+}
+
 /* Flying paper-plane Send Cart button */
 .send-cart-button {
   width: 100%;

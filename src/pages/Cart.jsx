@@ -154,13 +154,25 @@ const Cart = () => {
                 ))}
               </div>
 
-              <button
-                type="button"
-                onClick={handleClearCart}
-                className="site-action-button mt-4 text-sm font-semibold text-gray-500 hover:text-red-600"
-              >
-                Clear cart
-              </button>
+              <div className="clear-cart-wrapper">
+                <button
+                  type="button"
+                  onClick={handleClearCart}
+                  className="btn-delete"
+                >
+                  <Trash2 className="btn-svg" aria-hidden="true" />
+                  <span>Clear cart</span>
+                </button>
+                <span className="clear-cart-document" aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                </span>
+                <svg className="clear-cart-shredded" viewBox="0 0 100 160" aria-hidden="true">
+                  <path d="M8 0v160M22 0v160M36 0v160M50 0v160M64 0v160M78 0v160M92 0v160" />
+                </svg>
+              </div>
             </div>
 
             <aside className="rounded-lg bg-white p-6 shadow">
