@@ -4186,98 +4186,194 @@ p, a, button, label, h1, h2, h3 { overflow-wrap: anywhere; }
   text-align: center;
   text-transform: uppercase;
 }
-/* Sliding cart Add to Cart button */
+/* Rose-to-green animated Add to Cart button */
 .product-cart-button {
+  --cart-glow: rgba(216, 27, 96, 0.38);
   position: relative;
-  width: 140px;
+  width: min(100%, 11rem);
   max-width: 100%;
-  height: 40px;
+  min-height: 2.75rem;
   margin: 0.8rem auto 0;
-  padding: 0;
+  padding: 0.7rem 1.15rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   overflow: hidden;
-  border: none;
-  border-radius: 12px;
-  background-color: rgb(255, 208, 0);
-  color: rgb(17, 17, 17);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.103);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 25px;
+  background: linear-gradient(135deg, #e12a6f, #9d054a);
+  color: #fff;
+  box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.2),
+    0 5px 15px rgba(157, 5, 74, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  font-family: Poppins, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   cursor: pointer;
-  transition: background-color 500ms ease, color 500ms ease, transform 500ms ease;
+  transform: translateZ(0);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  animation: product-cart-pulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  transition: color 200ms ease, letter-spacing 300ms ease,
+    transform 200ms ease, box-shadow 300ms ease;
+}
+
+.product-cart-button::before {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transition: left 500ms ease;
+}
+
+.product-cart-button::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 52%);
+  content: "";
+  pointer-events: none;
+}
+
+.product-cart-button:hover::before,
+.product-cart-button:focus-visible::before {
+  left: 100%;
 }
 
 .product-cart-button__icon-container {
-  position: absolute;
-  left: -50px;
-  z-index: 2;
-  width: 30px;
-  height: 30px;
-  display: flex;
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex: none;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  border-radius: 50%;
-  background-color: transparent;
-  transition: transform 500ms ease;
+  transform: translateZ(5px);
+  transition: filter 300ms ease, transform 300ms ease;
 }
 
 .product-cart-button__icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  border-radius: 1px;
+  width: 1.2rem;
+  height: 1.2rem;
+  vertical-align: middle;
+  transition: transform 300ms ease;
 }
 
 .product-cart-button__text {
+  position: relative;
   z-index: 1;
-  width: fit-content;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   color: inherit;
-  font-size: 1.04em;
-  font-weight: 600;
-  transition: transform 500ms ease;
+  white-space: nowrap;
 }
 
 .product-cart-button--added {
-  background-color: #9d054a;
+  --cart-glow: rgba(0, 200, 83, 0.42);
+  background: linear-gradient(135deg, #00c853, #009624);
   color: #fff;
+  box-shadow:
+    0 4px 15px rgba(0, 200, 83, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-.product-cart-button:hover .product-cart-button__icon-container,
-.product-cart-button:focus-visible .product-cart-button__icon-container {
-  border-radius: 40px;
-  transform: translateX(58px);
+.product-cart-button--added .product-cart-button__icon-container {
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+  animation: product-cart-added 500ms ease-in-out;
 }
 
-.product-cart-button:hover .product-cart-button__text,
-.product-cart-button:focus-visible .product-cart-button__text {
-  transform: translateX(10px);
+.product-cart-button__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  width: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.85);
+  transform: translateZ(2px);
+}
+
+.product-cart-button--added .product-cart-button__progress {
+  animation: product-cart-progress 1s ease-in-out;
+}
+
+.product-cart-button:hover,
+.product-cart-button:focus-visible {
+  color: rgba(255, 255, 255, 0.94);
+  letter-spacing: 1px;
+  transform: translateZ(10px) scale(1.02);
+  box-shadow:
+    0 8px 25px var(--cart-glow),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15),
+    0 0 20px var(--cart-glow),
+    0 0 0 4px color-mix(in srgb, var(--cart-glow) 45%, transparent);
+}
+
+.product-cart-button:hover .product-cart-button__icon,
+.product-cart-button:focus-visible .product-cart-button__icon {
+  transform: scale(1.1);
 }
 
 .product-cart-button:active {
-  transform: scale(0.95);
+  transform: translateY(2px) translateZ(-5px) scale(0.95);
+  box-shadow: 0 0 5px var(--cart-glow);
 }
 
 .product-cart-button:focus-visible {
-  outline: 3px solid rgba(157, 5, 74, 0.3);
+  outline: 3px solid color-mix(in srgb, var(--cart-glow) 65%, transparent);
   outline-offset: 3px;
 }
 
-@media (hover: none) {
-  .product-cart-button:hover .product-cart-button__icon-container,
-  .product-cart-button:hover .product-cart-button__text {
-    transform: none;
+@keyframes product-cart-added {
+  0%, 100% { transform: scale(1) rotate(0); }
+  50% { transform: scale(1.4) rotate(45deg); }
+}
+
+@keyframes product-cart-progress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes product-cart-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--cart-glow); }
+  70% { box-shadow: 0 0 0 10px transparent; }
+}
+
+@media (max-width: 520px) {
+  .product-cart-button {
+    width: 100%;
+    min-height: 2.5rem;
+    padding: 0.55rem 0.45rem;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+  }
+
+  .product-cart-button__icon {
+    width: 1rem;
+    height: 1rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .product-cart-button,
-  .product-cart-button__text,
-  .product-cart-button__icon-container {
+  .product-cart-button::before,
+  .product-cart-button__icon-container,
+  .product-cart-button__icon,
+  .product-cart-button__progress {
+    animation: none;
     transition: none;
+  }
+
+  .product-cart-button:hover,
+  .product-cart-button:focus-visible,
+  .product-cart-button:active {
+    transform: none;
   }
 }
 .catalog-local-cart {

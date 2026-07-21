@@ -16,6 +16,7 @@ const ProductCartButton = ({ isAdded, onClick, itemCode }) => {
         {isAdded ? <Check className="product-cart-button__icon" /> : <ShoppingCart className="product-cart-button__icon" />}
       </span>
       <span className="product-cart-button__text">{label}</span>
+      <span className="product-cart-button__progress" aria-hidden="true" />
     </button>
   );
 };
