@@ -1532,32 +1532,61 @@ main.min-h-screen h1, .min-h-screen.bg-gray-50 h1 {
   transform: scale(0.95);
 }
 
-.footer-social-tile svg {
+.footer-links .footer-social-tile svg {
   position: relative;
   z-index: 1;
   width: 1.75rem;
   height: 1.75rem;
-  fill: currentColor;
+  color: inherit !important;
   transition: color 300ms ease-out;
 }
 
-.footer-social-tile--facebook {
-  --social-color: #5c91ff;
+.footer-links .footer-social-tile--facebook {
+  --social-color: #1877f2;
+  --social-glow: rgba(24, 119, 242, 0.38);
+  color: #1877f2 !important;
 }
 
-.footer-social-tile--instagram {
-  --social-color: #ed5b9a;
+.footer-links .footer-social-tile--instagram {
+  --social-color: #e1306c;
+  --social-glow: rgba(225, 48, 108, 0.38);
   --social-rotation: -3deg;
+  color: #e1306c !important;
 }
 
-.footer-social-tile--tiktok {
-  --social-color: #69c9d0;
+.footer-links .footer-social-tile--tiktok {
+  --social-color: #000;
+  --social-glow: rgba(105, 201, 208, 0.4);
   --social-rotation: -2deg;
+  border-color: rgba(255, 255, 255, 0.65);
+  background: linear-gradient(35deg, rgba(255, 255, 255, 0.98), rgba(228, 228, 228, 0.9));
+  color: #000 !important;
 }
 
-.footer-social-tile--youtube {
-  --social-color: #ff334f;
+.footer-links .footer-social-tile--youtube {
+  --social-color: #ff0000;
+  --social-glow: rgba(255, 0, 0, 0.38);
   --social-rotation: 2deg;
+  color: #ff0000 !important;
+}
+
+.footer-links .footer-social-tile--facebook svg,
+.footer-links .footer-social-tile--instagram svg,
+.footer-links .footer-social-tile--youtube svg {
+  fill: none !important;
+  stroke: currentColor !important;
+}
+
+.footer-links .footer-social-tile--tiktok svg {
+  fill: #000 !important;
+  stroke: none !important;
+}
+
+.footer-links .footer-social-tile--tiktok:hover,
+.footer-links .footer-social-tile--tiktok:focus-visible {
+  border-color: #fff;
+  background: #fff;
+  color: #000 !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
