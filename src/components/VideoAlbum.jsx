@@ -97,11 +97,14 @@ const VideoAlbum = () => {
           href="https://www.tiktok.com/@florentino.gifts?_r=1&_t=ZS-98DdWFGXK4r"
           target="_blank"
           rel="noreferrer"
-          className="tiktok-explore-button"
+          className="instagram-explore-button tiktok-explore-button"
           aria-label="Explore Florentino on TikTok"
         >
           <span>Explore</span>
-          <ArrowUp className="tiktok-explore-button__icon" aria-hidden="true" />
+          <ArrowUp
+            className="instagram-explore-button__icon tiktok-explore-button__icon"
+            aria-hidden="true"
+          />
         </a>
       )}
     </section>
