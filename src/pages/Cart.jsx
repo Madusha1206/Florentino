@@ -189,14 +189,14 @@ const Cart = () => {
 
               <div className="mt-5 flex justify-between border-t border-gray-100 pt-5 text-lg font-bold">
                 <span>Total</span>
-                <span>Rs.</span>
+                <span>Rs. {total.toLocaleString()}</span>
               </div>
 
               <button
                 type="button"
                 onClick={handleSendCart}
                 disabled={!canSend || sending}
-                className="send-cart-button site-action-button"
+                className="send-cart-button"
               >
                 <span className="send-cart-button__icon-wrap" aria-hidden="true">
                   <Send className="send-cart-button__icon" />
