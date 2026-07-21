@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail, Flower2, Heart, Send } from 'lucide-react';
+import { MapPin, Phone, Mail, Flower2, Heart, Send, Instagram, Facebook, Youtube } from 'lucide-react';
 import { subscribeToNewsletter } from '../API';
 
 const Footer = () => {
@@ -50,10 +50,17 @@ const Footer = () => {
             <p className="footer-brand-copy">
               Elegant bouquets, surprise gifts, and floral moments designed with care in Biyagama.
             </p>
-            <div className="footer-contact-list">
+            <div id="contact-details" className="footer-contact-list">
               <div className="footer-contact-item">
                 <MapPin className="footer-contact-icon" />
-                <p>No 67/1 Jayanthi Mawatha, Biyagama, Sri Lanka.</p>
+                <a
+                  href="https://maps.app.goo.gl/RLWsGtJqfGm78okt8"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Open Florentino address in Google Maps"
+                >
+                  Florentino, Biyagama, Sri Lanka.
+                </a>
               </div>
               <div className="footer-contact-item">
                 <Phone className="footer-contact-icon" />
@@ -67,7 +74,7 @@ const Footer = () => {
           </div>
 
           <div className="footer-column footer-links">
-            <h3>EXPLORE</h3>
+            <h3><b>EXPLORE</b></h3>
             <ul>
               {exploreLinks.map((link) => (
                 <li key={link.name}>
@@ -79,6 +86,35 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
+
+            <div className="footer-follow">
+              <h3><b>CONNECT</b></h3>
+              <div className="follow-us-button">
+                <span className="follow-us-button__label">
+                  Follow us <span aria-hidden="true">&#8599;</span>
+                </span>
+                <ul aria-label="Follow Florentino on social media">
+                  <li>
+                    <a href="https://www.tiktok.com/@florentino.gifts?_r=1&_t=ZS-98DdWFGXK4r" target="_blank" rel="noreferrer" aria-label="TikTok">
+                      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.3 0 .59.05.88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43V7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.43Z" />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.instagram.com/florentino.florist?igsh=Y2Q0aGg4OTUzdmhx" target="_blank" rel="noreferrer" aria-label="Instagram">
+                      <Instagram aria-hidden="true" />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.facebook.com/share/187dExL2is/" target="_blank" rel="noreferrer" aria-label="Facebook">
+                      <Facebook aria-hidden="true" />
+                    </a>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -86,7 +122,7 @@ const Footer = () => {
 
 
         <div className="footer-bottom-row">
-          <p>© 2024 Florentino. All rights reserved.</p>
+          <p>© 2026 Florentino. All rights reserved.</p>
           <div className="footer-payment-row">
             <span>We accept:</span>
             <div className="footer-payment-cards" aria-label="Accepted payment methods">
