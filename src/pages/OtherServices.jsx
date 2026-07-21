@@ -29,18 +29,29 @@ const services = [
   },
 ];
 
+const birthdaySetupItems = [
+  { code: 'BS-001', price: 'Price on request', image: '/images/BirthdaySetups/BS1.JPG' },
+  { code: 'BS-002', price: 'Price on request', image: '/images/BirthdaySetups/BS2.HEIC' },
+  { code: 'BS-003', price: 'Price on request', image: '/images/BirthdaySetups/BS3.JPG' },
+  { code: 'BS-004', price: 'Price on request', image: '/images/BirthdaySetups/BS4.JPG' },
+  { code: 'BS-005', price: 'Price on request', image: '/images/BirthdaySetups/BS5.JPG' },
+  { code: 'BS-006', price: 'Price on request', image: '/images/BirthdaySetups/BS6.JPG' },
+];
+
 const OtherServices = () => {
   const [showCarSurpriseDetails, setShowCarSurpriseDetails] = useState(false);
   const [showMoneyBunchDetails, setShowMoneyBunchDetails] = useState(false);
+  const [showBirthdaySetupDetails, setShowBirthdaySetupDetails] = useState(false);
   const carSurpriseMessage = `Hi Florentino, I want to know more about Car Surprises.`;
   const moneyBunchMessage = `Hi Florentino, I want to know more about Money Bunches.`;
+  const birthdaySetupMessage = `Hi Florentino, I want to know more about Birthday Setups.`;
 
   return (
     <main className="other-services-page">
       <section className="other-services-hero">
         <div className="other-services-hero-inner">
           <span className="other-services-eyebrow">Florentino Events</span>
-          <h1>Other Services</h1>
+          <h1>Florentino Events</h1>
           <p>
             Celebrate with custom surprise setups, wedding bouquets, and decorated moments made for photos,
             memories, and gifts.
@@ -95,7 +106,7 @@ const OtherServices = () => {
                     className="service-ad-button"
                     onClick={() => setShowCarSurpriseDetails(true)}
                   >
-                    Ask about this service
+                    Explore
                     <ArrowRight className="service-ad-button-icon" />
                   </button>
                 ) : service.title === 'Money Bunches' ? (
@@ -104,8 +115,17 @@ const OtherServices = () => {
                     className="service-ad-button"
                     onClick={() => setShowMoneyBunchDetails(true)}
                   >
-                    Ask about this service
+                    Explore
                     <ArrowRight className="service-ad-button-icon" />
+                  </button>
+                ) : service.title === 'Birthday Setups' ? (
+                  <button
+                    type='button'
+                    className='service-ad-button'
+                    onClick={() => setShowBirthdaySetupDetails(true)}
+                  >
+                    Explore
+                    <ArrowRight className='service-ad-button-icon' />
                   </button>
                 ) : (
                   <a
@@ -114,7 +134,7 @@ const OtherServices = () => {
                     rel="noopener noreferrer"
                     className="service-ad-button"
                   >
-                    Ask about this service
+                    Explore
                     <ArrowRight className="service-ad-button-icon" />
                   </a>
                 )}
@@ -309,6 +329,67 @@ const OtherServices = () => {
             >
               Continue on WhatsApp
               <ArrowRight className="service-ad-button-icon" />
+            </a>
+          </section>
+        </div>
+      )}
+      {showBirthdaySetupDetails && (
+        <div
+          className='service-modal-backdrop'
+          role='presentation'
+          onClick={() => setShowBirthdaySetupDetails(false)}
+        >
+          <section
+            className='service-modal service-modal-gallery'
+            role='dialog'
+            aria-modal='true'
+            aria-labelledby='birthday-setup-title'
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type='button'
+              className='service-modal-close'
+              aria-label='Close birthday setup gallery'
+              onClick={() => setShowBirthdaySetupDetails(false)}
+            >
+              <X className='service-modal-close-icon' />
+            </button>
+
+            <div className='service-modal-header'>
+              <span className='service-modal-eyebrow'>Birthday collection</span>
+              <h2 id='birthday-setup-title'>Birthday Setup Gallery</h2>
+              <p>Choose a setup code and contact us for the current price and available customizations.</p>
+            </div>
+
+            <div className='birthday-setup-grid'>
+              {birthdaySetupItems.map((item) => (
+                <article className='birthday-setup-item' key={item.code}>
+                  <img
+                    src={item.image}
+                    alt={item.code + ' birthday setup'}
+                    className='birthday-setup-image'
+                    loading='lazy'
+                    onError={(event) => {
+                      event.currentTarget.onerror = null;
+                      event.currentTarget.src = '/images/services/IMG_8595.jpg';
+                    }}
+                  />
+                  <div className='birthday-setup-info'>
+                    <span className='birthday-setup-code'>Code: {item.code}</span>
+                    <strong>{item.price}</strong>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <a
+              href={'https://wa.me/94762370470?text=' + encodeURIComponent(birthdaySetupMessage)}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='service-modal-whatsapp'
+            >
+              Ask for prices on WhatsApp
+              <ArrowRight className='service-ad-button-icon' />
             </a>
           </section>
         </div>
