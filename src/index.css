@@ -4700,6 +4700,53 @@ p, a, button, label, h1, h2, h3 { overflow-wrap: anywhere; }
   }
 }
 
+/* Keep the header search, cart, and home controls exactly the same size. */
+.header-actions {
+  --header-control-size: 3rem;
+}
+
+.header-actions > .icon-button {
+  flex: 0 0 var(--header-control-size) !important;
+  width: var(--header-control-size) !important;
+  min-width: var(--header-control-size) !important;
+  max-width: var(--header-control-size) !important;
+  height: var(--header-control-size) !important;
+  min-height: var(--header-control-size) !important;
+  max-height: var(--header-control-size) !important;
+  aspect-ratio: 1;
+  margin: 0;
+  padding: 0 !important;
+  border: 1px solid #9d054a !important;
+  border-radius: 50% !important;
+}
+
+.header-actions > .header-search-toggle,
+.header-actions > .header-search-toggle:hover,
+.header-actions > .header-search-toggle:focus-visible,
+.header-actions > .header-search-toggle-active {
+  background: #9d054a !important;
+  color: #fff !important;
+}
+
+.header-actions > .icon-button .icon-svg {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .header-actions {
+    --header-control-size: 2.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .header-actions {
+    --header-control-size: 2.6rem;
+  }
+}
+
 /* Final responsive stabilization layer.
    These rules intentionally sit last so older component-specific experiments
    cannot reintroduce horizontal overflow at small viewport widths. */
